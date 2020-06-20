@@ -6,6 +6,8 @@
  */
 #include "Nvic.h"
 #include <stdint.h>
+#include <stddef.h>
+
 int arrayNumber;
 int arrayPartLoc;
 void nvicEnableInterrupt(int interruptNum){

@@ -13,8 +13,8 @@
 #include "Common.h"
 
 
-typedef struct Rcc Rcc;
-struct Rcc {
+typedef struct RccRegs RccRegs;
+struct RccRegs {
 	IoRegister CR;
 	IoRegister PLLCFGR;
 	IoRegister CFGR;
@@ -34,7 +34,7 @@ struct Rcc {
 
 };
 
-#define rcc (Rcc*)(RCC_BASEADDRESS)
+#define rcc ((RccRegs*)(RCC_BASEADDRESS))
 void enableGpioG();
 void disableGpioG();
 void enableGpioA();

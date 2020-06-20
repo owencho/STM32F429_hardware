@@ -1,4 +1,5 @@
 #include "Exti.h"
+#include <stddef.h>
 
 void extiSetInterruptMaskRegister(ExtiRegs *extiLoc , int pin,RequestMasked mode){
 		if(extiLoc==NULL || pin > 22)

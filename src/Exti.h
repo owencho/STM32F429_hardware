@@ -3,7 +3,6 @@
 #include <stdint.h>
 #include "BaseAddress.h"
 #include "Common.h"
-
 typedef enum{
 	 RISING_DISABLED,RISING_ENABLED
 } RisingTriggerStatus;

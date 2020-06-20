@@ -1,4 +1,5 @@
 #include "Syscfg.h"
+#include <stddef.h>
 
 int arrayNumber;
 int shiftLocation;

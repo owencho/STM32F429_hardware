@@ -8,6 +8,7 @@
 
 #include "Gpio.h"
 #include "Common.h"
+#include <stddef.h>
 
 void gpioSetPinSpeed(GpioRegs *gpio , int pin , PinSpeed speed){
 		if(gpio == NULL)

@@ -33,11 +33,9 @@
   :test:
     - +:test/**
     - -:test/support
-    - +:Core/Inc/**
-    - -:Core/Inc/IO/**
+    - -:src/IO/**
   :source:
     - src/**
-    - Core/Src/**
   :support:
     - test/support
   :libraries: []

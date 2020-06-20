@@ -1,0 +1,50 @@
+---
+:source:
+  :path: test
+  :file: test_Nvic.c
+:successes:
+- :test: test_Nvic_0XFF_expect_same_value_assign_on_same_iser_array
+  :line: 23
+  :message: ''
+  :unity_test_time: 0
+- :test: test_Nvic_nvicEnableInterrupt_given_interruptNum_75_expect_ISER_register_array2
+  :line: 28
+  :message: ''
+  :unity_test_time: 0
+- :test: test_Nvic_nvicDisableInterrupt_given_interruptNum_75_expect_ICER_register_array2
+  :line: 33
+  :message: ''
+  :unity_test_time: 0
+- :test: test_Nvic_nvicSetPendingInterrupt_given_interruptNum_12_expect_ISPR_register_array0
+  :line: 38
+  :message: ''
+  :unity_test_time: 0
+- :test: test_Nvic_nvicClearPendingInterrupt_given_interruptNum_32_expect_ICPR_register_array1
+  :line: 43
+  :message: ''
+  :unity_test_time: 0
+- :test: test_Nvic_nvicIsInterruptActive_given_interruptNum_120_expect_IABR_register_array3
+  :line: 48
+  :message: ''
+  :unity_test_time: 0
+- :test: test_Nvic_nvicSetInterruptPriority_given_interruptNum_210_expect_IPRx_register_array3
+  :line: 53
+  :message: ''
+  :unity_test_time: 0
+- :test: test_Nvic_nvicGetInterruptPriority_given_interruptNum_31_expect_IPRx_register_array
+  :line: 58
+  :message: ''
+  :unity_test_time: 0
+- :test: test_nvicSoftwareTriggerInterrupt_given_interruptNum_50_expect_STIR_register_array
+  :line: 63
+  :message: ''
+  :unity_test_time: 0
+:failures: []
+:ignores: []
+:counts:
+  :total: 9
+  :passed: 9
+  :failed: 0
+  :ignored: 0
+:stdout: []
+:time: 0.06544329999451293

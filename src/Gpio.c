@@ -40,8 +40,7 @@ void gpioWrite(GpioRegs *gpio , int value){
 void gpioWriteBit(GpioRegs *gpio , int bitNumber , int value){
 		if(gpio == NULL)
 				return;
-		gpio->BSRR &= ~(1 << bitNumber);
-		gpio->BSRR |= value << bitNumber;
+		gpio->BSRR = 1<< (bitNumber + ((~value & 1) <<4 ));
 }
 
 

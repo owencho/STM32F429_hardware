@@ -96,17 +96,12 @@ void test_Gpio_gpioWriteBit_set_Pin5_bit1(void){
     TEST_ASSERT_EQUAL(1<<5,fakeGpio.BSRR);
 }
 
-void test_Gpio_gpioWriteBit_set_Pin5_Pin9bit1(void){
-    gpioWriteBit(&fakeGpio , PIN_5 ,1);
-    gpioWriteBit(&fakeGpio , PIN_9 ,1);
-    TEST_ASSERT_EQUAL(1<<5 | 1<<9,fakeGpio.BSRR);
-}
 
 void test_Gpio_gpioWriteBit_set_Pin6_bit0(void){
     gpioWriteBit(&fakeGpio , PIN_6 ,1);
     TEST_ASSERT_EQUAL(1<<6,fakeGpio.BSRR);
     gpioWriteBit(&fakeGpio , PIN_6 ,0);
-    TEST_ASSERT_EQUAL(0,fakeGpio.BSRR);
+    TEST_ASSERT_EQUAL(1<<22,fakeGpio.BSRR);
 }
 void test_Gpio_gpioWriteBit_set_Ptr_NULL(void){
     //gpioWriteBit(NULL, 123 );

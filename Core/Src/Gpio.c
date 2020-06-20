@@ -10,33 +10,48 @@
 #include "Common.h"
 
 void gpioSetPinSpeed(GpioRegs *gpio , int pin , PinSpeed speed){
-	gpio->OSPEEDR &= ~(3 << (pin*2 ));
-	gpio->OSPEEDR |= speed << (pin *2);
+		if(gpio == NULL)
+				return;
+		gpio->OSPEEDR &= ~(3 << (pin*2 ));
+		gpio->OSPEEDR |= speed << (pin *2);
 }
 
 void gpioSetMode(GpioRegs *gpio , int pin , PinMode mode){
-	gpio->MODER &= ~(3 << (pin*2 ));
-	gpio->MODER |= mode << (pin *2);
+		if(gpio == NULL)
+				return;
+		gpio->MODER &= ~(3 << (pin*2 ));
+		gpio->MODER |= mode << (pin *2);
 }
 
 void gpioSetOutputType(GpioRegs *gpio , int pin ,PinOutputType type){
-	gpio->OTYPER &= ~(1 << pin);
-	gpio->OTYPER |= type << pin;
+		if(gpio == NULL)
+				return;
+		gpio->OTYPER &= ~(1 << pin);
+		gpio->OTYPER |= type << pin;
 }
 
 void gpioWrite(GpioRegs *gpio , int value){
-	gpio->ODR = value;
+		if(gpio == NULL)
+				return;
+		gpio->BSRR = value;
 }
 
-void gpioWriteBit(GpioRegs *gpio , int pin , int value){
-	gpio->BSRR = 1<< (pin + ((~value & 1) <<4 ));
+void gpioWriteBit(GpioRegs *gpio , int bitNumber , int value){
+		if(gpio == NULL)
+				return;
+		gpio->BSRR &= ~(1 << bitNumber);
+		gpio->BSRR |= value << bitNumber;
 }
 
 
-int gpioReadBit(GpioRegs *gpio , int pin ){
-	return (gpio->IDR >> pin )& 0x1;
+int gpioReadBit(GpioRegs *gpio , int bitNumber ){
+		if(gpio == NULL)
+				return 0;
+		return (gpio->IDR >> bitNumber )& 0x1;
 }
 
-void gpioToggleBit(GpioRegs *gpio , int pin ){
-	gpio->ODR ^= (1 << pin);
+void gpioToggleBit(GpioRegs *gpio , int bitNumber ){
+		if(gpio == NULL)
+				return;
+		gpio->ODR ^= (1 << bitNumber);
 }

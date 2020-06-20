@@ -11,11 +11,14 @@
 
 uintptr_t getNvicBaseAddress();
 uintptr_t getRCCBaseAddress();
+uintptr_t getSyscfgBaseAddress();
+
 #define GPIO_A 0x40020000
 #define GPIO_B 0x40020400
 //..
 #define GPIO_G 0x40021800
-#define RCC_BASEADDRESS 0x40023800
+#define RCC_BASEADDRESS getRCCBaseAddress()
 #define NVIC_BASEADDRESS getNvicBaseAddress()
+#define SYSCFG_BASEADDRESS getSyscfgBaseAddress()
 
 #endif /* INC_BASEADDRESS_H_ */

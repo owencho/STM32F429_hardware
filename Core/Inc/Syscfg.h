@@ -11,6 +11,5 @@ struct SyscfgRegs {
     IoRegister CMPCR;
 };
 #define syscfg ((SyscfgRegs*)(SYSCFG_BASEADDRESS))
-void syscfgExternalInterruptConfig(SyscfgRegs *syscfgLoc,int pin,int portName);
-
+void syscfgExternalInterruptConfig(SyscfgRegs *syscfgLoc,ExternalPortInterruptName extiPort,int portName);
 #endif // SYSCFG_H

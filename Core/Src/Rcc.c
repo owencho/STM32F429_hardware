@@ -7,7 +7,6 @@
 #include "Rcc.h"
 #include "BaseAddress.h"
 #include "Common.h"
-Rcc * rcc = rccReg;
 
 void enableGpioG(){
 	rcc->AHB1RSTR &= ~(1 << 6);

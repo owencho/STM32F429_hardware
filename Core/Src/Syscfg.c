@@ -1,10 +1,11 @@
 #include "Syscfg.h"
 
 int arrayNumber;
-
-void syscfgExternalInterruptConfig(SyscfgRegs *syscfgLoc,int pin,int portName){
+int shiftLocation;
+void syscfgExternalInterruptConfig(SyscfgRegs *syscfgLoc,ExternalPortInterruptName extiPort,int portName){
 		if(syscfgLoc==NULL)
-				return 0;
-		arrayNumber = portName >> 2 ;
-		syscfgLoc->EXTICR[arrayNumber] |= portName << (pin - (arrayNumber << 2));
+				return ;
+		arrayNumber = extiPort >> 2 ;
+		shiftLocation = ((extiPort - (arrayNumber <<2 )) <<2);
+		syscfgLoc->EXTICR[arrayNumber] |= portName << shiftLocation ;
 }

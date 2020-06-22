@@ -30,7 +30,7 @@ void extiSetInterruptMaskRegister(ExtiRegs *extiLoc , int pin,RequestMasked mode
 void extiSetEventMaskRegister(ExtiRegs *extiLoc , int pin,RequestMasked mode);
 void extiSetRisingTriggerInterrupt(ExtiRegs *extiLoc , int pin,RisingTriggerStatus mode);
 void extiSetFallingTriggerInterrupt(ExtiRegs *extiLoc , int pin,FallingTriggerStatus mode);
-void extiSetSoftwareInterruptEventRegister(ExtiRegs *extiLoc, int pin);
+void extiSetSoftwareInterruptEvent(ExtiRegs *extiLoc, int pin);
 void extiSetPendingRegister(ExtiRegs *extiLoc, int pin );
 int extiReadPendingRegister(ExtiRegs *extiLoc , int pin);
 #endif // EXTI_H

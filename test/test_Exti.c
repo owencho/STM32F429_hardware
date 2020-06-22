@@ -131,3 +131,29 @@ void test_Exti_extiSetFallingInterrupt_given_pin_25_where_not_available_unmasked
     extiSetFallingTriggerInterrupt(&fakeExti,PIN_25,FALLING_ENABLED);
     TEST_ASSERT_EQUAL(0,fakeExti.FTSR);
 }
+
+void test_Exti_extiSetSoftwareInterruptEvent_given_port5_(void){
+    extiSetSoftwareInterruptEvent(&fakeExti,PIN_5);
+    TEST_ASSERT_EQUAL((1<<5),fakeExti.SWIER);
+}
+
+void test_Exti_extiSetSoftwareInterruptEvent_given_port7(void){
+    extiSetSoftwareInterruptEvent(&fakeExti,PIN_7);
+    TEST_ASSERT_EQUAL((1<<7),fakeExti.SWIER);
+}
+
+void test_Exti_extiSetPendingRegister_given_port6_(void){
+    extiSetPendingRegister(&fakeExti,PIN_6);
+    TEST_ASSERT_EQUAL((1<<6),fakeExti.PR);
+}
+
+void test_Exti_extiSetPendingRegister_given_port11(void){
+    extiSetPendingRegister(&fakeExti,PIN_11);
+    TEST_ASSERT_EQUAL((1<<11),fakeExti.PR);
+}
+
+void test_Exti_extiReadPendingRegister_given_port11(void){
+    extiSetPendingRegister(&fakeExti,PIN_11);
+    TEST_ASSERT_EQUAL((1<<11),fakeExti.PR);
+    TEST_ASSERT_EQUAL(1,extiReadPendingRegister(&fakeExti,PIN_11));
+}

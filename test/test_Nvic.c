@@ -148,7 +148,7 @@ void test_Nvic_nvicClearPendingInterrupt_given_interruptNum_32_expect_ICPR_regis
 
 void test_Nvic_nvicClearPendingInterrupt_given_interruptNum_127_expect_ICPR_register_array3(void){
     nvicClearPendingInterrupt(127);
-    TEST_ASSERT_EQUAL(1<<31,fakeNvic.ICPR[3]);
+    TEST_ASSERT_EQUAL_UINT32(1<<31,fakeNvic.ICPR[3]);
 }
 
 void test_Nvic_nvicClearPendingInterrupt_given_interruptNum_125_126_expect_ICPR_register_array3(void){

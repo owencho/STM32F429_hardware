@@ -12,7 +12,9 @@
 uintptr_t getNvicBaseAddress();
 uintptr_t getRCCBaseAddress();
 uintptr_t getSyscfgBaseAddress();
-
+uintptr_t getUsartBaseAddress();
+uintptr_t getUsart3BaseAddress();
+uintptr_t getUsart6BaseAddress();
 #define GPIO_A 0x40020000
 #define GPIO_B 0x40020400
 //..
@@ -20,5 +22,7 @@ uintptr_t getSyscfgBaseAddress();
 #define RCC_BASEADDRESS getRCCBaseAddress()
 #define NVIC_BASEADDRESS getNvicBaseAddress()
 #define SYSCFG_BASEADDRESS getSyscfgBaseAddress()
-
+#define USART1_BASEADDRESS getUsartBaseAddress()
+#define USART3_BASEADDRESS getUsart3BaseAddress()
+#define USART6_BASEADDRESS getUsart6BaseAddress()
 #endif /* INC_BASEADDRESS_H_ */

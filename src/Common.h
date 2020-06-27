@@ -26,4 +26,7 @@ typedef enum{
 	EXTI_8,EXTI_9,EXTI_10,EXTI_11,EXTI_12,EXTI_13,EXTI_14,EXTI_15,
 }ExternalPortInterruptName;
 
+typedef enum{
+	 DISABLE,ENABLE,
+} StatusMode;
 #endif /* INC_COMMON_H_ */

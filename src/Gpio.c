@@ -62,3 +62,21 @@ void gpioToggleBit(GpioRegs *gpio , int bitNumber ){
 		}
 		gpio->ODR ^= (1 << bitNumber);
 }
+
+void gpioSetAlternateFunction(GpioRegs *gpio ,PinNumber pin ,
+															AlternateFunction altFunction){
+		if(gpio == NULL){
+				return;
+		}
+		if(pin > 15 || pin < 0 ){
+				return;
+		}
+		if(pin > 7){
+				gpio->AFRH &= ~(15 << (pin*4));
+				gpio->AFRH |= altFunction << (pin*4);
+		}
+		else{
+				gpio->AFRL &= ~(15 << (pin*4));
+				gpio->AFRL |= altFunction << (pin*4);
+		}
+}

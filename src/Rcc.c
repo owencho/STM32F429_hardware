@@ -27,3 +27,23 @@ void disableGpioA(){
 		rcc-> AHB1RSTR |= 1 << 0;
 		rcc-> AHB1ENR &= ~(1 << 0);
 }
+
+void enableUART4(){
+		rcc->APB1RSTR &= ~ (1<<19);
+		rcc-> APB1ENR |= (1<< 19);
+}
+
+void disableUART4(){
+		rcc->APB1RSTR |= (1<<19);
+		rcc->APB1ENR &= ~ (1<<19);
+}
+
+void enableUART8(){
+		rcc->APB1RSTR &= ~ (1<<31);
+		rcc-> APB1ENR |= (1<< 31);
+}
+
+void disableUART8(){
+		rcc->APB1RSTR |= (1<<31);
+		rcc->APB1ENR &= ~(1<<31);
+}

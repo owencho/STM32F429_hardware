@@ -137,3 +137,44 @@ void test_Gpio_gpioToggleBit_set_Ptr_NULL(void){
     //gpioToggleBit(NULL, 123 );
     TEST_IGNORE_MESSAGE("havent implement");
 }
+
+void test_Gpio_gpioSetAlternateFunction_set_Ptr_NULL(void){
+    //gpioSetAlternateFunction(NULL, 123 );
+    TEST_IGNORE_MESSAGE("havent implement");
+}
+
+void test_Gpio_gpioSetAlternateFunction_set_Pin0_AF3(void){
+    gpioSetAlternateFunction(&fakeGpio ,PIN_0,AF3);
+    TEST_ASSERT_EQUAL(3,fakeGpio.AFRL);
+}
+
+void test_Gpio_gpioSetAlternateFunction_set_Pin2_AF4(void){
+    gpioSetAlternateFunction(&fakeGpio ,PIN_2,AF4);
+    TEST_ASSERT_EQUAL(4<<(2*4),fakeGpio.AFRL);
+}
+
+void test_Gpio_gpioSetAlternateFunction_set_Pin4_AF15(void){
+    gpioSetAlternateFunction(&fakeGpio ,PIN_4,AF15);
+    TEST_ASSERT_EQUAL(15<<(4*4),fakeGpio.AFRL);
+}
+
+
+void test_Gpio_gpioSetAlternateFunction_set_Pin7_AF15(void){
+    gpioSetAlternateFunction(&fakeGpio ,PIN_7,AF15);
+    TEST_ASSERT_EQUAL_INT32(15<<(7*4),fakeGpio.AFRL);
+}
+
+void test_Gpio_gpioSetAlternateFunction_set_Pin8_AF11(void){
+    gpioSetAlternateFunction(&fakeGpio ,PIN_8,AF11);
+    TEST_ASSERT_EQUAL_INT32(11,fakeGpio.AFRH);
+}
+
+void test_Gpio_gpioSetAlternateFunction_set_Pin10_AF5(void){
+    gpioSetAlternateFunction(&fakeGpio ,PIN_10,AF5);
+    TEST_ASSERT_EQUAL_INT32(5<<(2*4),fakeGpio.AFRH);
+}
+
+void test_Gpio_gpioSetAlternateFunction_set_Pin15_AF5(void){
+    gpioSetAlternateFunction(&fakeGpio ,PIN_15,AF5);
+    TEST_ASSERT_EQUAL_INT32(5<<(7*4),fakeGpio.AFRH);
+}

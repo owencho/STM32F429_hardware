@@ -28,6 +28,10 @@ typedef enum{
 	NONE,PULL_UP,PULL_DOWN,
 } PinPullUpDown;
 
+typedef enum{
+	AF0,AF1,AF2,AF3,AF4,AF5,AF6,AF7,
+	AF8,AF9,AF10,AF11,AF12,AF13,AF14,AF15
+} AlternateFunction;
 
 typedef struct GpioRegs GpioRegs;
 struct GpioRegs {
@@ -52,5 +56,5 @@ void gpioWriteBit(GpioRegs *gpio , int bitNumber , int value);
 void gpioWrite(GpioRegs *gpio , int value);
 int gpioReadBit(GpioRegs *gpio , int bitNumber );
 void gpioToggleBit(GpioRegs *gpio , int bitNumber );
-
+void gpioSetAlternateFunction(GpioRegs *gpio ,PinNumber pin ,AlternateFunction altFunction);
 #endif /* INC_GPIO_H_ */

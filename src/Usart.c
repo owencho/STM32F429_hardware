@@ -67,7 +67,7 @@ void usartEnableInterrupt(UsartRegs* usart,UsartInterrupt type){
         usart->CR3 |= 1;
     }
     else{
-        usart->CR1 |= 1<< type +4;
+        usart->CR1 |= 1<< (type +4);
     }
 }
 
@@ -81,8 +81,8 @@ void usartDisableInterrupt(UsartRegs* usart,UsartInterrupt type){
         usart->CR3 |= 0;
     }
     else{
-        usart->CR1 &= ~(1 << type +4);
-        usart->CR1 |= 0<< type +4;
+        usart->CR1 &= ~(1 << (type +4));
+        usart->CR1 |= 0<< (type +4);
     }
 }
 

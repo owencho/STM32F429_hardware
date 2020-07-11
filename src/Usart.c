@@ -7,14 +7,14 @@ uint32_t usartReceive(UsartRegs* usart){
     if(usart == NULL){
         return 0;
     }
-    return (usart->DR & 0x1FF);
+    return (usart->dr & 0x1FF);
 }
 
 void usartSend(UsartRegs* usart,uint32_t data){
     if(data > 511 || usart == NULL){
         return ;
     }
-    usart->DR = data;
+    usart->dr = data;
 }
 
 uint32_t getClockForBaudRate(UsartRegs* usart){
@@ -62,33 +62,33 @@ void usartSetBaudRate(UsartRegs* usart,uint32_t baudRate){
         mantissaDIV++;
         fracDIV = fracDIV -16 ;
     }
-    usart->BRR = (mantissaDIV<<4) | (fracDIV);
+    usart->brr = (mantissaDIV<<4) | (fracDIV);
 }
 
 void usartEnableInterrupt(UsartRegs* usart,UsartInterrupt type){
     if(type == CTS_INTERRUPT){
-        usart->CR3 |= 1 <<10;
+        usart->cr3 |= 1 <<10;
     }
     else if (type == ERROR_INTERRUPT){
-        usart->CR3 |= 1;
+        usart->cr3 |= 1;
     }
     else{
-        usart->CR1 |= 1<< (type +4);
+        usart->cr1 |= 1<< (type +4);
     }
 }
 
 void usartDisableInterrupt(UsartRegs* usart,UsartInterrupt type){
     if(type == CTS_INTERRUPT){
-        usart->CR3 &= ~(1 << 10);
-        usart->CR3 |= 0<<10;
+        usart->cr3 &= ~(1 << 10);
+        usart->cr3 |= 0<<10;
     }
     else if (type == ERROR_INTERRUPT){
-        usart->CR3 &= ~1;
-        usart->CR3 |= 0;
+        usart->cr3 &= ~1;
+        usart->cr3 |= 0;
     }
     else{
-        usart->CR1 &= ~(1 << (type +4));
-        usart->CR1 |= 0<< (type +4);
+        usart->cr1 &= ~(1 << (type +4));
+        usart->cr1 |= 0<< (type +4);
     }
 }
 
@@ -96,99 +96,99 @@ int usartGetOversamplingMode(UsartRegs* usart){
     if(usart == NULL){
         return 0;
     }
-    return (usart->CR1 >> 15) & 0x1;
+    return (usart->cr1 >> 15) & 0x1;
 }
 
 void setUsartOversamplingMode(UsartRegs* usart,OversampMode mode){
     if(usart == NULL){
         return ;
     }
-    usart->CR1 &= ~(1 << 15);
-    usart->CR1 |= mode<< 15;
+    usart->cr1 &= ~(1 << 15);
+    usart->cr1 |= mode<< 15;
 }
 
 void enableUsart(UsartRegs* usart){
     if(usart == NULL){
         return ;
     }
-    usart->CR1 &= ~(1 << 13);
-    usart->CR1 |= 1 << 13;
+    usart->cr1 &= ~(1 << 13);
+    usart->cr1 |= 1 << 13;
 }
 
 void disableUsart(UsartRegs* usart){
     if(usart == NULL){
         return ;
     }
-    usart->CR1 &= ~(1 << 13);
-    usart->CR1 |= 0 << 13;
+    usart->cr1 &= ~(1 << 13);
+    usart->cr1 |= 0 << 13;
 }
 
 void usartEnableReceiver(UsartRegs* usart){
     if(usart == NULL){
         return ;
     }
-    usart->CR1 &= ~(1 << 2);
-    usart->CR1 |= 1 << 2;
+    usart->cr1 &= ~(1 << 2);
+    usart->cr1 |= 1 << 2;
 }
 
 void usartDisableReceiver(UsartRegs* usart){
     if(usart == NULL){
         return ;
     }
-    usart->CR1 &= ~(1 << 2);
-    usart->CR1 |= 0 << 2;
+    usart->cr1 &= ~(1 << 2);
+    usart->cr1 |= 0 << 2;
 }
 void usartEnableTransmission(UsartRegs* usart){
     if(usart == NULL){
         return ;
     }
-    usart->CR1 &= ~(1 << 3);
-    usart->CR1 |= 1 << 3;
+    usart->cr1 &= ~(1 << 3);
+    usart->cr1 |= 1 << 3;
 }
 
 void usartDisableTransmission(UsartRegs* usart){
     if(usart == NULL){
         return ;
     }
-    usart->CR1 &= ~(1 << 3);
-    usart->CR1 |= 0 << 3;
+    usart->cr1 &= ~(1 << 3);
+    usart->cr1 |= 0 << 3;
 
 }void usartEnableParityControl(UsartRegs* usart){
     if(usart == NULL){
         return ;
     }
-    usart->CR1 &= ~(1 << 10);
-    usart->CR1 |= 1 << 10;
+    usart->cr1 &= ~(1 << 10);
+    usart->cr1 |= 1 << 10;
 }
 
 void usartDisableParityControl(UsartRegs* usart){
     if(usart == NULL){
         return ;
     }
-    usart->CR1 &= ~(1 << 10);
-    usart->CR1 |= 0 << 10;
+    usart->cr1 &= ~(1 << 10);
+    usart->cr1 |= 0 << 10;
 }
 
 void setUsartWordLength(UsartRegs* usart,WordLength type){
     if(usart == NULL){
         return ;
     }
-    usart->CR1 &= ~(1 << 12);
-    usart->CR1 |= type << 12;
+    usart->cr1 &= ~(1 << 12);
+    usart->cr1 |= type << 12;
 }
 
 void setUsartWakeupMode(UsartRegs* usart,WakeupMode type){
     if(usart == NULL){
         return ;
     }
-    usart->CR1 &= ~(1 << 11);
-    usart->CR1 |= type << 11;
+    usart->cr1 &= ~(1 << 11);
+    usart->cr1 |= type << 11;
 }
 
 void setUsartParityMode(UsartRegs* usart,ParityMode type){
     if(usart == NULL){
         return ;
     }
-    usart->CR1 &= ~(1 << 9);
-    usart->CR1 |= type << 9;
+    usart->cr1 &= ~(1 << 9);
+    usart->cr1 |= type << 9;
 }

@@ -14,38 +14,38 @@ void gpioSetPinSpeed(GpioRegs *gpio , int pin , PinSpeed speed){
 		if(gpio == NULL){
 				return;
 		}
-		gpio->OSPEEDR &= ~(3 << (pin*2 ));
-		gpio->OSPEEDR |= speed << (pin *2);
+		gpio->ospeedr &= ~(3 << (pin*2 ));
+		gpio->ospeedr |= speed << (pin *2);
 }
 
 void gpioSetMode(GpioRegs *gpio , int pin , PinMode mode){
 		if(gpio == NULL){
 				return;
 		}
-		gpio->MODER &= ~(3 << (pin*2 ));
-		gpio->MODER |= mode << (pin *2);
+		gpio->moder &= ~(3 << (pin*2 ));
+		gpio->moder |= mode << (pin *2);
 }
 
 void gpioSetOutputType(GpioRegs *gpio , int pin ,PinOutputType type){
 		if(gpio == NULL){
 				return;
 		}
-		gpio->OTYPER &= ~(1 << pin);
-		gpio->OTYPER |= type << pin;
+		gpio->otyper &= ~(1 << pin);
+		gpio->otyper |= type << pin;
 }
 
 void gpioWrite(GpioRegs *gpio , int value){
 		if(gpio == NULL){
 				return;
 		}
-		gpio->BSRR = value;
+		gpio->bsrr = value;
 }
 
 void gpioWriteBit(GpioRegs *gpio , int bitNumber , int value){
 		if(gpio == NULL){
 				return;
 		}
-		gpio->BSRR = 1<< (bitNumber + ((~value & 1) <<4 ));
+		gpio->bsrr = 1<< (bitNumber + ((~value & 1) <<4 ));
 }
 
 
@@ -53,14 +53,14 @@ int gpioReadBit(GpioRegs *gpio , int bitNumber ){
 		if(gpio == NULL){
 				return 0 ;
 		}
-		return (gpio->IDR >> bitNumber )& 0x1;
+		return (gpio->idr >> bitNumber )& 0x1;
 }
 
 void gpioToggleBit(GpioRegs *gpio , int bitNumber ){
 		if(gpio == NULL){
 				return;
 		}
-		gpio->ODR ^= (1 << bitNumber);
+		gpio->odr ^= (1 << bitNumber);
 }
 
 void gpioSetAlternateFunction(GpioRegs *gpio ,PinNumber pin ,
@@ -72,11 +72,11 @@ void gpioSetAlternateFunction(GpioRegs *gpio ,PinNumber pin ,
 				return;
 		}
 		if(pin > 7){
-				gpio->AFRH &= ~(15 << (pin*4));
-				gpio->AFRH |= altFunction << (pin*4);
+				gpio->afrh &= ~(15 << (pin*4));
+				gpio->afrh |= altFunction << (pin*4);
 		}
 		else{
-				gpio->AFRL &= ~(15 << (pin*4));
-				gpio->AFRL |= altFunction << (pin*4);
+				gpio->afrl &= ~(15 << (pin*4));
+				gpio->afrl |= altFunction << (pin*4);
 		}
 }

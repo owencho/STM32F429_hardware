@@ -35,16 +35,16 @@ typedef enum{
 
 typedef struct GpioRegs GpioRegs;
 struct GpioRegs {
-	IoRegister MODER;
-	IoRegister OTYPER;
-	IoRegister OSPEEDR;
-	IoRegister PUPDR;
-	IoRegister IDR;
-	IoRegister ODR;
-	IoRegister BSRR;
-	IoRegister LCKR;
-	IoRegister AFRL;
-	IoRegister AFRH;
+	IoRegister moder;
+	IoRegister otyper;
+	IoRegister ospeedr;
+	IoRegister pupdr;
+	IoRegister idr;
+	IoRegister odr;
+	IoRegister bsrr;
+	IoRegister lckr;
+	IoRegister afrl;
+	IoRegister afrh;
 };
 
 #define gpioG (GpioRegs*)(GPIO_G)

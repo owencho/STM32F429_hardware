@@ -15,20 +15,20 @@
 
 typedef struct NvicRegs NvicRegs;
 struct NvicRegs {
-	IoRegister ISER[8];
-	IoRegister Reserved0[3];
-	IoRegister ICER[8];
-	IoRegister Reserved1[3];
-	IoRegister ISPR[8];
-	IoRegister Reserved2[3];
-	IoRegister ICPR[8];
-	IoRegister Reserved3[3];
-	IoRegister IABR[8];
-	IoRegister Reserved4[7];
-	IoRegister IPR[60];
-	IoRegister Reserved5[80];
-	volatile uint16_t  Reserved6;
-	IoRegister STIR;
+	IoRegister iser[8];
+	IoRegister reserved0[3];
+	IoRegister icer[8];
+	IoRegister reserved1[3];
+	IoRegister ispr[8];
+	IoRegister reserved2[3];
+	IoRegister icpr[8];
+	IoRegister reserved3[3];
+	IoRegister iabr[8];
+	IoRegister reserved4[7];
+	IoRegister ipr[60];
+	IoRegister reserved5[80];
+	uint16_t  reserved6;
+	IoRegister stir;
 };
 
 #define nvic ((NvicRegs*)(NVIC_BASEADDRESS))

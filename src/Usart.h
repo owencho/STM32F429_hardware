@@ -8,13 +8,13 @@
 
 typedef struct UsartRegs UsartRegs;
 struct UsartRegs {
-    IoRegister SR;
-    IoRegister DR;
-    IoRegister BRR;
-    IoRegister CR1;
-    IoRegister CR2;
-    IoRegister CR3;
-    IoRegister GTPR;
+    IoRegister sr;
+    IoRegister dr;
+    IoRegister brr;
+    IoRegister cr1;
+    IoRegister cr2;
+    IoRegister cr3;
+    IoRegister gtpr;
 };
 
 typedef enum{

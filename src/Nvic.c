@@ -15,7 +15,7 @@ void nvicEnableInterrupt(int interruptNum){
         return;
     }
     arrayNumber = (interruptNum >> 5);
-    nvic->ISER[arrayNumber] |= 1 <<(interruptNum - (arrayNumber << 5));
+    nvic->iser[arrayNumber] |= 1 <<(interruptNum - (arrayNumber << 5));
 }
 
 void nvicDisableInterrupt(int interruptNum){
@@ -23,7 +23,7 @@ void nvicDisableInterrupt(int interruptNum){
         return;
     }
     arrayNumber = (interruptNum >> 5);
-    nvic->ICER[arrayNumber] |= 1 <<(interruptNum - (arrayNumber << 5));
+    nvic->icer[arrayNumber] |= 1 <<(interruptNum - (arrayNumber << 5));
 }
 
 void nvicSetPendingInterrupt(int interruptNum){
@@ -31,7 +31,7 @@ void nvicSetPendingInterrupt(int interruptNum){
         return;
     }
   	arrayNumber = (interruptNum >> 5);
-  	nvic->ISPR[arrayNumber] |= 1 <<(interruptNum - (arrayNumber << 5));
+  	nvic->ispr[arrayNumber] |= 1 <<(interruptNum - (arrayNumber << 5));
 }
 
 void nvicClearPendingInterrupt(int interruptNum){
@@ -39,7 +39,7 @@ void nvicClearPendingInterrupt(int interruptNum){
         return;
     }
   	arrayNumber = (interruptNum >> 5);
-  	nvic->ICPR[arrayNumber] |= 1 <<(interruptNum - (arrayNumber << 5));
+  	nvic->icpr[arrayNumber] |= 1 <<(interruptNum - (arrayNumber << 5));
 }
 
 int nvicIsInterruptActive(int interruptNum){
@@ -47,7 +47,7 @@ int nvicIsInterruptActive(int interruptNum){
         return 0 ; //error
     }
     arrayNumber = (interruptNum >> 5);
-  	return nvic->IABR[arrayNumber] >> (interruptNum - (arrayNumber << 5)) & 0x1;
+  	return nvic->iabr[arrayNumber] >> (interruptNum - (arrayNumber << 5)) & 0x1;
 }
 void nvicSetInterruptPriority(int interruptNum, int interruptPriority){
     if(interruptNum >239 || interruptPriority > 256){
@@ -55,7 +55,7 @@ void nvicSetInterruptPriority(int interruptNum, int interruptPriority){
     }
     arrayNumber = (interruptNum >> 2);
     arrayPartLoc = 8*(interruptNum - (arrayNumber << 2));
-  	nvic->IPR[arrayNumber] |= (interruptPriority <<arrayPartLoc);
+  	nvic->ipr[arrayNumber] |= (interruptPriority <<arrayPartLoc);
 }
 
 int nvicGetInterruptPriority(int interruptNum){
@@ -64,12 +64,12 @@ int nvicGetInterruptPriority(int interruptNum){
     }
     arrayNumber = (interruptNum >> 2);
     arrayPartLoc = 8*(interruptNum - (arrayNumber << 2));
-    return ((nvic->IPR[arrayNumber] >>(arrayPartLoc))& 0xff);
+    return ((nvic->ipr[arrayNumber] >>(arrayPartLoc))& 0xff);
 }
 
 void nvicSoftwareTriggerInterrupt(int interruptNum){
     if(interruptNum > 239){
         return;
     }
-  	nvic->STIR = (interruptNum & 0xff) ;
+  	nvic->stir = (interruptNum & 0xff) ;
 }

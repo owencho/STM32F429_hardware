@@ -5,10 +5,10 @@
 #include "Common.h"
 typedef struct SyscfgRegs SyscfgRegs;
 struct SyscfgRegs {
-    IoRegister MEMRMP;
-    IoRegister PMC;
-    IoRegister EXTICR[4];
-    IoRegister CMPCR;
+    IoRegister memrmp;
+    IoRegister pmc;
+    IoRegister exticr[4];
+    IoRegister cmpcr;
 };
 #define syscfg ((SyscfgRegs*)(SYSCFG_BASEADDRESS))
 void syscfgExternalInterruptConfig(SyscfgRegs *syscfgLoc,ExternalPortInterruptName extiPort,int portName);

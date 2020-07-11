@@ -15,10 +15,12 @@ uintptr_t getSyscfgBaseAddress();
 uintptr_t getUsartBaseAddress();
 uintptr_t getUsart3BaseAddress();
 uintptr_t getUsart6BaseAddress();
+uintptr_t getExtiBaseAddress();
 #define GPIO_A 0x40020000
 #define GPIO_B 0x40020400
 //..
 #define GPIO_G 0x40021800
+#define EXTI_BASEADDRESS getExtiBaseAddress()
 #define RCC_BASEADDRESS getRCCBaseAddress()
 #define NVIC_BASEADDRESS getNvicBaseAddress()
 #define SYSCFG_BASEADDRESS getSyscfgBaseAddress()

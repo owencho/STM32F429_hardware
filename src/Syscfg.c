@@ -9,5 +9,5 @@ void syscfgExternalInterruptConfig(SyscfgRegs *syscfgLoc,ExternalPortInterruptNa
 		}
 		arrayNumber = extiPort >> 2 ;
 		shiftLocation = ((extiPort - (arrayNumber <<2 )) <<2);
-		syscfgLoc->EXTICR[arrayNumber] |= portName << shiftLocation ;
+		syscfgLoc->exticr[arrayNumber] |= portName << shiftLocation ;
 }

@@ -17,15 +17,15 @@ typedef enum{
 
 typedef struct ExtiRegs ExtiRegs;
 struct ExtiRegs {
-    IoRegister IMR;
-    IoRegister EMR;
-    IoRegister RTSR;
-    IoRegister FTSR;
-    IoRegister SWIER;
-    IoRegister PR;
+    IoRegister imr;
+    IoRegister emr;
+    IoRegister rtsr;
+    IoRegister ftsr;
+    IoRegister swier;
+    IoRegister pr;
 };
 
-#define exti ((ExtiRegs*)(ABC_BASEADDRESS))
+#define exti ((ExtiRegs*)(EXTI_BASEADDRESS))
 void extiSetInterruptMaskRegister(ExtiRegs *extiLoc , int pin,RequestMasked mode);
 void extiSetEventMaskRegister(ExtiRegs *extiLoc , int pin,RequestMasked mode);
 void extiSetRisingTriggerInterrupt(ExtiRegs *extiLoc , int pin,RisingTriggerStatus mode);

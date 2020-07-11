@@ -23,15 +23,15 @@ void test_Syscfg_syscfgExternalInterruptConfig_NULL(void){
 
 void test_Syscfg_syscfgExternalInterruptConfig_PORTA_ON_EXTI0_INT(void){
     syscfgExternalInterruptConfig(&fakeSyscfg,EXTI_0,PORT_A);
-    TEST_ASSERT_EQUAL(0,fakeSyscfg.EXTICR[0]);
+    TEST_ASSERT_EQUAL(0,fakeSyscfg.exticr[0]);
 }
 
 void test_Syscfg_syscfgExternalInterruptConfig_PORTF_ON_EXTI5_INT(void){
     syscfgExternalInterruptConfig(&fakeSyscfg,EXTI_5,PORT_F);
-    TEST_ASSERT_EQUAL(5<<4,fakeSyscfg.EXTICR[1]);
+    TEST_ASSERT_EQUAL(5<<4,fakeSyscfg.exticr[1]);
 }
 
 void test_Syscfg_syscfgExternalInterruptConfig_PORTF_ON_EXTI7_INT(void){
     syscfgExternalInterruptConfig(&fakeSyscfg,EXTI_7,PORT_E);
-    TEST_ASSERT_EQUAL(PORT_E<<12,fakeSyscfg.EXTICR[1]);
+    TEST_ASSERT_EQUAL(PORT_E<<12,fakeSyscfg.exticr[1]);
 }

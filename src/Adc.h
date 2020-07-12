@@ -34,34 +34,25 @@ struct AdcCommonReg {
     IoRegister cdr;
 };
 
-typedef struct AdcRegMap AdcRegMap;
-struct AdcRegMap {
-    AdcReg adc1;
-    IoRegister reserved0[44];
-    AdcReg adc2;
-    IoRegister reserved1[44];
-    AdcReg adc3;
-    IoRegister reserved2[44];
-    AdcCommonReg adcCommon;
-};
+#define adc1 ((AdcReg*)(ADC1_BASEADDRESS))
+#define adc2 ((AdcReg*)(ADC2_BASEADDRESS))
+#define adc3 ((AdcReg*)(ADC3_BASEADDRESS))
+#define adcCommonReg ((AdcCommonReg*)(ADC_COMMON_BASEADDRESS))
 
 typedef enum{
-	 OVERRUN_INTERRUPT,JEOCIE_INTERRUPT,AWDIE_INTERRUPT,
-   EOCIE_INTERRUPT,
-} AdcInterrupt;
-
-typedef enum{
-	 12_BIT_ADC_RES,10_BIT_ADC_RES,8_BIT_ADC_RES,
-   6_BIT_ADC_RES,
+	 ADC_RES_12_BIT,ADC_RES_10_BIT,ADC_RES_8_BIT,
+   ADC_RES_6_BIT,
 } AdcResolution;
 
 typedef enum{
-	 DIVIDE_2,DIVIDE_4,DIVIDE_6,DIVIDE_8,
+	 ADC_PRESCALE_DIVIDE_2,ADC_PRESCALE_DIVIDE_4,
+   ADC_PRESCALE_DIVIDE_6,ADC_PRESCALE_DIVIDE_8,
 } AdcSetPrescaler;
 
 typedef enum{
-	 3_CYCLES,15_CYCLES,28_CYCLES,56_CYCLES,
-   84_CYCLES,112_CYCLES,144_CYCLES,480_CYCLES
+	 ADC_SAMP_3_CYCLES,ADC_SAMP_15_CYCLES,ADC_SAMP_28_CYCLES,
+   ADC_SAMP_56_CYCLES,ADC_SAMP_84_CYCLES,ADC_SAMP_112_CYCLES,
+   ADC_SAMP_144_CYCLES,ADC_SAMP_480_CYCLES
 } AdcSamplingCycle;
 
 //interrupt
@@ -81,10 +72,10 @@ int adcInjectedChannelEOConversionCheck(AdcReg* adc);
 int adcRegularChannelEOConversionCheck(AdcReg* adc);
 int adcAnalogWatchDogFlagCheck(AdcReg* adc);
 //CR1
-void adcSetADCResolution(AdcReg* adc,,AdcResolution value); //
+void adcSetADCResolution(AdcReg* adc,AdcResolution value); //
 void adcSetWatchdogRegularChannel(AdcReg* adc,EnableDisable mode);
 void adcSetWatchdogInjectedChannel(AdcReg* adc,EnableDisable mode);
-void adcSetDiscontinuousModeChannelCount(AdcReg* adc , ChannelName channel);
+void adcSetDiscontinuousModeChannelCount(AdcReg* adc,int numberOfChannel);
 void adcSetDiscontinuousModeInjectedChannels(AdcReg* adc,EnableDisable mode);
 void adcSetDiscontinuousModeRegularChannels(AdcReg* adc,EnableDisable mode);
 void adcSetAutomaticInjectedGroupConversion(AdcReg* adc,EnableDisable mode);
@@ -111,7 +102,7 @@ void adcEnableADCConversion(AdcReg* adc); //
 void adcDisableADCConversion(AdcReg* adc); //
 
 //sampling
-void adcSetSamplingTime(AdcReg* adc,ChannelName channel,AdcCycleTime cycleTime);
+void adcSetSamplingTime(AdcReg* adc,ChannelName channel,AdcSamplingCycle cycleTime);
 
 //jofr
 /*
@@ -125,19 +116,26 @@ void adcSetWatchdogHigherThreshold(AdcReg* adc,int threshold);
 void adcSetWatchdogLowerThreshold(AdcReg* adc,int threshold);
 
 //sequence
-void adcSetRegularSequence(AdcReg* adc , ChannelName []sequence);
-void adcSetInjectedSequence(AdcReg* adc , ChannelName []sequence);
+void adcSetRegularSequence(AdcReg* adc , ChannelName sequence[]);
+void adcSetRegularSequenceLength(AdcReg* adc,int length);
+void adcSetSingleSequenceRegister(AdcReg* adc,ChannelName channel,int sequenceNum);
+void adcSetInjectedSequence(AdcReg* adc , ChannelName sequence[]);
+void adcSetInjectedSequenceLength(AdcReg* adc,int length);
+void adcSetSingleInjectionRegister(AdcReg* adc,ChannelName channel,int sequenceNum);
 
 //read
-int adcReadInjectedDataReg(AdcReg* adc);
+int adcReadInjectedDataReg1(AdcReg* adc);
+int adcReadInjectedDataReg2(AdcReg* adc);
+int adcReadInjectedDataReg3(AdcReg* adc);
+int adcReadInjectedDataReg4(AdcReg* adc);
 int adcReadRegularDataReg(AdcReg* adc);
 
 //common
-void adcEnableTempSensorAndVref(AdcReg* adc);
-void adcDisableTempSensorAndVref(AdcReg* adc);
-void adcEnableVbatChannel(AdcReg* adc);
-void adcDisableVbatChannel(AdcReg* adc);
-void adcSetPrescaler(AdcCommonReg * adc , AdcSetPrescaler prescale);
+void adcEnableTempSensorAndVref(AdcCommonReg * adcCommon);
+void adcDisableTempSensorAndVref(AdcCommonReg * adcCommon);
+void adcEnableVbatChannel(AdcCommonReg * adcCommon);
+void adcDisableVbatChannel(AdcCommonReg * adcCommon);
+void adcSetPrescaler(AdcCommonReg * adcCommon , AdcSetPrescaler prescale);
 //void adcSetDMAModeforMultiADC(AdcCommonReg * adc,int mode);
 //void adcSetDMARequestModeforMultiADC(AdcReg* adc,int value);
 //void adcSetDelayBetween2SampPhase(AdcCommonReg * adc , int mode);

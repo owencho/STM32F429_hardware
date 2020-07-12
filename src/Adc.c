@@ -2,48 +2,48 @@
 
 //SR
 int adcOverrunFlagCheck(AdcReg* adc){
-    if(adc != NULL){
+    if(adc == NULL){
         return 0;
     }
     return (adc->sr >> 5) & 0x1;
 }
 
 int adcRegularChannelStartFlagCheck(AdcReg* adc){
-    if(adc != NULL){
+    if(adc == NULL){
         return 0;
     }
     return (adc->sr >> 4) & 0x1;
 }
 
 int adcInjectedChannelStartFlagCheck(AdcReg* adc){
-    if(adc != NULL){
+    if(adc == NULL){
         return 0;
     }
     return (adc->sr >> 3) & 0x1;
 }
 int adcInjectedChannelEOConversionCheck(AdcReg* adc){
-    if(adc != NULL){
+    if(adc == NULL){
         return 0;
     }
     return (adc->sr >> 2) & 0x1;
 }
 
 int adcRegularChannelEOConversionCheck(AdcReg* adc){
-    if(adc != NULL){
+    if(adc == NULL){
         return 0;
     }
     return (adc->sr >> 1) & 0x1;
 }
 
 int adcAnalogWatchDogFlagCheck(AdcReg* adc){
-    if(adc != NULL){
+    if(adc == NULL){
         return 0;
     }
     return (adc->sr >> 0) & 0x1;
 }
 //interrupt
 void adcEnableOverrunInterrupt(AdcReg* adc){
-    if(adc != NULL){
+    if(adc == NULL){
         return ;
     }
     adc->cr1 &= ~(1 << 26);
@@ -51,7 +51,7 @@ void adcEnableOverrunInterrupt(AdcReg* adc){
 }
 
 void adcDisableOverrunInterrupt(AdcReg* adc){
-    if(adc != NULL){
+    if(adc == NULL){
         return ;
     }
     adc->cr1 |= (1<<26);
@@ -59,7 +59,7 @@ void adcDisableOverrunInterrupt(AdcReg* adc){
 }
 
 void adcEnableInjectedChannelInterrupt(AdcReg* adc){
-    if(adc != NULL){
+    if(adc == NULL){
         return ;
     }
     adc->cr1 &= ~(1 << 7);
@@ -67,7 +67,7 @@ void adcEnableInjectedChannelInterrupt(AdcReg* adc){
 }
 
 void adcDisableInjectedChannelInterrupt(AdcReg* adc){
-    if(adc != NULL){
+    if(adc == NULL){
         return ;
     }
     adc->cr1 |= (1<<7);
@@ -75,7 +75,7 @@ void adcDisableInjectedChannelInterrupt(AdcReg* adc){
 }
 
 void adcEnableAnalogWatchdogInterrupt(AdcReg* adc){
-    if(adc != NULL){
+    if(adc == NULL){
         return ;
     }
     adc->cr1 &= ~(1 << 6);
@@ -83,7 +83,7 @@ void adcEnableAnalogWatchdogInterrupt(AdcReg* adc){
 }
 
 void adcDisableAnalogWatchdogInterrupt(AdcReg* adc){
-    if(adc != NULL){
+    if(adc == NULL){
         return ;
     }
     adc->cr1 |= (1<<6);
@@ -91,7 +91,7 @@ void adcDisableAnalogWatchdogInterrupt(AdcReg* adc){
 }
 
 void adcEnableEOCInterrupt(AdcReg* adc){
-    if(adc != NULL){
+    if(adc == NULL){
         return ;
     }
     adc->cr1 &= ~(1 << 5);
@@ -99,7 +99,7 @@ void adcEnableEOCInterrupt(AdcReg* adc){
 }
 
 void adcDisableEOCInterrupt(AdcReg* adc){
-    if(adc != NULL){
+    if(adc == NULL){
         return ;
     }
     adc->cr1 |= (1<<5);
@@ -107,15 +107,15 @@ void adcDisableEOCInterrupt(AdcReg* adc){
 }
 
 void adcSetADCResolution(AdcReg* adc,AdcResolution value){
-    if(adc != NULL){
+    if(adc == NULL){
         return ;
     }
-    adc->cr1 &= ~(3<<25);
-		adc->cr1 |= (value<<25);
+    adc->cr1 &= ~(3<<24);
+		adc->cr1 |= (value<<24);
 }
 
 void adcSetWatchdogRegularChannel(AdcReg* adc,EnableDisable mode){
-    if(adc != NULL){
+    if(adc == NULL){
         return ;
     }
     adc->cr1 &= ~(1<<23);
@@ -123,31 +123,23 @@ void adcSetWatchdogRegularChannel(AdcReg* adc,EnableDisable mode){
 }
 
 void adcSetWatchdogInjectedChannel(AdcReg* adc,EnableDisable mode){
-    if(adc != NULL){
+    if(adc == NULL){
         return ;
     }
     adc->cr1 &= ~(1<<22);
 		adc->cr1 |= (mode<<22);
 }
 
-void adcSetWatchdogInjectedChannel(AdcReg* adc,EnableDisable mode){
-    if(adc != NULL){
+void adcSetDiscontinuousModeChannelCount(AdcReg* adc,int numberOfChannel){
+    if(adc == NULL || numberOfChannel > 8 ||numberOfChannel < 0 ){
         return ;
     }
-    adc->cr1 &= ~(1<<22);
-		adc->cr1 |= (mode<<22);
-}
-
-void adcSetDiscontinuousModeChannelCount(AdcReg* adc,ChannelName channel){
-    if(adc != NULL || channel > 7){
-        return ;
-    }
-    adc->cr1 &= ~(7<<15);
-		adc->cr1 |= (channel<<15);
+    adc->cr1 &= ~(7<<13);
+		adc->cr1 |= ((numberOfChannel-1)<<13);
 }
 
 void adcSetDiscontinuousModeInjectedChannels(AdcReg* adc,EnableDisable mode){
-    if(adc != NULL){
+    if(adc == NULL){
         return ;
     }
     adc->cr1 &= ~(1<<12);
@@ -155,7 +147,7 @@ void adcSetDiscontinuousModeInjectedChannels(AdcReg* adc,EnableDisable mode){
 }
 
 void adcSetDiscontinuousModeRegularChannels(AdcReg* adc,EnableDisable mode){
-    if(adc != NULL){
+    if(adc == NULL){
         return ;
     }
     adc->cr1 &= ~(1<<11);
@@ -164,7 +156,7 @@ void adcSetDiscontinuousModeRegularChannels(AdcReg* adc,EnableDisable mode){
 
 
 void adcSetAutomaticInjectedGroupConversion(AdcReg* adc,EnableDisable mode){
-    if(adc != NULL){
+    if(adc == NULL){
         return ;
     }
     adc->cr1 &= ~(1<<10);
@@ -172,7 +164,7 @@ void adcSetAutomaticInjectedGroupConversion(AdcReg* adc,EnableDisable mode){
 }
 
 void adcEnableAnalogWatchdogsOnAllChannels(AdcReg* adc){
-    if(adc != NULL){
+    if(adc == NULL){
         return ;
     }
     adc->cr1 &= ~(1<<9);
@@ -180,7 +172,7 @@ void adcEnableAnalogWatchdogsOnAllChannels(AdcReg* adc){
 }
 
 void adcEnableAnalogWatchdogsOnSingleChannels(AdcReg* adc){
-    if(adc != NULL){
+    if(adc == NULL){
         return ;
     }
     adc->cr1 &= ~(1<<9);
@@ -188,7 +180,7 @@ void adcEnableAnalogWatchdogsOnSingleChannels(AdcReg* adc){
 }
 
 void adcSetScanMode(AdcReg* adc,EnableDisable mode){
-    if(adc != NULL){
+    if(adc == NULL){
         return ;
     }
     adc->cr1 &= ~(1<<8);
@@ -196,15 +188,15 @@ void adcSetScanMode(AdcReg* adc,EnableDisable mode){
 }
 
 void adcAnalogWatchdogChannelSelect(AdcReg* adc,ChannelName channel){
-    if(adc != NULL || channel > 18){
+    if(adc == NULL || channel > 18){
         return ;
     }
-    adc->cr1 &= ~(31<<4);
-    adc->cr1 |= (mode<<4);
+    adc->cr1 &= ~(31<<0);
+    adc->cr1 |= (channel<<0);
 }
 
 void adcSetStartRegularConversion(AdcReg* adc){
-    if(adc != NULL){
+    if(adc == NULL){
         return ;
     }
     adc->cr2 &= ~(1<<30);
@@ -212,15 +204,15 @@ void adcSetStartRegularConversion(AdcReg* adc){
 }
 
 void adcSetExternalTriggerRegularChannel(AdcReg* adc,TriggerDetection value){
-    if(adc != NULL){
+    if(adc == NULL){
         return ;
     }
-    adc->cr2 &= ~(3<<29);
-    adc->cr2 |= (value<<29);
+    adc->cr2 &= ~(3<<28);
+    adc->cr2 |= (value<<28);
 }
 
 void adcSetStartInjectedConversion(AdcReg* adc){
-    if(adc != NULL){
+    if(adc == NULL){
         return ;
     }
     //set ADON
@@ -229,15 +221,15 @@ void adcSetStartInjectedConversion(AdcReg* adc){
 }
 
 void adcSetExternalTriggerInjectedChannel(AdcReg* adc,TriggerDetection value){
-    if(adc != NULL){
+    if(adc == NULL){
         return ;
     }
-    adc->cr2 &= ~(3<<21);
-    adc->cr2 |= (value<<21);
+    adc->cr2 &= ~(3<<20);
+    adc->cr2 |= (value<<20);
 }
 
 void adcSetRightDataAlignment(AdcReg* adc){
-    if(adc != NULL){
+    if(adc == NULL){
         return ;
     }
     adc->cr2 &= ~(1<<11);
@@ -245,7 +237,7 @@ void adcSetRightDataAlignment(AdcReg* adc){
 }
 
 void adcSetLeftDataAlignment(AdcReg* adc){
-    if(adc != NULL){
+    if(adc == NULL){
         return ;
     }
     adc->cr2 &= ~(1<<11);
@@ -253,7 +245,7 @@ void adcSetLeftDataAlignment(AdcReg* adc){
 }
 
 void adcSetContinousConvertion(AdcReg* adc){
-    if(adc != NULL){
+    if(adc == NULL){
         return ;
     }
     adc->cr2 &= ~(1<<1);
@@ -261,7 +253,7 @@ void adcSetContinousConvertion(AdcReg* adc){
 }
 
 void adcSetSingleConvertion(AdcReg* adc){
-    if(adc != NULL){
+    if(adc == NULL){
         return ;
     }
     adc->cr2 &= ~(1<<1);
@@ -269,7 +261,7 @@ void adcSetSingleConvertion(AdcReg* adc){
 }
 
 void adcEnableADCConversion(AdcReg* adc){
-    if(adc != NULL){
+    if(adc == NULL){
         return ;
     }
     adc->cr2 &= ~(1<<0);
@@ -277,7 +269,7 @@ void adcEnableADCConversion(AdcReg* adc){
 }
 
 void adcDisableADCConversion(AdcReg* adc){
-    if(adc != NULL){
+    if(adc == NULL){
         return ;
     }
     adc->cr2 &= ~(1<<0);
@@ -285,104 +277,179 @@ void adcDisableADCConversion(AdcReg* adc){
 }
 
 void adcSetSamplingTime(AdcReg* adc,ChannelName channel,AdcSamplingCycle cycleTime){
-    if(adc != NULL || cycleTime > 7 || channel > 18){
+    if(adc == NULL || cycleTime > 7 || channel > 18){
         return ;
     }
     if(channel > 9){
-        adc->smp1 &= ~(1<<(2*(channel-9)));
-        adc->smp1 |= (cycleTime<<(2*(channel-9)));
+        adc->smpr1 &= ~(7<<(3*(channel-10)));
+        adc->smpr1 |= (cycleTime<<(3*(channel-10)));
     }
     else{
-        adc->smp2 &= ~(1<<(2*(channel)));
-        adc->smp2 |= (cycleTime<<(2*(channel)));
+        adc->smpr2 &= ~(7<<(3*(channel)));
+        adc->smpr2 |= (cycleTime<<(3*(channel)));
     }
 }
 
 void adcSetWatchdogHigherThreshold(AdcReg* adc,int threshold){
-    if(adc != NULL ){
+    if(adc == NULL || threshold > 0xFFF){
         return ;
     }
     adc->htr = threshold & 0xFFF;
 }
 
 void adcSetWatchdogLowerThreshold(AdcReg* adc,int threshold){
-    if(adc != NULL){
+    if(adc == NULL || threshold > 0xFFF){
         return ;
     }
     adc->ltr = threshold & 0xFFF;
 }
 
-void adcSetRegularSequence(AdcReg* adc , ChannelName []sequence){
-  if(adc != NULL){
-      return ;
-  }
-  int arraySize = sequence / sizeof(ChannelName);
-  if(arraySize > 16){
-      return;
-  }
-  for(int i = 0 ; i =< arraySize;i++){
-      if(i < 7){
-          adc->sqr3 &= ~(31<<(4+(i*5)));
-          adc->sqr3 |= (sequence[i]<<(4+(i*5)));
-      }
-      else if (i > 6 && i < 13){
-          adc->sqr2 &= ~(31<<(4+((i-7)*5)));
-          adc->sqr2 |= (sequence[i]<<(4+((i-7)*5)));
-      }
-      else{
-          adc->sqr1 &= ~(31<<(4+((i-13)*5)));
-          adc->sqr1 |= (sequence[i]<<(4+((i-13)*5)));
-      }
-  }
-  adc->sqr1 &= ~(15<<23);
-  adc->sqr1 |= ((arraySize-1)<<23);
-}
-
-void adcSetInjectedSequence(AdcReg* adc , ChannelName []sequence){
-  if(adc != NULL){
-      return ;
-  }
-  int arraySize = sequence / sizeof(ChannelName);
-  if(arraySize > 4){
-      return;
-  }
-  for(int i = 0 ; i =< arraySize;i++){
-      adc->jsqr &= ~(31<<(4+(i*5)));
-      adc->jsqr |= (sequence[0]<<(4+(i*5)));
-
-  }
-  adc->jsqr &= ~(3<<21);
-  adc->jsqr |= ((arraySize-1)<<21);
-}
-
-int adcReadInjectedDataReg(AdcReg* adc){
-    if(adc != NULL){
+void adcSetRegularSequence(AdcReg* adc , ChannelName sequence[]){
+    int arraySize = 0 ;
+    if(adc == NULL){
         return ;
     }
-    return adc->jdr & 0xFFFF;
+    for(int i = 0 ; sequence[i] != END_OF_CHANNEL_SEQ ;i++){
+        if(i > 15 || sequence[i] > CHANNEL_18 || sequence[i] < 0 ){
+            break;
+        }
+        adcSetSingleSequenceRegister(adc,sequence[i],i+1);
+        arraySize++;
+    }
+    adcSetRegularSequenceLength(adc,arraySize);
 }
 
-void adcEnableTempSensorAndVref(AdcReg* adc){
-    if(adc != NULL){
+void adcSetRegularSequenceLength(AdcReg* adc,int length){
+    if(adc == NULL || length > 16 ||length <= 0 ){
         return ;
     }
-    adcDisableVbatChannel(adc);
-    adc->ccr &= ~(1<<23);
-    adc->ccr |= (1<<23);
+    adc->sqr1 &= ~(15<<20);
+    adc->sqr1 |= ((length-1)<<20);
 }
 
-void adcEnableVbatChannel(AdcReg* adc){
-    if(adc != NULL){
+void adcSetSingleSequenceRegister(AdcReg* adc,ChannelName channel,int sequenceNum){
+
+    if(adc == NULL || sequenceNum > 16 || sequenceNum <= 0){
         return ;
     }
-    adc->ccr &= ~(1<<22);
-    adc->ccr |= (1<<22);
+
+    if(channel < 0 ||channel >CHANNEL_18){
+        return;
+    }
+    int shiftBit = sequenceNum -1;
+    if(sequenceNum < 7){
+        adc->sqr3 &= ~(31<<(shiftBit*5));
+        adc->sqr3 |= (channel<<(shiftBit*5));
+    }
+    else if (sequenceNum > 6 && sequenceNum < 13){
+        adc->sqr2 &= ~(31<<((shiftBit-6)*5));
+        adc->sqr2 |= (channel<<((shiftBit-6)*5));
+    }
+    else{
+        adc->sqr1 &= ~(31<<((shiftBit-12)*5));
+        adc->sqr1 |= (channel<<((shiftBit-12)*5));
+    }
 }
 
-void adcSetPrescaler(AdcCommonReg * adc , AdcSetPrescaler prescale){
-    if(adc != NULL){
+
+void adcSetInjectedSequence(AdcReg* adc , ChannelName sequence[]){
+    int arraySize = 0 ;
+    if(adc == NULL){
         return ;
     }
-    adc->ccr &= ~(3<<17);
-    adc->ccr |= (prescale<<17);
+    for(int i = 0 ; sequence[i] != END_OF_CHANNEL_SEQ ;i++){
+        if(i > 3 || sequence[i] > CHANNEL_18 || sequence[i] < 0 ){
+            break;
+        }
+        adcSetSingleInjectionRegister(adc,sequence[i],i+1);
+        arraySize++;
+    }
+    adcSetInjectedSequenceLength(adc,arraySize);
+}
+
+void adcSetInjectedSequenceLength(AdcReg* adc,int length){
+    if(adc == NULL || length > 4){
+        return ;
+    }
+    adc->jsqr &= ~(3<<20);
+    adc->jsqr |= ((length-1)<<20);
+}
+
+void adcSetSingleInjectionRegister(AdcReg* adc,ChannelName channel,int sequenceNum){
+    if(adc == NULL || sequenceNum > 4 || sequenceNum <= 0 ){
+        return ;
+    }
+    if(channel < 0 ||channel >CHANNEL_18){
+        return;
+    }
+    int shiftBit = sequenceNum -1;
+    adc->jsqr &= ~(31<<((shiftBit*5)));
+    adc->jsqr |= (channel<<((shiftBit*5)));
+}
+
+
+int adcReadInjectedDataReg1(AdcReg* adc){
+    if(adc == NULL){
+        return 0;
+    }
+    return adc->jdr1 & 0xFFFF;
+}
+int adcReadInjectedDataReg2(AdcReg* adc){
+    if(adc == NULL){
+        return 0;
+    }
+    return adc->jdr2 & 0xFFFF;
+}
+int adcReadInjectedDataReg3(AdcReg* adc){
+    if(adc == NULL){
+        return 0;
+    }
+    return adc->jdr3 & 0xFFFF;
+}
+int adcReadInjectedDataReg4(AdcReg* adc){
+    if(adc == NULL){
+        return 0;
+    }
+    return adc->jdr4 & 0xFFFF;
+}
+
+void adcEnableTempSensorAndVref(AdcCommonReg * adcCommon){
+    if(adcCommon == NULL){
+        return ;
+    }
+    adcDisableVbatChannel(adcCommon);
+    adcCommon->ccr &= ~(1<<23);
+    adcCommon->ccr |= (1<<23);
+}
+
+void adcDisableTempSensorAndVref(AdcCommonReg * adcCommon){
+    if(adcCommon == NULL){
+        return ;
+    }
+    adcCommon->ccr &= ~(1<<23);
+    adcCommon->ccr |= (0<<23);
+}
+
+void adcEnableVbatChannel(AdcCommonReg * adcCommon){
+    if(adcCommon == NULL){
+        return ;
+    }
+    adcCommon->ccr &= ~(1<<22);
+    adcCommon->ccr |= (1<<22);
+}
+
+void adcDisableVbatChannel(AdcCommonReg * adcCommon){
+    if(adcCommon == NULL){
+        return ;
+    }
+    adcCommon->ccr &= ~(1<<22);
+    adcCommon->ccr |= (0<<22);
+}
+
+void adcSetPrescaler(AdcCommonReg * adcCommon , AdcSetPrescaler prescale){
+    if(adcCommon == NULL){
+        return ;
+    }
+    adcCommon->ccr &= ~(3<<16);
+    adcCommon->ccr |= (prescale<<16);
 }

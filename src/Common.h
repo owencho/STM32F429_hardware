@@ -25,7 +25,7 @@ typedef enum{
 }ExternalPortInterruptName;
 
 typedef enum{
-	DISABLE , ENABLE
+	DISABLE_MODE , ENABLE_MODE
 }EnableDisable;
 
 typedef enum{

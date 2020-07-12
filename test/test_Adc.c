@@ -209,32 +209,32 @@ void test_Adc_adcSetADCResolution_NULL(void){
 }
 
 void test_Adc_adcSetWatchdogRegularChannel_DISABLE(void){
-    adcSetWatchdogRegularChannel(adc1,DISABLE);
+    adcSetWatchdogRegularChannel(adc1,DISABLE_MODE);
     TEST_ASSERT_EQUAL(0<<23,adc1->cr1);
 }
 
 void test_Adc_adcSetWatchdogRegularChannel_ENABLE(void){
-    adcSetWatchdogRegularChannel(adc1,ENABLE);
+    adcSetWatchdogRegularChannel(adc1,ENABLE_MODE);
     TEST_ASSERT_EQUAL(1<<23,adc1->cr1);
 }
 void test_Adc_adcSetWatchdogRegularChannel_NULL(void){
     TEST_IGNORE_MESSAGE("havent implement");
-    adcSetWatchdogRegularChannel(NULL,ENABLE);
+    adcSetWatchdogRegularChannel(NULL,ENABLE_MODE);
     TEST_ASSERT_EQUAL(0,adc1->cr1);
 }
 
 void test_Adc_adcSetWatchdogInjectedChannel_DISABLE(void){
-    adcSetWatchdogInjectedChannel(adc1,DISABLE);
+    adcSetWatchdogInjectedChannel(adc1,DISABLE_MODE);
     TEST_ASSERT_EQUAL(0<<22,adc1->cr1);
 }
 
 void test_Adc_adcSetWatchdogInjectedChannel_ENABLE(void){
-    adcSetWatchdogInjectedChannel(adc1,ENABLE);
+    adcSetWatchdogInjectedChannel(adc1,ENABLE_MODE);
     TEST_ASSERT_EQUAL(1<<22,adc1->cr1);
 }
 void test_Adc_adcSetWatchdogInjectedChannel_NULL(void){
     TEST_IGNORE_MESSAGE("havent implement");
-    adcSetWatchdogInjectedChannel(NULL,ENABLE);
+    adcSetWatchdogInjectedChannel(NULL,ENABLE_MODE);
     TEST_ASSERT_EQUAL(0,adc1->cr1);
 }
 
@@ -265,47 +265,47 @@ void test_Adc_adcSetDiscontinuousModeChannelCount_NULL(void){
 }
 
 void test_Adc_adcSetDiscontinuousModeInjectedChannels_DISABLE(void){
-    adcSetDiscontinuousModeInjectedChannels(adc1,DISABLE);
+    adcSetDiscontinuousModeInjectedChannels(adc1,DISABLE_MODE);
     TEST_ASSERT_EQUAL(0<<12,adc1->cr1);
 }
 
 void test_Adc_adcSetDiscontinuousModeInjectedChannels_ENABLE(void){
-    adcSetDiscontinuousModeInjectedChannels(adc1,ENABLE);
+    adcSetDiscontinuousModeInjectedChannels(adc1,ENABLE_MODE);
     TEST_ASSERT_EQUAL(1<<12,adc1->cr1);
 }
 void test_Adc_adcSetDiscontinuousModeInjectedChannels_NULL(void){
     TEST_IGNORE_MESSAGE("havent implement");
-    adcSetDiscontinuousModeInjectedChannels(NULL,ENABLE);
+    adcSetDiscontinuousModeInjectedChannels(NULL,ENABLE_MODE);
     TEST_ASSERT_EQUAL(0,adc1->cr1);
 }
 
 void test_Adc_adcSetDiscontinuousModeRegularChannels_DISABLE(void){
-    adcSetDiscontinuousModeRegularChannels(adc1,DISABLE);
+    adcSetDiscontinuousModeRegularChannels(adc1,DISABLE_MODE);
     TEST_ASSERT_EQUAL(0<<11,adc1->cr1);
 }
 
 void test_Adc_adcSetDiscontinuousModeRegularChannels_ENABLE(void){
-    adcSetDiscontinuousModeRegularChannels(adc1,ENABLE);
+    adcSetDiscontinuousModeRegularChannels(adc1,ENABLE_MODE);
     TEST_ASSERT_EQUAL(1<<11,adc1->cr1);
 }
 void test_Adc_adcSetDiscontinuousModeRegularChannels_NULL(void){
     TEST_IGNORE_MESSAGE("havent implement");
-    adcSetDiscontinuousModeRegularChannels(NULL,ENABLE);
+    adcSetDiscontinuousModeRegularChannels(NULL,ENABLE_MODE);
     TEST_ASSERT_EQUAL(0,adc1->cr1);
 }
 
 void test_Adc_adcSetAutomaticInjectedGroupConversion_DISABLE(void){
-    adcSetAutomaticInjectedGroupConversion(adc1,DISABLE);
+    adcSetAutomaticInjectedGroupConversion(adc1,DISABLE_MODE);
     TEST_ASSERT_EQUAL(0<<10,adc1->cr1);
 }
 
 void test_Adc_adcSetAutomaticInjectedGroupConversion_ENABLE(void){
-    adcSetAutomaticInjectedGroupConversion(adc1,ENABLE);
+    adcSetAutomaticInjectedGroupConversion(adc1,ENABLE_MODE);
     TEST_ASSERT_EQUAL(1<<10,adc1->cr1);
 }
 void test_Adc_adcSetAutomaticInjectedGroupConversion_NULL(void){
     TEST_IGNORE_MESSAGE("havent implement");
-    adcSetAutomaticInjectedGroupConversion(NULL,ENABLE);
+    adcSetAutomaticInjectedGroupConversion(NULL,ENABLE_MODE);
     TEST_ASSERT_EQUAL(0,adc1->cr1);
 }
 
@@ -331,17 +331,17 @@ void test_Adc_adcEnableAnalogWatchdogsOnSingleChannels_NULL(void){
 }
 
 void test_Adc_adcSetScanMode_DISABLE(void){
-    adcSetScanMode(adc1,DISABLE);
+    adcSetScanMode(adc1,DISABLE_MODE);
     TEST_ASSERT_EQUAL(0<<8,adc1->cr1);
 }
 
 void test_Adc_adcSetScanMode_ENABLE(void){
-    adcSetScanMode(adc1,ENABLE);
+    adcSetScanMode(adc1,ENABLE_MODE);
     TEST_ASSERT_EQUAL(1<<8,adc1->cr1);
 }
 void test_Adc_adcSetScanMode_NULL(void){
     TEST_IGNORE_MESSAGE("havent implement");
-    adcSetScanMode(NULL,ENABLE);
+    adcSetScanMode(NULL,ENABLE_MODE);
     TEST_ASSERT_EQUAL(0,adc1->cr1);
 }
 

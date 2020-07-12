@@ -1,5 +1,6 @@
 #include "Adc.h"
-
+#include <stddef.h>
+#include <stdint.h>
 //SR
 int adcOverrunFlagCheck(AdcReg* adc){
     if(adc == NULL){

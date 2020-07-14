@@ -19,6 +19,8 @@ uintptr_t getUsartBaseAddress();
 uintptr_t getUsart3BaseAddress();
 uintptr_t getUsart6BaseAddress();
 uintptr_t getExtiBaseAddress();
+uintptr_t getScbBaseAddress();
+
 #define GPIO_A 0x40020000
 #define GPIO_B 0x40020400
 //..
@@ -30,7 +32,7 @@ uintptr_t getExtiBaseAddress();
 #define USART1_BASEADDRESS getUsartBaseAddress()
 #define USART3_BASEADDRESS getUsart3BaseAddress()
 #define USART6_BASEADDRESS getUsart6BaseAddress()
-
+#define SCB_BASEADDRESS getScbBaseAddress()
 #define ADC1_BASEADDRESS getAdc1BaseAddress()
 #define ADC2_BASEADDRESS getAdc2BaseAddress()
 #define ADC3_BASEADDRESS getAdc3BaseAddress()

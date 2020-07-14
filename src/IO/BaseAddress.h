@@ -7,7 +7,8 @@
 
 #ifndef INC_BASEADDRESS_H_
 #define INC_BASEADDRESS_H_
-
+//System control block
+#define SCB_BASEADDRESS 0xE000ED00
 //GPIO
 #define GPIO_A 0x40020000
 #define GPIO_B 0x40020400

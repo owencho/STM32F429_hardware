@@ -214,10 +214,46 @@ void usartSetUsartAddressNode(UsartRegs* usart,uint32_t address){
     usart->cr2 &= ~(15 << 0);
     usart->cr2 |= address << 0;
 }
+
+void usartSetUsartLinMode(UsartRegs* usart,EnableDisable mode){
+    if(usart == NULL){
+        return ;
+    }
+    usart->cr2 &= ~(1 << 14);
+    usart->cr2 |= mode << 14;
+}
+
+void usartSetUsartSmartCardMode(UsartRegs* usart,EnableDisable mode){
+    if(usart == NULL){
+        return ;
+    }
+    usart->cr3 &= ~(1 << 5);
+    usart->cr3 |= mode << 5;
+}
+
+void usartSetUsartIrDAMode(UsartRegs* usart,EnableDisable mode){
+    if(usart == NULL){
+        return ;
+    }
+    usart->cr3 &= ~(1 << 1);
+    usart->cr3 |= mode << 1;
+}
+
+
 void usartHalfDuplexMode(UsartRegs* usart,EnableDisable mode){
     if(usart == NULL ){
         return ;
     }
     usart->cr3 &= ~(1 << 3);
     usart->cr3 |= mode << 3;
+    if(mode){
+        //LINEN
+        usartSetUsartLinMode(usart,DISABLE_MODE);
+        //CLKEN
+        usartClockMode(usart,DISABLE_MODE);
+        //SCEN
+        usartSetUsartSmartCardMode(usart,DISABLE_MODE);
+        //IREN
+        usartSetUsartIrDAMode(usart,DISABLE_MODE);
+    }
 }

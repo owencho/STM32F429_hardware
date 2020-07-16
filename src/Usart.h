@@ -75,7 +75,10 @@ void setUsartWakeupMode(UsartRegs* usart,WakeupMode type);
 void setUsartParityMode(UsartRegs* usart,ParityMode type);
 
 void usartSetReceiverWakeupMode(UsartRegs* usart,ReceiverWakeUpMode mode);
-void usartEnableClock(UsartRegs* usart,EnableDisable mode);
+void usartClockMode(UsartRegs* usart,EnableDisable mode);
 void usartSetUsartAddressNode(UsartRegs* usart,uint32_t address);
 void usartHalfDuplexMode(UsartRegs* usart,EnableDisable mode);
+void usartSetUsartLinMode(UsartRegs* usart,EnableDisable mode);
+void usartSetUsartSmartCardMode(UsartRegs* usart,EnableDisable mode);
+void usartSetUsartIrDAMode(UsartRegs* usart,EnableDisable mode);
 #endif // USART_H

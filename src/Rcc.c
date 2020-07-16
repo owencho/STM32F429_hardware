@@ -29,11 +29,17 @@ void disableGpioA(){
 }
 
 void enableGpio(PortName portName){
+		if(portName > PORT_K){
+				return;
+		}
 		rcc->ahb1rstr &= ~(1 << portName);
 		rcc->ahb1enr |= 1 << portName;
 }
 
 void disableGpio(PortName portName){
+		if(portName < 0 ||portName > PORT_K){
+				return;
+		}
 		rcc-> ahb1rstr |= 1 << portName;
 		rcc-> ahb1enr &= ~(1 << portName);
 }
@@ -69,8 +75,8 @@ void disableUSART1(){
 }
 
 void enableUSART6(){
-		rcc->apb2rstr &= ~ (1<<4);
-		rcc-> apb2enr |= (1<< 4);
+		rcc->apb2rstr &= ~ (1<<5);
+		rcc-> apb2enr |= (1<< 5);
 }
 
 void disableUSART6(){

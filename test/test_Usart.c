@@ -368,3 +368,82 @@ void test_Usart_setUsartParityMode_NULL_input(void){
     TEST_IGNORE_MESSAGE("havent implement");
     setUsartParityMode(NULL,ODD_PARITY);
 }
+void test_Usart_usartSetReceiverWakeupMode_ACTIVE_MODE(void){
+    usartSetReceiverWakeupMode(usart1,ACTIVE_MODE);
+    TEST_ASSERT_EQUAL(0,fakeUsart.cr1);
+}
+void test_Usart_usartSetReceiverWakeupMode_MUTE_MODE(void){
+    usartSetReceiverWakeupMode(usart1,MUTE_MODE);
+    TEST_ASSERT_EQUAL(1<<1,fakeUsart.cr1);
+}
+void test_Usart_usartClockMode_enable(void){
+    usartClockMode(usart1,ENABLE_MODE);
+    TEST_ASSERT_EQUAL(1<<11,fakeUsart.cr2);
+}
+void test_Usart_usartClockMode_disable(void){
+    usartClockMode(usart1,ENABLE_MODE);
+    TEST_ASSERT_EQUAL(1<<11,fakeUsart.cr2);
+    usartClockMode(usart1,DISABLE_MODE);
+    TEST_ASSERT_EQUAL(0<<11,fakeUsart.cr2);
+}
+
+void test_Usart_usartSetUsartAddressNode_address_0(void){
+    usartSetUsartAddressNode(usart1,0);
+    TEST_ASSERT_EQUAL(0,fakeUsart.cr2);
+}
+void test_Usart_usartSetUsartAddressNode_address_5(void){
+    usartSetUsartAddressNode(usart1,15);
+    TEST_ASSERT_EQUAL(15,fakeUsart.cr2);
+}
+
+void test_Usart_usartSetUsartAddressNode_address_20(void){
+    usartSetUsartAddressNode(usart1,20);
+    //it wont set as it exist 15
+    TEST_ASSERT_EQUAL(0,fakeUsart.cr2);
+}
+
+void test_Usart_usartSetHalfDuplexMode_enable(void){
+    usartSetHalfDuplexMode(usart1,ENABLE_MODE);
+    TEST_ASSERT_EQUAL(1<<3,fakeUsart.cr3);
+}
+void test_Usart_usartSetHalfDuplexMode_disable(void){
+    usartSetHalfDuplexMode(usart1,ENABLE_MODE);
+    TEST_ASSERT_EQUAL(1<<3,fakeUsart.cr3);
+    usartSetHalfDuplexMode(usart1,DISABLE_MODE);
+    TEST_ASSERT_EQUAL(0<<3,fakeUsart.cr3);
+}
+
+void test_Usart_usartSetUsartLinMode_enable(void){
+    usartSetUsartLinMode(usart1,ENABLE_MODE);
+    TEST_ASSERT_EQUAL(1<<14,fakeUsart.cr2);
+}
+void test_Usart_usartSetUsartLinMode_disable(void){
+    usartSetUsartLinMode(usart1,ENABLE_MODE);
+    TEST_ASSERT_EQUAL(1<<14,fakeUsart.cr2);
+    usartSetUsartLinMode(usart1,DISABLE_MODE);
+    TEST_ASSERT_EQUAL(0<<14,fakeUsart.cr2);
+}
+
+void test_Usart_usartSetUsartSmartCardMode_enable(void){
+    usartSetUsartSmartCardMode(usart1,ENABLE_MODE);
+    TEST_ASSERT_EQUAL(1<<5,fakeUsart.cr3);
+}
+
+void test_Usart_usartSetUsartSmartCardMode_disable(void){
+    usartSetUsartSmartCardMode(usart1,ENABLE_MODE);
+    TEST_ASSERT_EQUAL(1<<5,fakeUsart.cr3);
+    usartSetUsartSmartCardMode(usart1,DISABLE_MODE);
+    TEST_ASSERT_EQUAL(0<<5,fakeUsart.cr3);
+}
+
+void test_Usart_usartSetUsartIrDAMode_enable(void){
+    usartSetUsartIrDAMode(usart1,ENABLE_MODE);
+    TEST_ASSERT_EQUAL(1<<1,fakeUsart.cr3);
+}
+
+void test_Usart_usartSetUsartIrDAMode_disable(void){
+    usartSetUsartIrDAMode(usart1,ENABLE_MODE);
+    TEST_ASSERT_EQUAL(1<<1,fakeUsart.cr3);
+    usartSetUsartIrDAMode(usart1,DISABLE_MODE);
+    TEST_ASSERT_EQUAL(0<<1,fakeUsart.cr3);
+}

@@ -145,8 +145,8 @@ void test_Usart_usartEnableInterrupt_IDLE_INTERRUPT(void){
     usartEnableInterrupt(usart1,IDLE_INTERRUPT);
     TEST_ASSERT_EQUAL(1<<4,fakeUsart.cr1);
 }
-void test_Usart_usartEnableInterrupt_READ_DATA_NOT_EMPTY(void){
-    usartEnableInterrupt(usart1,READ_DATA_NOT_EMPTY);
+void test_Usart_usartEnableInterrupt_RXNE_INTERRUPT(void){
+    usartEnableInterrupt(usart1,RXNE_INTERRUPT);
     TEST_ASSERT_EQUAL(1<<5,fakeUsart.cr1);
 }
 void test_Usart_usartEnableInterrupt_TRANS_COMPLETE(void){
@@ -179,9 +179,9 @@ void test_Usart_usartDisableInterrupt_IDLE_INTERRUPT(void){
     TEST_ASSERT_EQUAL(0,fakeUsart.cr1);
 }
 void test_Usart_usartDisableInterrupt_READ_DATA_NOT_EMPTY(void){
-    usartEnableInterrupt(usart1,READ_DATA_NOT_EMPTY);
+    usartEnableInterrupt(usart1,RXNE_INTERRUPT);
     TEST_ASSERT_EQUAL(1<<5,fakeUsart.cr1);
-    usartDisableInterrupt(usart1,READ_DATA_NOT_EMPTY);
+    usartDisableInterrupt(usart1,RXNE_INTERRUPT);
     TEST_ASSERT_EQUAL(0,fakeUsart.cr1);
 }
 void test_Usart_usartDisableInterrupt_TRANS_COMPLETE(void){

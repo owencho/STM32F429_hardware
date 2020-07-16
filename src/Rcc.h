@@ -63,4 +63,12 @@ void enableUART4();
 void enableUART8();
 void disableUART4();
 void disableUART8();
+void enableGpio(PortName portName);
+void disableGpio(PortName portName);
+void enableUSART1();
+void disableUSART1();
+void enableUSART6();
+void disableUSART6();
+void enableUART5();
+void disableUART5();
 #endif /* INC_RCC_H_ */

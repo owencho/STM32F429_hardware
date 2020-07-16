@@ -240,12 +240,10 @@ void usartSetUsartIrDAMode(UsartRegs* usart,EnableDisable mode){
 }
 
 
-void usartHalfDuplexMode(UsartRegs* usart,EnableDisable mode){
+void usartSetHalfDuplexMode(UsartRegs* usart,EnableDisable mode){
     if(usart == NULL ){
         return ;
     }
-    usart->cr3 &= ~(1 << 3);
-    usart->cr3 |= mode << 3;
     if(mode){
         //LINEN
         usartSetUsartLinMode(usart,DISABLE_MODE);
@@ -256,4 +254,6 @@ void usartHalfDuplexMode(UsartRegs* usart,EnableDisable mode){
         //IREN
         usartSetUsartIrDAMode(usart,DISABLE_MODE);
     }
+    usart->cr3 &= ~(1 << 3);
+    usart->cr3 |= mode << 3;
 }

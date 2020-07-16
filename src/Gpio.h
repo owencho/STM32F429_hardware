@@ -46,9 +46,18 @@ struct GpioRegs {
 	IoRegister afrl;
 	IoRegister afrh;
 };
-
+#define gpioK (GpioRegs*)(GPIO_K)
+#define gpioJ (GpioRegs*)(GPIO_J)
+#define gpioI (GpioRegs*)(GPIO_I)
+#define gpioH (GpioRegs*)(GPIO_H)
 #define gpioG (GpioRegs*)(GPIO_G)
+#define gpioF (GpioRegs*)(GPIO_F)
+#define gpioE (GpioRegs*)(GPIO_E)
+#define gpioD (GpioRegs*)(GPIO_D)
+#define gpioC (GpioRegs*)(GPIO_C)
+#define gpioB (GpioRegs*)(GPIO_B)
 #define gpioA (GpioRegs*)(GPIO_A)
+
 void gpioSetMode(GpioRegs *gpio , int pin , PinMode mode);
 void gpioSetOutputType(GpioRegs *gpio , int pin ,PinOutputType type);
 void gpioSetPinSpeed(GpioRegs *gpio , int pin , PinSpeed speed);

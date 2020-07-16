@@ -192,3 +192,32 @@ void setUsartParityMode(UsartRegs* usart,ParityMode type){
     usart->cr1 &= ~(1 << 9);
     usart->cr1 |= type << 9;
 }
+
+void usartSetReceiverWakeupMode(UsartRegs* usart,ReceiverWakeUpMode mode){
+    if(usart == NULL){
+        return ;
+    }
+    usart->cr1 &= ~(1 << 1);
+    usart->cr1 |= mode << 1;
+}
+void usartClockMode(UsartRegs* usart,EnableDisable mode){
+    if(usart == NULL){
+        return ;
+    }
+    usart->cr2 &= ~(1 << 11);
+    usart->cr2 |= mode << 11;
+}
+void usartSetUsartAddressNode(UsartRegs* usart,uint32_t address){
+    if(usart == NULL || address > 15){
+        return ;
+    }
+    usart->cr2 &= ~(15 << 0);
+    usart->cr2 |= address << 0;
+}
+void usartHalfDuplexMode(UsartRegs* usart,EnableDisable mode){
+    if(usart == NULL ){
+        return ;
+    }
+    usart->cr3 &= ~(1 << 3);
+    usart->cr3 |= mode << 3;
+}

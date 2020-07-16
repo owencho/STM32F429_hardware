@@ -35,6 +35,10 @@ typedef enum{
 } WakeupMode;
 
 typedef enum{
+    ACTIVE_MODE,MUTE_MODE
+} ReceiverWakeUpMode;
+
+typedef enum{
     DATA_8_BITS,DATA_9_BITS
 } WordLength;
 
@@ -70,5 +74,8 @@ void setUsartWordLength(UsartRegs* usart,WordLength type);
 void setUsartWakeupMode(UsartRegs* usart,WakeupMode type);
 void setUsartParityMode(UsartRegs* usart,ParityMode type);
 
-
+void usartSetReceiverWakeupMode(UsartRegs* usart,ReceiverWakeUpMode mode);
+void usartEnableClock(UsartRegs* usart,EnableDisable mode);
+void usartSetUsartAddressNode(UsartRegs* usart,uint32_t address);
+void usartHalfDuplexMode(UsartRegs* usart,EnableDisable mode);
 #endif // USART_H

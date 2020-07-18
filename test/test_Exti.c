@@ -3,7 +3,11 @@
 #include "BaseAddress.h"
 #include "Common.h"
 #include "Exti.h"
-
+#include "Exception.h"
+#include "CException.h"
+#include "CExceptionConfig.h"
+#include "STM32Error.h"
+CEXCEPTION_T ex;
 /*
 * EXTI GIPO MAPPING
 * 0 for PORT_A0 -> K0
@@ -57,11 +61,6 @@ void test_Exti_extiSetInterruptMaskRegister_given_port5_masked(void){
     TEST_ASSERT_EQUAL(0,fakeExti.imr);
 }
 
-void test_Exti_extiSetInterruptMaskRegister_given_loc_null_unmasked(void){
-    extiSetInterruptMaskRegister(NULL,0,NOT_MASKED);
-    TEST_ASSERT_EQUAL(0,fakeExti.imr);
-}
-
 void test_Exti_extiSetInterruptMaskRegister_given_port5_port1_unmasked(void){
     extiSetInterruptMaskRegister(&fakeExti,5,NOT_MASKED);
     extiSetInterruptMaskRegister(&fakeExti,6,NOT_MASKED);
@@ -70,8 +69,47 @@ void test_Exti_extiSetInterruptMaskRegister_given_port5_port1_unmasked(void){
 // this is tested where it only available from pin 0 - 22 ,
 //where pin 23 onward is reserved memory
 void test_Exti_extiSetInterruptMaskRegister_given_23_where_not_available_unmasked(void){
-    extiSetInterruptMaskRegister(&fakeExti,23,NOT_MASKED);
-    TEST_ASSERT_EQUAL(0,fakeExti.imr);
+    Try{
+        extiSetInterruptMaskRegister(&fakeExti,23,NOT_MASKED);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(EXTI_INVALID_PIN,ex->errorCode);
+    }
+}
+
+void test_Exti_extiSetInterruptMaskRegister_input_NULL(void){
+    Try{
+        extiSetInterruptMaskRegister(NULL,23,NOT_MASKED);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(EXTI_REG_INPUT_NULL,ex->errorCode);
+    }
+}
+
+void test_Exti_extiSetInterruptMaskRegister_neg_masked_mode(void){
+    Try{
+        extiSetInterruptMaskRegister(&fakeExti,20,-1);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(EXTI_INVALID_MASKED_MODE,ex->errorCode);
+    }
+}
+
+void test_Exti_extiSetInterruptMaskRegister_positive_but_weird_masked_mode(void){
+    Try{
+        extiSetInterruptMaskRegister(&fakeExti,20,2);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(EXTI_INVALID_MASKED_MODE,ex->errorCode);
+    }
 }
 
 void test_Exti_extiSetRisingTriggerInterrupt_given_port0_rising(void){
@@ -86,11 +124,6 @@ void test_Exti_extiSetRisingTriggerInterrupt_given_port0_rising_disabled(void){
     TEST_ASSERT_EQUAL(0,fakeExti.rtsr);
 }
 
-void test_Exti_extiSetRisingTriggerInterrupt_given_input_NULL(void){
-    extiSetRisingTriggerInterrupt(NULL,5,RISING_ENABLED);
-    TEST_ASSERT_EQUAL(0,fakeExti.rtsr);
-}
-
 void test_Exti_extiSetRisingTriggerInterrupt_given_port5_port6_(void){
     extiSetRisingTriggerInterrupt(&fakeExti,5,RISING_ENABLED);
     extiSetRisingTriggerInterrupt(&fakeExti,6,RISING_ENABLED);
@@ -98,9 +131,48 @@ void test_Exti_extiSetRisingTriggerInterrupt_given_port5_port6_(void){
 }
 // this is tested where it only available from pin 0 - 22 ,
 //where pin 23 onward is reserved memory
-void test_Exti_extiSetRisingTriggerInterrupt_given_31_where_not_available_unmasked(void){
-    extiSetRisingTriggerInterrupt(&fakeExti,31,RISING_ENABLED);
-    TEST_ASSERT_EQUAL(0,fakeExti.rtsr);
+void test_Exti_extiSetRisingTriggerInterrupt_given_23_where_not_available_unmasked(void){
+    Try{
+        extiSetRisingTriggerInterrupt(&fakeExti,31,RISING_ENABLED);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(EXTI_INVALID_PIN,ex->errorCode);
+    }
+}
+
+void test_Exti_extiSetRisingTriggerInterrupt_input_NULL(void){
+    Try{
+        extiSetRisingTriggerInterrupt(NULL,23,RISING_ENABLED);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(EXTI_REG_INPUT_NULL,ex->errorCode);
+    }
+}
+
+void test_Exti_extiSetRisingTriggerInterrupt_neg_masked_mode(void){
+    Try{
+        extiSetRisingTriggerInterrupt(&fakeExti,20,-1);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(EXTI_INVALID_RISING_TRIGGER_STATUS,ex->errorCode);
+    }
+}
+
+void test_Exti_extiSetRisingTriggerInterrupt_positive_but_weird_masked_mode(void){
+    Try{
+        extiSetRisingTriggerInterrupt(&fakeExti,20,2);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(EXTI_INVALID_RISING_TRIGGER_STATUS,ex->errorCode);
+    }
 }
 
 void test_Exti_extiSetFallingInterrupt_given_port0_falling(void){
@@ -115,11 +187,6 @@ void test_Exti_extiSetFallingInterrupt_given_port0_rising_disabled(void){
     TEST_ASSERT_EQUAL(0,fakeExti.ftsr);
 }
 
-void test_Exti_extiSetFallingInterrupt_given_input_NULL(void){
-    extiSetFallingTriggerInterrupt(NULL,5,FALLING_ENABLED);
-    TEST_ASSERT_EQUAL(0,fakeExti.ftsr);
-}
-
 void test_Exti_extiSetFallingInterrupt_given_port5_port6_(void){
     extiSetFallingTriggerInterrupt(&fakeExti,6,FALLING_ENABLED);
     extiSetFallingTriggerInterrupt(&fakeExti,7,FALLING_ENABLED);
@@ -127,9 +194,49 @@ void test_Exti_extiSetFallingInterrupt_given_port5_port6_(void){
 }
 // this is tested where it only available from pin 0 - 22 ,
 //where pin 23 onward is reserved memory
-void test_Exti_extiSetFallingInterrupt_given_25_where_not_available_unmasked(void){
-    extiSetFallingTriggerInterrupt(&fakeExti,25,FALLING_ENABLED);
-    TEST_ASSERT_EQUAL(0,fakeExti.ftsr);
+
+void test_Exti_extiSetFallingTriggerInterrupt_given_23_where_not_available_unmasked(void){
+    Try{
+        extiSetFallingTriggerInterrupt(&fakeExti,25,FALLING_ENABLED);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(EXTI_INVALID_PIN,ex->errorCode);
+    }
+}
+
+void test_Exti_extiSetFallingTriggerInterrupt_input_NULL(void){
+    Try{
+        extiSetFallingTriggerInterrupt(NULL,23,FALLING_ENABLED);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(EXTI_REG_INPUT_NULL,ex->errorCode);
+    }
+}
+
+void test_Exti_extiSetFallingTriggerInterrupt_neg_masked_mode(void){
+    Try{
+        extiSetFallingTriggerInterrupt(&fakeExti,20,-1);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(EXTI_INVALID_FALLING_TRIGGER_STATUS,ex->errorCode);
+    }
+}
+
+void test_Exti_extiSetFallingTriggerInterrupt_positive_but_weird_masked_mode(void){
+    Try{
+        extiSetFallingTriggerInterrupt(&fakeExti,20,2);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(EXTI_INVALID_FALLING_TRIGGER_STATUS,ex->errorCode);
+    }
 }
 
 void test_Exti_extiSetSoftwareInterruptEvent_given_port5_(void){
@@ -142,6 +249,40 @@ void test_Exti_extiSetSoftwareInterruptEvent_given_port7(void){
     TEST_ASSERT_EQUAL((1<<7),fakeExti.swier);
 }
 
+void test_Exti_extiSetSoftwareInterruptEvent_input_NULL(void){
+    Try{
+        extiSetSoftwareInterruptEvent(NULL,7);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(EXTI_REG_INPUT_NULL,ex->errorCode);
+    }
+}
+
+void test_Exti_extiSetSoftwareInterruptEvent_neg_masked_mode(void){
+    Try{
+        extiSetSoftwareInterruptEvent(&fakeExti,-1);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(EXTI_INVALID_PIN,ex->errorCode);
+    }
+}
+
+void test_Exti_extiSetSoftwareInterruptEvent_positive_masked_mode(void){
+    Try{
+        extiSetSoftwareInterruptEvent(&fakeExti,23);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(EXTI_INVALID_PIN,ex->errorCode);
+    }
+}
+
+
 void test_Exti_extiSetPendingRegister_given_port6_(void){
     extiSetPendingRegister(&fakeExti,6);
     TEST_ASSERT_EQUAL((1<<6),fakeExti.pr);
@@ -151,9 +292,74 @@ void test_Exti_extiSetPendingRegister_given_port11(void){
     extiSetPendingRegister(&fakeExti,11);
     TEST_ASSERT_EQUAL((1<<11),fakeExti.pr);
 }
+void test_Exti_extiSetPendingRegister_input_NULL(void){
+    Try{
+        extiSetPendingRegister(NULL,7);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(EXTI_REG_INPUT_NULL,ex->errorCode);
+    }
+}
+
+void test_Exti_extiSetPendingRegister_neg_masked_mode(void){
+    Try{
+        extiSetPendingRegister(&fakeExti,-1);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(EXTI_INVALID_PIN,ex->errorCode);
+    }
+}
+
+void test_Exti_extiSetPendingRegister_positive_masked_mode(void){
+    Try{
+        extiSetPendingRegister(&fakeExti,23);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(EXTI_INVALID_PIN,ex->errorCode);
+    }
+}
 
 void test_Exti_extiReadPendingRegister_given_port11(void){
     extiSetPendingRegister(&fakeExti,11);
     TEST_ASSERT_EQUAL((1<<11),fakeExti.pr);
     TEST_ASSERT_EQUAL(1,extiReadPendingRegister(&fakeExti,11));
+}
+
+void test_Exti_extiReadPendingRegister_input_NULL(void){
+    Try{
+        extiReadPendingRegister(NULL,7);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(EXTI_REG_INPUT_NULL,ex->errorCode);
+    }
+}
+
+void test_Exti_extiReadPendingRegister_neg_masked_mode(void){
+    Try{
+        extiReadPendingRegister(&fakeExti,-1);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(EXTI_INVALID_PIN,ex->errorCode);
+    }
+}
+
+void test_Exti_extiReadPendingRegister_positive_masked_mode(void){
+    Try{
+        extiReadPendingRegister(&fakeExti,23);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(EXTI_INVALID_PIN,ex->errorCode);
+    }
 }

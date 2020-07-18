@@ -3,11 +3,12 @@
 #include "BaseAddress.h"
 #include "Common.h"
 #include "Usart.h"
-#include "mock_Clock.h"
 #include "Exception.h"
 #include "CException.h"
 #include "CExceptionConfig.h"
 #include "STM32Error.h"
+#include "mock_Clock.h"
+
 CEXCEPTION_T ex;
 UsartRegs fakeUsart;
 UsartRegs fakeUsart3;

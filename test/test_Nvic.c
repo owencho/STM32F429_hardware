@@ -3,7 +3,11 @@
 #include "Nvic.h"
 #include "BaseAddress.h"
 #include "Common.h"
-
+#include "Exception.h"
+#include "CException.h"
+#include "CExceptionConfig.h"
+#include "STM32Error.h"
+CEXCEPTION_T ex;
 
 NvicRegs fakeNvic;
 
@@ -60,9 +64,25 @@ void test_Nvic_nvicEnableInterrupt_given_interruptNum_235_and_236_expect_iser_re
 
 
 void test_Nvic_nvicEnableInterrupt_wrong_interrupt_number(void){
-    TEST_IGNORE_MESSAGE("havent implement");
-  //  nvicEnableInterrupt(240);
-  //  TEST_ASSERT_EQUAL(1<<32,fakeNvic.iser[6]);
+    Try{
+        nvicEnableInterrupt(240);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(NVIC_INVALID_INTERRUPT_NUM,ex->errorCode);
+    }
+}
+
+void test_Nvic_nvicEnableInterrupt_neg_interrupt_number(void){
+    Try{
+        nvicEnableInterrupt(-1);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(NVIC_INVALID_INTERRUPT_NUM,ex->errorCode);
+    }
 }
 
 
@@ -94,9 +114,25 @@ void test_Nvic_nvicDisableInterrupt_given_interruptNum_33_expect_iser_register_a
 }
 
 void test_Nvic_nvicDisableInterrupt_wrong_interrupt_number(void){
-    TEST_IGNORE_MESSAGE("havent implement");
-    //nvicDisableInterrupt(255);
-    //TEST_ASSERT_EQUAL(1<<32,fakeNvic.icer[6]);
+    Try{
+        nvicDisableInterrupt(240);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(NVIC_INVALID_INTERRUPT_NUM,ex->errorCode);
+    }
+}
+
+void test_Nvic_nvicDisableInterrupt_neg_interrupt_number(void){
+    Try{
+        nvicDisableInterrupt(-1);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(NVIC_INVALID_INTERRUPT_NUM,ex->errorCode);
+    }
 }
 
 
@@ -125,11 +161,26 @@ void test_Nvic_nvicSetPendingInterrupt_given_interruptNum_231_expect_ispr_regist
 
 
 void test_Nvic_nvicSetPendingInterrupt_wrong_interrupt_number(void){
-    TEST_IGNORE_MESSAGE("havent implement");
-  //  nvicSetPendingInterrupt(255);
-  //  TEST_ASSERT_EQUAL(1<<32,fakeNvic.iser[6]);
+    Try{
+        nvicSetPendingInterrupt(240);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(NVIC_INVALID_INTERRUPT_NUM,ex->errorCode);
+    }
 }
 
+void test_Nvic_nvicSetPendingInterrupt_neg_interrupt_number(void){
+    Try{
+        nvicSetPendingInterrupt(-1);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(NVIC_INVALID_INTERRUPT_NUM,ex->errorCode);
+    }
+}
 
 
 void test_Nvic_nvicClearPendingInterrupt_given_interruptNum_32_expect_icpr_register_array1(void){
@@ -159,9 +210,25 @@ void test_Nvic_nvicClearPendingInterrupt_given_interruptNum_125_126_expect_icpr_
 
 
 void test_Nvic_nvicClearPendingInterrupt_wrong_interrupt_number(void){
-    TEST_IGNORE_MESSAGE("havent implement");
-    //nvicClearPendingInterrupt(255);
-    //TEST_ASSERT_EQUAL(1<<32,fakeNvic.iser[6]);
+    Try{
+        nvicClearPendingInterrupt(240);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(NVIC_INVALID_INTERRUPT_NUM,ex->errorCode);
+    }
+}
+
+void test_Nvic_nvicClearPendingInterrupt_neg_interrupt_number(void){
+    Try{
+        nvicClearPendingInterrupt(-1);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(NVIC_INVALID_INTERRUPT_NUM,ex->errorCode);
+    }
 }
 
 
@@ -178,8 +245,25 @@ void test_Nvic_nvicIsInterruptActive_given_interruptNum_121_expect_iabr_register
 
 
 void test_Nvic_nvicIsInterruptActive_wrong_interrupt_number(void){
-    //nvicIsInterruptActive(255);
-    TEST_IGNORE_MESSAGE("havent implement");
+    Try{
+        nvicIsInterruptActive(240);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(NVIC_INVALID_INTERRUPT_NUM,ex->errorCode);
+    }
+}
+
+void test_Nvic_nvicIsInterruptActive_neg_interrupt_number(void){
+    Try{
+        nvicIsInterruptActive(-1);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(NVIC_INVALID_INTERRUPT_NUM,ex->errorCode);
+    }
 }
 
 void test_Nvic_nvicSetInterruptPriority_given_interruptNum_210_expect_iprx_register_array3(void){
@@ -187,32 +271,67 @@ void test_Nvic_nvicSetInterruptPriority_given_interruptNum_210_expect_iprx_regis
     TEST_ASSERT_EQUAL(5,fakeNvic.ipr[52]>>16);
 }
 
-void test_Nvic_nvicSetInterruptPriority_given_interruptNum_255_error(void){
-    nvicSetInterruptPriority(255,5);
-    TEST_IGNORE_MESSAGE("havent implement");
-}
-
-void test_Nvic_nvicSetInterruptPriority_given_interruptPriority_300_error(void){
-    nvicSetInterruptPriority(231,300);
-    TEST_IGNORE_MESSAGE("havent implement");
-}
 
 void test_Nvic_nvicGetInterruptPriority_given_interruptNum_31_expect_iprx_register_array(void){
     nvicSetInterruptPriority(31,200);
     TEST_ASSERT_EQUAL(200,nvicGetInterruptPriority(31));
 }
 
-void test_Nvic_nvicGetInterruptPriority_given_interruptNum_240_expect_error(void){
-    TEST_IGNORE_MESSAGE("havent implement");
-    //TEST_ASSERT_EQUAL(200,nvicGetInterruptPriority(240));
+void test_Nvic_nvicSetInterruptPriority_wrong_interrupt_number(void){
+    Try{
+        nvicSetInterruptPriority(240,200);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(NVIC_INVALID_INTERRUPT_NUM,ex->errorCode);
+    }
 }
 
+void test_Nvic_nvicSetInterruptPriority_neg_interrupt_number(void){
+    Try{
+        nvicSetInterruptPriority(-1,200);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(NVIC_INVALID_INTERRUPT_NUM,ex->errorCode);
+    }
+}
+
+void test_Nvic_nvicSetInterruptPriority_wrong_interrupt_priority(void){
+    Try{
+        nvicSetInterruptPriority(238,300);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(NVIC_INVALID_INTERRUPT_PRIORTY,ex->errorCode);
+    }
+}
+
+void test_Nvic_nvicSetInterruptPriority_neg_interrupt_priority(void){
+    Try{
+        nvicSetInterruptPriority(238,-1);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(NVIC_INVALID_INTERRUPT_PRIORTY,ex->errorCode);
+    }
+}
 void test_nvicSoftwareTriggerInterrupt_given_interruptNum_50_expect_stir_register_array(void){
     nvicSoftwareTriggerInterrupt(50);
     TEST_ASSERT_EQUAL(50,fakeNvic.stir);
 }
 
 void test_nvicSoftwareTriggerInterrupt_given_interruptNum_240_expect_error(void){
-    //nvicSoftwareTriggerInterrupt(240);
-    TEST_IGNORE_MESSAGE("havent implement");
+    Try{
+        nvicSoftwareTriggerInterrupt(240);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(NVIC_INVALID_INTERRUPT_NUM,ex->errorCode);
+    }
 }

@@ -7,6 +7,10 @@
 #include "Rcc.h"
 #include <stdint.h>
 #include <stddef.h>
+#include "Exception.h"
+#include "CException.h"
+#include "CExceptionConfig.h"
+#include "STM32Error.h"
 
 void enableGpioG(){
 		rcc->ahb1rstr &= ~(1 << 6);
@@ -29,16 +33,16 @@ void disableGpioA(){
 }
 
 void enableGpio(PortName portName){
-		if(portName > PORT_K){
-				return;
+		if(portName > PORT_K ||portName < PORT_A ){
+				throwException(RCC_INVALID_PORTNAME,"invalid GPIO input name");
 		}
 		rcc->ahb1rstr &= ~(1 << portName);
 		rcc->ahb1enr |= 1 << portName;
 }
 
 void disableGpio(PortName portName){
-		if(portName < 0 ||portName > PORT_K){
-				return;
+		if(portName < PORT_A ||portName > PORT_K){
+				throwException(RCC_INVALID_PORTNAME,"invalid GPIO input name");
 		}
 		rcc-> ahb1rstr |= 1 << portName;
 		rcc-> ahb1enr &= ~(1 << portName);

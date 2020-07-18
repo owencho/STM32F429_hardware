@@ -2,6 +2,11 @@
 #include "BaseAddress.h"
 #include "Common.h"
 #include "Rcc.h"
+#include "Exception.h"
+#include "CException.h"
+#include "CExceptionConfig.h"
+#include "STM32Error.h"
+CEXCEPTION_T ex;
 
 RccRegs fakeRcc;
 void setUp(void){
@@ -142,6 +147,34 @@ void test_enableGpio_PORT_A(void){
     TEST_ASSERT_EQUAL(0,fakeRcc.ahb1rstr);
 }
 
+void test_enableGpio_PORT_K(void){
+    enableGpio(PORT_K);
+    TEST_ASSERT_EQUAL(1<<10,fakeRcc.ahb1enr);
+    TEST_ASSERT_EQUAL(0,fakeRcc.ahb1rstr);
+}
+
+void test_enableGpio_neg_value(void){
+    Try{
+        enableGpio(-1);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(RCC_INVALID_PORTNAME,ex->errorCode);
+    }
+}
+
+void test_enableGpio_invalid_gpio(void){
+    Try{
+        enableGpio(11);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(RCC_INVALID_PORTNAME,ex->errorCode);
+    }
+}
+
 void test_disableGpio_PORT_A(void){
     enableGpio(PORT_A);
     TEST_ASSERT_EQUAL(1<<0,fakeRcc.ahb1enr);
@@ -151,31 +184,6 @@ void test_disableGpio_PORT_A(void){
     TEST_ASSERT_EQUAL(1<<0,fakeRcc.ahb1rstr);
 }
 
-
-void test_enable_and_disable_Gpio_more_than_port_k(void){
-    enableGpio(12);
-    TEST_ASSERT_EQUAL(0,fakeRcc.ahb1enr);
-    TEST_ASSERT_EQUAL(0,fakeRcc.ahb1rstr);
-    disableGpio(12);
-    TEST_ASSERT_EQUAL(0<<10,fakeRcc.ahb1enr);
-    TEST_ASSERT_EQUAL(0<<10,fakeRcc.ahb1rstr);
-}
-
-void test_enable_and_disable_Gpio_neg1(void){
-    enableGpio(-1);
-    TEST_ASSERT_EQUAL(0,fakeRcc.ahb1enr);
-    TEST_ASSERT_EQUAL(0,fakeRcc.ahb1rstr);
-    disableGpio(-1);
-    TEST_ASSERT_EQUAL(0<<10,fakeRcc.ahb1enr);
-    TEST_ASSERT_EQUAL(0<<10,fakeRcc.ahb1rstr);
-}
-
-void test_enableGpio_PORT_K(void){
-    enableGpio(PORT_K);
-    TEST_ASSERT_EQUAL(1<<10,fakeRcc.ahb1enr);
-    TEST_ASSERT_EQUAL(0,fakeRcc.ahb1rstr);
-}
-
 void test_disableGpio_PORT_K(void){
     enableGpio(PORT_K);
     TEST_ASSERT_EQUAL(1<<10,fakeRcc.ahb1enr);
@@ -183,4 +191,26 @@ void test_disableGpio_PORT_K(void){
     disableGpio(PORT_K);
     TEST_ASSERT_EQUAL(0<<10,fakeRcc.ahb1enr);
     TEST_ASSERT_EQUAL(1<<10,fakeRcc.ahb1rstr);
+}
+
+void test_disableGpio_neg_value(void){
+    Try{
+        disableGpio(-1);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(RCC_INVALID_PORTNAME,ex->errorCode);
+    }
+}
+
+void test_disableGpio_invalid_gpio(void){
+    Try{
+        disableGpio(11);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(RCC_INVALID_PORTNAME,ex->errorCode);
+    }
 }

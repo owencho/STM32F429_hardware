@@ -1,6 +1,10 @@
 #include "unity.h"
-
 #include "Adc.h"
+#include "Exception.h"
+#include "CException.h"
+#include "CExceptionConfig.h"
+#include "STM32Error.h"
+CEXCEPTION_T ex;
 
 AdcReg fakeAdc1,fakeAdc2,fakeAdc3;
 AdcCommonReg fakeAdcCommon;
@@ -73,25 +77,59 @@ void test_Adc_adcSetSingleSequenceRegister_channel3_on_sq16(void){
     adcSetSingleSequenceRegister(adc1,CHANNEL_3,16);
     TEST_ASSERT_EQUAL(3<<15,adc1->sqr1);
 }
-
 void test_Adc_adcSetSingleSequenceRegister_NULL(void){
-    TEST_IGNORE_MESSAGE("havent implement");
-    adcSetSingleSequenceRegister(NULL,CHANNEL_3,16);
+    Try{
+        adcSetSingleSequenceRegister(NULL,CHANNEL_3,16);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(ADC_REG_INPUT_NULL,ex->errorCode);
+    }
 }
 
 void test_Adc_adcSetSingleSequenceRegister_exceed_seq16(void){
-    TEST_IGNORE_MESSAGE("havent implement");
-    adcSetSingleSequenceRegister(adc1,CHANNEL_3,17);
+    Try{
+        adcSetSingleSequenceRegister(adc1,CHANNEL_3,17);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(ADC_INVALID_SEQUENCE_NUM,ex->errorCode);
+    }
 }
 
 void test_Adc_adcSetSingleSequenceRegister_exceed_negative_value(void){
-    TEST_IGNORE_MESSAGE("havent implement");
-    adcSetSingleSequenceRegister(adc1,CHANNEL_3,-1);
+    Try{
+        adcSetSingleSequenceRegister(adc1,CHANNEL_3,-1);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(ADC_INVALID_SEQUENCE_NUM,ex->errorCode);
+    }
 }
 
 void test_Adc_adcSetSingleSequenceRegister_exceed_channel18(void){
-    TEST_IGNORE_MESSAGE("havent implement");
-    adcSetSingleSequenceRegister(adc1,19,15);
+    Try{
+        adcSetSingleSequenceRegister(adc1,20,15);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(ADC_INVALID_CHANNEL,ex->errorCode);
+    }
+}
+
+void test_Adc_adcSetSingleSequenceRegister_negative_channel(void){
+    Try{
+        adcSetSingleSequenceRegister(adc1,-1,15);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(ADC_INVALID_CHANNEL,ex->errorCode);
+    }
 }
 
 void test_Adc_adcSetRegularSequenceLength_16(void){
@@ -107,18 +145,34 @@ void test_Adc_adcSetRegularSequenceLength_15(void){
 }
 
 void test_Adc_adcSetRegularSequenceLength_exceed_length_16(void){
-    TEST_IGNORE_MESSAGE("havent implement");
-    adcSetRegularSequenceLength(adc1,17);
+    Try{
+        adcSetRegularSequenceLength(adc1,17);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(ADC_INVALID_SEQUENCE_LENGTH,ex->errorCode);
+    }
 }
-
 void test_Adc_adcSetRegularSequenceLength_negative(void){
-    TEST_IGNORE_MESSAGE("havent implement");
-    adcSetRegularSequenceLength(adc1,0);
+    Try{
+        adcSetRegularSequenceLength(adc1,0);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(ADC_INVALID_SEQUENCE_LENGTH,ex->errorCode);
+    }
 }
-
 void test_Adc_adcSetRegularSequenceLength_NULL(void){
-    TEST_IGNORE_MESSAGE("havent implement");
-    adcSetRegularSequenceLength(NULL,12);
+    Try{
+        adcSetRegularSequenceLength(NULL,12);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(ADC_REG_INPUT_NULL,ex->errorCode);
+    }
 }
 
 void test_Adc_adcSetRegularSequence_3set(void){
@@ -160,14 +214,14 @@ void test_Adc_adcSetRegularSequence_16set_but_one_of_them_is_invalid(void){
     ChannelName sequence[] ={CHANNEL_2,CHANNEL_2,CHANNEL_9,CHANNEL_1,CHANNEL_3,
                             CHANNEL_5,CHANNEL_0,CHANNEL_6,CHANNEL_8,CHANNEL_10,
                             CHANNEL_15,CHANNEL_12,CHANNEL_16,CHANNEL_18,
-                            CHANNEL_17,19,
+                            CHANNEL_17,20,
                             END_OF_CHANNEL_SEQ};
-    adcSetRegularSequence(adc1,sequence);
-    TEST_ASSERT_EQUAL((CHANNEL_2<<0)|(CHANNEL_2<<5)|(CHANNEL_9 << 10)|
-                      (CHANNEL_1<<15)|(CHANNEL_3<<20)|(CHANNEL_5 << 25),adc1->sqr3);
-    TEST_ASSERT_EQUAL((CHANNEL_0<<0)|(CHANNEL_6<<5)|(CHANNEL_8 << 10)
-                      |(CHANNEL_10<<15)|(CHANNEL_15<<20)|(CHANNEL_12 << 25),adc1->sqr2);
-    TEST_ASSERT_EQUAL((CHANNEL_16<<0)|(CHANNEL_18<<5)|(CHANNEL_17 << 10)
-                      |(14<<20),adc1->sqr1);
-    TEST_ASSERT_EQUAL(14,adc1->sqr1 >> 20); //15 conversion
+    Try{
+        adcSetRegularSequence(adc1,sequence);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(ADC_INVALID_SEQUENCE_NUM,ex->errorCode);
+    }
 }

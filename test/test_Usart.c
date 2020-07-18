@@ -4,7 +4,11 @@
 #include "Common.h"
 #include "Usart.h"
 #include "mock_Clock.h"
-
+#include "Exception.h"
+#include "CException.h"
+#include "CExceptionConfig.h"
+#include "STM32Error.h"
+CEXCEPTION_T ex;
 UsartRegs fakeUsart;
 UsartRegs fakeUsart3;
 UsartRegs fakeUsart6;
@@ -32,6 +36,65 @@ uintptr_t getUsart3BaseAddress(){
 uintptr_t getUsart6BaseAddress(){
     return (uintptr_t)&fakeUsart6;
 }
+void test_Usart_usartClearCtsFlag(void){
+    fakeUsart.sr = (1 << 9);
+    usartClearCtsFlag(usart1);
+    TEST_ASSERT_EQUAL(0,fakeUsart.sr);
+}
+
+void test_Usart_usartClearLbdFlag(void){
+    fakeUsart.sr = (1 << 8);
+    usartClearLbdFlag(usart1);
+    TEST_ASSERT_EQUAL(0,fakeUsart.sr);
+}
+
+void test_Usart_usartClearTxeFlag(void){
+    fakeUsart.sr = (1 << 7);
+    usartClearTxeFlag(usart1);
+    TEST_ASSERT_EQUAL(0,fakeUsart.sr);
+}
+
+void test_Usart_usartClearTcFlag(void){
+    fakeUsart.sr = (1 << 6);
+    usartClearTcFlag(usart1);
+    TEST_ASSERT_EQUAL(0,fakeUsart.sr);
+}
+
+void test_Usart_usartClearRxneFlag(void){
+    fakeUsart.sr &= (1 << 5);
+    usartClearRxneFlag(usart1);
+    TEST_ASSERT_EQUAL(0,fakeUsart.sr);
+}
+
+void test_Usart_usartClearIdleFlag(void){
+    fakeUsart.sr &= (1 << 4);
+    usartClearIdleFlag(usart1);
+    TEST_ASSERT_EQUAL(0,fakeUsart.sr);
+}
+
+void test_Usart_usartClearOreFlag(void){
+    fakeUsart.sr &= (1 << 3);
+    usartClearOreFlag(usart1);
+    TEST_ASSERT_EQUAL(0,fakeUsart.sr);
+}
+
+void test_Usart_usartClearNfFlag(void){
+    fakeUsart.sr &= (1 << 2);
+    usartClearNfFlag(usart1);
+    TEST_ASSERT_EQUAL(0,fakeUsart.sr);
+}
+
+void test_Usart_usartClearFeFlag(void){
+    fakeUsart.sr &= (1 << 1);
+    usartClearFeFlag(usart1);
+    TEST_ASSERT_EQUAL(0,fakeUsart.sr);
+}
+
+void test_Usart_usartClearPeFlag(void){
+    fakeUsart.sr &= (1 << 0);
+    usartClearPeFlag(usart1);
+    TEST_ASSERT_EQUAL(0,fakeUsart.sr);
+}
 //Usart Send
 void test_Usart_usartSend(void){
     usartSend(usart1,0x123);
@@ -39,14 +102,25 @@ void test_Usart_usartSend(void){
 }
 
 void test_Usart_usartSend_exceed9bit(void){
-    usartSend(usart1,0xFFF);
-    TEST_ASSERT_EQUAL(0,fakeUsart.dr);
+    Try{
+        usartSend(usart1,0xFFF);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(USART_SEND_INVALID_DATA,ex->errorCode);
+    }
 }
 
 void test_Usart_usartSend_NULL(void){
-    usartSend(NULL,0x123);
-    TEST_IGNORE_MESSAGE("havent implement");
-    TEST_ASSERT_EQUAL(0,fakeUsart.dr);
+    Try{
+        usartSend(NULL,0x123);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(USART_REG_INPUT_NULL,ex->errorCode);
+    }
 }
 //Receive
 void test_Usart_usartReceive(void){
@@ -55,8 +129,14 @@ void test_Usart_usartReceive(void){
 }
 
 void test_Usart_usartReceive_NULL(void){
-    TEST_IGNORE_MESSAGE("havent implement");
-    TEST_ASSERT_EQUAL(0,usartReceive(NULL));
+    Try{
+        usartReceive(NULL);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+      dumpException(ex);
+      TEST_ASSERT_EQUAL(USART_REG_INPUT_NULL,ex->errorCode);
+    }
 }
 
 void test_Usart_usartReceive_only_check_9bit(void){
@@ -79,8 +159,14 @@ void test_Usart_getClockForBaudRate_with_uart3(void){
     TEST_ASSERT_EQUAL(0x2AEA540,getClockForBaudRate(usart3));
 }
 void test_Usart_getClockForBaudRate_NULL(void){
-    TEST_IGNORE_MESSAGE("havent implement");
-    TEST_ASSERT_EQUAL(0,getClockForBaudRate(NULL));
+    Try{
+        getClockForBaudRate(NULL);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(USART_REG_INPUT_NULL,ex->errorCode);
+    }
 }
 
 //getUsartDivider
@@ -99,14 +185,26 @@ void test_Usart_getUsartDivider_with_uart1_over16_5500baud(void){
     TEST_ASSERT_EQUAL(511.36,getUsartDivider(usart1,5500,0));
 }
 void test_Usart_getUsartDivider_NULL(void){
-    TEST_IGNORE_MESSAGE("havent implement");
-    TEST_ASSERT_EQUAL(0,getUsartDivider(NULL,5500,0));
+    Try{
+        getUsartDivider(NULL,5500,0);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(USART_REG_INPUT_NULL,ex->errorCode);
+    }
 }
 //usartSetBaudRate
 
 void test_Usart_usartSetBaudRate_NULL(void){
-    TEST_IGNORE_MESSAGE("havent implement");
-    usartSetBaudRate(NULL,9600);
+    Try{
+        usartSetBaudRate(NULL,9600);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(USART_REG_INPUT_NULL,ex->errorCode);
+    }
 }
 
 void test_Usart_usartSetBaudRate_8oversamp_with_uart1(void){
@@ -139,7 +237,14 @@ void test_Usart_usartSetBaudRate_16oversamp_with_5500baud_uart1(void){
 
 //Enable Interrupt
 void test_Usart_usartEnableInterrupt_NULL(void){
-    TEST_IGNORE_MESSAGE("havent implement");
+    Try{
+        usartEnableInterrupt(NULL,IDLE_INTERRUPT);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(USART_REG_INPUT_NULL,ex->errorCode);
+    }
 }
 void test_Usart_usartEnableInterrupt_IDLE_INTERRUPT(void){
     usartEnableInterrupt(usart1,IDLE_INTERRUPT);
@@ -170,7 +275,36 @@ void test_Usart_usartEnableInterrupt_ERROR_INTERRUPT(void){
     TEST_ASSERT_EQUAL(1,fakeUsart.cr3);
 }
 void test_Usart_usartDisableInterrupt_NULL(void){
-    TEST_IGNORE_MESSAGE("havent implement");
+    Try{
+        usartDisableInterrupt(NULL,IDLE_INTERRUPT);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(USART_REG_INPUT_NULL,ex->errorCode);
+    }
+}
+
+void test_Usart_usartDisableInterrupt_INVALID_mode(void){
+    Try{
+        usartDisableInterrupt(usart1,-1);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(USART_INVALID_INTERRUPT,ex->errorCode);
+    }
+}
+
+void test_Usart_usartDisableInterrupt_INVALID_positive_mode(void){
+    Try{
+        usartDisableInterrupt(usart1,7);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(USART_INVALID_INTERRUPT,ex->errorCode);
+    }
 }
 void test_Usart_usartDisableInterrupt_IDLE_INTERRUPT(void){
     usartEnableInterrupt(usart1,IDLE_INTERRUPT);
@@ -226,8 +360,14 @@ void test_Usart_setUsartOversamplingMode_SAMP_8(void){
 }
 
 void test_Usart_setUsartOversamplingMode_NULL_input(void){
-    TEST_IGNORE_MESSAGE("havent implement");
-    setUsartOversamplingMode(NULL,OVER_8);
+    Try{
+        setUsartOversamplingMode(NULL,OVER_8);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(USART_REG_INPUT_NULL,ex->errorCode);
+    }
 }
 
 void test_Usart_usartGetOversamplingMode_SAMP_16(void){
@@ -241,8 +381,14 @@ void test_Usart_usartGetOversamplingMode_SAMP_8(void){
 }
 
 void test_Usart_usartGetOversamplingMode_NULL_input(void){
-    TEST_IGNORE_MESSAGE("havent implement");
-    TEST_ASSERT_EQUAL(0,usartGetOversamplingMode(NULL));
+    Try{
+        usartGetOversamplingMode(NULL);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(USART_REG_INPUT_NULL,ex->errorCode);
+    }
 }
 
 void test_Usart_enableUsart(void){
@@ -251,8 +397,14 @@ void test_Usart_enableUsart(void){
 }
 
 void test_Usart_enableUsart_NULL_input(void){
-    TEST_IGNORE_MESSAGE("havent implement");
-    enableUsart(NULL);
+    Try{
+        enableUsart(NULL);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(USART_REG_INPUT_NULL,ex->errorCode);
+    }
 }
 
 void test_Usart_disableUsart(void){
@@ -263,8 +415,14 @@ void test_Usart_disableUsart(void){
 }
 
 void test_Usart_disableUsart_NULL_input(void){
-    TEST_IGNORE_MESSAGE("havent implement");
-    disableUsart(NULL);
+    Try{
+        disableUsart(NULL);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(USART_REG_INPUT_NULL,ex->errorCode);
+    }
 }
 
 void test_Usart_usartEnableReceiver(void){
@@ -273,8 +431,14 @@ void test_Usart_usartEnableReceiver(void){
 }
 
 void test_Usart_usartEnableReceiver_NULL_input(void){
-    TEST_IGNORE_MESSAGE("havent implement");
-    usartEnableReceiver(NULL);
+    Try{
+        usartEnableReceiver(NULL);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(USART_REG_INPUT_NULL,ex->errorCode);
+    }
 }
 
 void test_Usart_usartDisableReceiver(void){
@@ -285,8 +449,14 @@ void test_Usart_usartDisableReceiver(void){
 }
 
 void test_Usart_usartDisableReceiver_NULL_input(void){
-    TEST_IGNORE_MESSAGE("havent implement");
-    usartDisableReceiver(NULL);
+    Try{
+        usartDisableReceiver(NULL);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(USART_REG_INPUT_NULL,ex->errorCode);
+    }
 }
 
 void test_Usart_usartEnableTransmission(void){
@@ -295,8 +465,14 @@ void test_Usart_usartEnableTransmission(void){
 }
 
 void test_Usart_usartEnableTransmission_NULL_input(void){
-    TEST_IGNORE_MESSAGE("havent implement");
-    usartEnableTransmission(NULL);
+    Try{
+        usartEnableTransmission(NULL);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(USART_REG_INPUT_NULL,ex->errorCode);
+    }
 }
 
 void test_Usart_usartDisableTransmission(void){
@@ -307,8 +483,14 @@ void test_Usart_usartDisableTransmission(void){
 }
 
 void test_Usart_usartDisableTransmission_NULL_input(void){
-    TEST_IGNORE_MESSAGE("havent implement");
-    usartDisableReceiver(NULL);
+    Try{
+        usartDisableReceiver(NULL);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(USART_REG_INPUT_NULL,ex->errorCode);
+    }
 }
 
 void test_Usart_usartEnableParityControl(void){
@@ -317,8 +499,14 @@ void test_Usart_usartEnableParityControl(void){
 }
 
 void test_Usart_usartEnableParityControl_NULL_input(void){
-    TEST_IGNORE_MESSAGE("havent implement");
-    usartEnableParityControl(NULL);
+    Try{
+        usartEnableParityControl(NULL);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(USART_REG_INPUT_NULL,ex->errorCode);
+    }
 }
 
 void test_Usart_usartDisableParityControl(void){
@@ -329,8 +517,14 @@ void test_Usart_usartDisableParityControl(void){
 }
 
 void test_Usart_usartDisableParityControl_NULL_input(void){
-    TEST_IGNORE_MESSAGE("havent implement");
-    usartDisableParityControl(NULL);
+    Try{
+        usartDisableParityControl(NULL);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(USART_REG_INPUT_NULL,ex->errorCode);
+    }
 }
 
 void test_Usart_setUsartWordLength(void){
@@ -341,8 +535,36 @@ void test_Usart_setUsartWordLength(void){
 }
 
 void test_Usart_setUsartWordLength_NULL_input(void){
-    TEST_IGNORE_MESSAGE("havent implement");
-    setUsartWordLength(NULL,DATA_8_BITS);
+    Try{
+        setUsartWordLength(NULL,DATA_8_BITS);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(USART_REG_INPUT_NULL,ex->errorCode);
+    }
+}
+
+void test_Usart_setUsartWordLength_neg_invalid_input(void){
+    Try{
+        setUsartWordLength(usart1,-1);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(USART_INVALID_TYPE,ex->errorCode);
+    }
+}
+
+void test_Usart_setUsartWordLength_pos_invalid_input(void){
+    Try{
+        setUsartWordLength(usart1,2);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(USART_INVALID_TYPE,ex->errorCode);
+    }
 }
 
 void test_Usart_setUsartWakeupMode(void){
@@ -353,8 +575,36 @@ void test_Usart_setUsartWakeupMode(void){
 }
 
 void test_Usart_setUsartWakeupMode_NULL_input(void){
-    TEST_IGNORE_MESSAGE("havent implement");
-    setUsartWakeupMode(NULL,IDLE_LINE);
+    Try{
+        setUsartWakeupMode(NULL,IDLE_LINE);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(USART_REG_INPUT_NULL,ex->errorCode);
+    }
+}
+
+void test_Usart_setUsartWakeupMode_neg_invalid_input(void){
+    Try{
+        setUsartWakeupMode(usart1,-1);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(USART_INVALID_MODE,ex->errorCode);
+    }
+}
+
+void test_Usart_setUsartWakeupMode_pos_invalid_input(void){
+    Try{
+        setUsartWakeupMode(usart1,2);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(USART_INVALID_MODE,ex->errorCode);
+    }
 }
 
 void test_Usart_setUsartParityMode(void){
@@ -365,8 +615,68 @@ void test_Usart_setUsartParityMode(void){
 }
 
 void test_Usart_setUsartParityMode_NULL_input(void){
-    TEST_IGNORE_MESSAGE("havent implement");
-    setUsartParityMode(NULL,ODD_PARITY);
+    Try{
+        setUsartParityMode(NULL,ODD_PARITY);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(USART_REG_INPUT_NULL,ex->errorCode);
+    }
+}
+
+void test_Usart_setUsartParityMode_neg_invalid_input(void){
+    Try{
+        setUsartParityMode(usart1,-1);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(USART_INVALID_MODE,ex->errorCode);
+    }
+}
+
+void test_Usart_setUsartParityMode_pos_invalid_input(void){
+    Try{
+        setUsartParityMode(usart1,2);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(USART_INVALID_MODE,ex->errorCode);
+    }
+}
+void test_Usart_usartSetReceiverWakeupMode_NULL_input(void){
+    Try{
+        usartSetReceiverWakeupMode(NULL,ACTIVE_MODE);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(USART_REG_INPUT_NULL,ex->errorCode);
+    }
+}
+
+void test_Usart_usartSetReceiverWakeupMode_neg_invalid_input(void){
+    Try{
+        usartSetReceiverWakeupMode(usart1,-1);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(USART_INVALID_MODE,ex->errorCode);
+    }
+}
+
+void test_Usart_usartSetReceiverWakeupMode_pos_invalid_input(void){
+    Try{
+        usartSetReceiverWakeupMode(usart1,2);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(USART_INVALID_MODE,ex->errorCode);
+    }
 }
 void test_Usart_usartSetReceiverWakeupMode_ACTIVE_MODE(void){
     usartSetReceiverWakeupMode(usart1,ACTIVE_MODE);
@@ -375,6 +685,38 @@ void test_Usart_usartSetReceiverWakeupMode_ACTIVE_MODE(void){
 void test_Usart_usartSetReceiverWakeupMode_MUTE_MODE(void){
     usartSetReceiverWakeupMode(usart1,MUTE_MODE);
     TEST_ASSERT_EQUAL(1<<1,fakeUsart.cr1);
+}
+void test_Usart_usartClockMode_NULL_input(void){
+    Try{
+        usartClockMode(NULL,ENABLE_MODE);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(USART_REG_INPUT_NULL,ex->errorCode);
+    }
+}
+
+void test_Usart_usartClockMode_neg_invalid_input(void){
+    Try{
+        usartSetReceiverWakeupMode(usart1,-1);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(USART_INVALID_MODE,ex->errorCode);
+    }
+}
+
+void test_Usart_usartClockMode_pos_invalid_input(void){
+    Try{
+        usartSetReceiverWakeupMode(usart1,2);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(USART_INVALID_MODE,ex->errorCode);
+    }
 }
 void test_Usart_usartClockMode_enable(void){
     usartClockMode(usart1,ENABLE_MODE);
@@ -386,7 +728,38 @@ void test_Usart_usartClockMode_disable(void){
     usartClockMode(usart1,DISABLE_MODE);
     TEST_ASSERT_EQUAL(0<<11,fakeUsart.cr2);
 }
+void test_Usart_usartSetUsartAddressNode_NULL_input(void){
+    Try{
+        usartSetUsartAddressNode(NULL,1);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(USART_REG_INPUT_NULL,ex->errorCode);
+    }
+}
 
+void test_Usart_usartSetUsartAddressNode_neg_invalid_input(void){
+    Try{
+        usartSetUsartAddressNode(usart1,-1);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(USART_ADDRESS_INVALID,ex->errorCode);
+    }
+}
+
+void test_Usart_usartSetUsartAddressNode_pos_invalid_input(void){
+    Try{
+        usartSetUsartAddressNode(usart1,16);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(USART_ADDRESS_INVALID,ex->errorCode);
+    }
+}
 void test_Usart_usartSetUsartAddressNode_address_0(void){
     usartSetUsartAddressNode(usart1,0);
     TEST_ASSERT_EQUAL(0,fakeUsart.cr2);
@@ -395,13 +768,38 @@ void test_Usart_usartSetUsartAddressNode_address_5(void){
     usartSetUsartAddressNode(usart1,15);
     TEST_ASSERT_EQUAL(15,fakeUsart.cr2);
 }
-
-void test_Usart_usartSetUsartAddressNode_address_20(void){
-    usartSetUsartAddressNode(usart1,20);
-    //it wont set as it exist 15
-    TEST_ASSERT_EQUAL(0,fakeUsart.cr2);
+void test_Usart_usartSetHalfDuplexMode_NULL_input(void){
+    Try{
+        usartSetHalfDuplexMode(NULL,ENABLE_MODE);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(USART_REG_INPUT_NULL,ex->errorCode);
+    }
 }
 
+void test_Usart_usartSetHalfDuplexMode_neg_invalid_input(void){
+    Try{
+        usartSetHalfDuplexMode(usart1,-1);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(USART_INVALID_MODE,ex->errorCode);
+    }
+}
+
+void test_Usart_usartSetHalfDuplexMode_pos_invalid_input(void){
+    Try{
+        usartSetHalfDuplexMode(usart1,2);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(USART_INVALID_MODE,ex->errorCode);
+    }
+}
 void test_Usart_usartSetHalfDuplexMode_enable(void){
     usartSetHalfDuplexMode(usart1,ENABLE_MODE);
     TEST_ASSERT_EQUAL(1<<3,fakeUsart.cr3);
@@ -412,7 +810,38 @@ void test_Usart_usartSetHalfDuplexMode_disable(void){
     usartSetHalfDuplexMode(usart1,DISABLE_MODE);
     TEST_ASSERT_EQUAL(0<<3,fakeUsart.cr3);
 }
+void test_Usart_usartSetUsartLinMode_NULL_input(void){
+    Try{
+        usartSetUsartLinMode(NULL,ENABLE_MODE);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(USART_REG_INPUT_NULL,ex->errorCode);
+    }
+}
 
+void test_Usart_usartSetUsartLinMode_neg_invalid_input(void){
+    Try{
+        usartSetUsartLinMode(usart1,-1);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(USART_INVALID_MODE,ex->errorCode);
+    }
+}
+
+void test_Usart_usartSetUsartLinMode_pos_invalid_input(void){
+    Try{
+        usartSetUsartLinMode(usart1,2);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(USART_INVALID_MODE,ex->errorCode);
+    }
+}
 void test_Usart_usartSetUsartLinMode_enable(void){
     usartSetUsartLinMode(usart1,ENABLE_MODE);
     TEST_ASSERT_EQUAL(1<<14,fakeUsart.cr2);
@@ -423,7 +852,38 @@ void test_Usart_usartSetUsartLinMode_disable(void){
     usartSetUsartLinMode(usart1,DISABLE_MODE);
     TEST_ASSERT_EQUAL(0<<14,fakeUsart.cr2);
 }
+void test_Usart_usartSetUsartSmartCardMode_NULL_input(void){
+    Try{
+        usartSetUsartSmartCardMode(NULL,ENABLE_MODE);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(USART_REG_INPUT_NULL,ex->errorCode);
+    }
+}
 
+void test_Usart_usartSetUsartSmartCardMode_neg_invalid_input(void){
+    Try{
+        usartSetUsartSmartCardMode(usart1,-1);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(USART_INVALID_MODE,ex->errorCode);
+    }
+}
+
+void test_Usart_usartSetUsartSmartCardMode_pos_invalid_input(void){
+    Try{
+        usartSetUsartSmartCardMode(usart1,2);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(USART_INVALID_MODE,ex->errorCode);
+    }
+}
 void test_Usart_usartSetUsartSmartCardMode_enable(void){
     usartSetUsartSmartCardMode(usart1,ENABLE_MODE);
     TEST_ASSERT_EQUAL(1<<5,fakeUsart.cr3);
@@ -435,7 +895,38 @@ void test_Usart_usartSetUsartSmartCardMode_disable(void){
     usartSetUsartSmartCardMode(usart1,DISABLE_MODE);
     TEST_ASSERT_EQUAL(0<<5,fakeUsart.cr3);
 }
+void test_Usart_usartSetUsartIrDAMode_NULL_input(void){
+    Try{
+        usartSetUsartIrDAMode(NULL,ENABLE_MODE);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(USART_REG_INPUT_NULL,ex->errorCode);
+    }
+}
 
+void test_Usart_usartSetUsartIrDAMode_neg_invalid_input(void){
+    Try{
+        usartSetUsartIrDAMode(usart1,-1);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(USART_INVALID_MODE,ex->errorCode);
+    }
+}
+
+void test_Usart_usartSetUsartIrDAMode_pos_invalid_input(void){
+    Try{
+        usartSetUsartIrDAMode(usart1,2);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(USART_INVALID_MODE,ex->errorCode);
+    }
+}
 void test_Usart_usartSetUsartIrDAMode_enable(void){
     usartSetUsartIrDAMode(usart1,ENABLE_MODE);
     TEST_ASSERT_EQUAL(1<<1,fakeUsart.cr3);

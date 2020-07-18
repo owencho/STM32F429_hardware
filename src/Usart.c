@@ -1,25 +1,109 @@
 #include "Usart.h"
 #include "Clock.h"
 #include "Math.h"
+#include "Exception.h"
+#include "CException.h"
+#include "CExceptionConfig.h"
+#include "STM32Error.h"
+void usartClearCtsFlag(UsartRegs* usart){
+    if(usart == NULL){
+        throwException(USART_REG_INPUT_NULL,"usart register input is NULL");
+    }
+    usart->sr &= ~(1 << 9);
+    usart->sr |= 0 << 9;
+}
 
+void usartClearLbdFlag(UsartRegs* usart){
+    if(usart == NULL){
+        throwException(USART_REG_INPUT_NULL,"usart register input is NULL");
+    }
+    usart->sr &= ~(1 << 8);
+    usart->sr |= 0 << 8;
+}
+
+void usartClearTxeFlag(UsartRegs* usart){
+    if(usart == NULL){
+        throwException(USART_REG_INPUT_NULL,"usart register input is NULL");
+    }
+    usart->sr &= ~(1 << 7);
+    usart->sr |= 0 << 7;
+}
+
+void usartClearTcFlag(UsartRegs* usart){
+    if(usart == NULL){
+        throwException(USART_REG_INPUT_NULL,"usart register input is NULL");
+    }
+    usart->sr &= ~(1 << 6);
+    usart->sr |= 0 << 6;
+}
+
+void usartClearRxneFlag(UsartRegs* usart){
+    if(usart == NULL){
+        throwException(USART_REG_INPUT_NULL,"usart register input is NULL");
+    }
+    usart->sr &= ~(1 << 5);
+    usart->sr |= 0 << 5;
+}
+
+void usartClearIdleFlag(UsartRegs* usart){
+    if(usart == NULL){
+        throwException(USART_REG_INPUT_NULL,"usart register input is NULL");
+    }
+    usart->sr &= ~(1 << 4);
+    usart->sr |= 0 << 4;
+}
+
+void usartClearOreFlag(UsartRegs* usart){
+    if(usart == NULL){
+        throwException(USART_REG_INPUT_NULL,"usart register input is NULL");
+    }
+    usart->sr &= ~(1 << 3);
+    usart->sr |= 0 << 3;
+}
+
+void usartClearNfFlag(UsartRegs* usart){
+    if(usart == NULL){
+        throwException(USART_REG_INPUT_NULL,"usart register input is NULL");
+    }
+    usart->sr &= ~(1 << 2);
+    usart->sr |= 0 << 2;
+}
+
+void usartClearFeFlag(UsartRegs* usart){
+    if(usart == NULL){
+        throwException(USART_REG_INPUT_NULL,"usart register input is NULL");
+    }
+    usart->sr &= ~(1 << 1);
+    usart->sr |= 0 << 1;
+}
+
+void usartClearPeFlag(UsartRegs* usart){
+    if(usart == NULL){
+        throwException(USART_REG_INPUT_NULL,"usart register input is NULL");
+    }
+    usart->sr &= ~(1 << 0);
+    usart->sr |= 0 << 0;
+}
 
 uint32_t usartReceive(UsartRegs* usart){
     if(usart == NULL){
-        return 0;
+        throwException(USART_REG_INPUT_NULL,"usart register input is NULL");
     }
     return (usart->dr & 0x1FF);
 }
 
 void usartSend(UsartRegs* usart,uint32_t data){
-    if(data > 511 || usart == NULL){
-        return ;
+    if( usart == NULL){
+        throwException(USART_REG_INPUT_NULL,"usart register input is NULL");
+    }else if (data < 0 ||data > 511){
+        throwException(USART_SEND_INVALID_DATA,"Data for usart send is invalid size");
     }
     usart->dr = data;
 }
 
 uint32_t getClockForBaudRate(UsartRegs* usart){
     if(usart==NULL){
-        return 0;
+        throwException(USART_REG_INPUT_NULL,"usart register input is NULL");
     }
     if(usart == usart1 || usart == usart6 )
         return getPCLK2Clock();
@@ -31,7 +115,7 @@ double getUsartDivider(UsartRegs* usart,uint32_t baudRate,int over8){
     uint32_t fclk;
     double den,num;
     if(usart == NULL){
-        return 0;
+        throwException(USART_REG_INPUT_NULL,"usart register input is NULL");
     }
     fclk  =getClockForBaudRate(usart);
     den = 8 * (2-over8);
@@ -44,7 +128,7 @@ void usartSetBaudRate(UsartRegs* usart,uint32_t baudRate){
     double fraction,usartDIV;
 
     if(usart == NULL){
-        return ;
+        throwException(USART_REG_INPUT_NULL,"usart register input is NULL");
     }
     over8 =usartGetOversamplingMode(usart);
     usartDIV = getUsartDivider(usart,baudRate,over8);
@@ -66,7 +150,13 @@ void usartSetBaudRate(UsartRegs* usart,uint32_t baudRate){
 }
 
 void usartEnableInterrupt(UsartRegs* usart,UsartInterrupt type){
-    if(type == CTS_INTERRUPT){
+    if(usart == NULL){
+        throwException(USART_REG_INPUT_NULL,"usart register input is NULL");
+    }
+    else if(type > ERROR_INTERRUPT){
+        throwException(USART_INVALID_INTERRUPT,"usart interrupt input is invalid");
+    }
+    else if(type == CTS_INTERRUPT){
         usart->cr3 |= 1 <<10;
     }
     else if (type == ERROR_INTERRUPT){
@@ -78,7 +168,13 @@ void usartEnableInterrupt(UsartRegs* usart,UsartInterrupt type){
 }
 
 void usartDisableInterrupt(UsartRegs* usart,UsartInterrupt type){
-    if(type == CTS_INTERRUPT){
+    if(usart == NULL){
+        throwException(USART_REG_INPUT_NULL,"usart register input is NULL");
+    }
+    else if(type > ERROR_INTERRUPT || type < IDLE_INTERRUPT){
+        throwException(USART_INVALID_INTERRUPT,"usart interrupt input is invalid");
+    }
+    else if(type == CTS_INTERRUPT){
         usart->cr3 &= ~(1 << 10);
         usart->cr3 |= 0<<10;
     }
@@ -94,14 +190,14 @@ void usartDisableInterrupt(UsartRegs* usart,UsartInterrupt type){
 
 int usartGetOversamplingMode(UsartRegs* usart){
     if(usart == NULL){
-        return 0;
+        throwException(USART_REG_INPUT_NULL,"usart register input is NULL");
     }
     return (usart->cr1 >> 15) & 0x1;
 }
 
 void setUsartOversamplingMode(UsartRegs* usart,OversampMode mode){
     if(usart == NULL){
-        return ;
+        throwException(USART_REG_INPUT_NULL,"usart register input is NULL");
     }
     usart->cr1 &= ~(1 << 15);
     usart->cr1 |= mode<< 15;
@@ -109,7 +205,7 @@ void setUsartOversamplingMode(UsartRegs* usart,OversampMode mode){
 
 void enableUsart(UsartRegs* usart){
     if(usart == NULL){
-        return ;
+        throwException(USART_REG_INPUT_NULL,"usart register input is NULL");
     }
     usart->cr1 &= ~(1 << 13);
     usart->cr1 |= 1 << 13;
@@ -117,7 +213,7 @@ void enableUsart(UsartRegs* usart){
 
 void disableUsart(UsartRegs* usart){
     if(usart == NULL){
-        return ;
+        throwException(USART_REG_INPUT_NULL,"usart register input is NULL");
     }
     usart->cr1 &= ~(1 << 13);
     usart->cr1 |= 0 << 13;
@@ -125,7 +221,7 @@ void disableUsart(UsartRegs* usart){
 
 void usartEnableReceiver(UsartRegs* usart){
     if(usart == NULL){
-        return ;
+        throwException(USART_REG_INPUT_NULL,"usart register input is NULL");
     }
     usart->cr1 &= ~(1 << 2);
     usart->cr1 |= 1 << 2;
@@ -133,14 +229,14 @@ void usartEnableReceiver(UsartRegs* usart){
 
 void usartDisableReceiver(UsartRegs* usart){
     if(usart == NULL){
-        return ;
+        throwException(USART_REG_INPUT_NULL,"usart register input is NULL");
     }
     usart->cr1 &= ~(1 << 2);
     usart->cr1 |= 0 << 2;
 }
 void usartEnableTransmission(UsartRegs* usart){
     if(usart == NULL){
-        return ;
+        throwException(USART_REG_INPUT_NULL,"usart register input is NULL");
     }
     usart->cr1 &= ~(1 << 3);
     usart->cr1 |= 1 << 3;
@@ -148,14 +244,14 @@ void usartEnableTransmission(UsartRegs* usart){
 
 void usartDisableTransmission(UsartRegs* usart){
     if(usart == NULL){
-        return ;
+        throwException(USART_REG_INPUT_NULL,"usart register input is NULL");
     }
     usart->cr1 &= ~(1 << 3);
     usart->cr1 |= 0 << 3;
 
 }void usartEnableParityControl(UsartRegs* usart){
     if(usart == NULL){
-        return ;
+        throwException(USART_REG_INPUT_NULL,"usart register input is NULL");
     }
     usart->cr1 &= ~(1 << 10);
     usart->cr1 |= 1 << 10;
@@ -163,7 +259,7 @@ void usartDisableTransmission(UsartRegs* usart){
 
 void usartDisableParityControl(UsartRegs* usart){
     if(usart == NULL){
-        return ;
+        throwException(USART_REG_INPUT_NULL,"usart register input is NULL");
     }
     usart->cr1 &= ~(1 << 10);
     usart->cr1 |= 0 << 10;
@@ -171,43 +267,65 @@ void usartDisableParityControl(UsartRegs* usart){
 
 void setUsartWordLength(UsartRegs* usart,WordLength type){
     if(usart == NULL){
-        return ;
+        throwException(USART_REG_INPUT_NULL,"usart register input is NULL");
+    }
+    else if(type > DATA_9_BITS || type < DATA_8_BITS){
+        throwException(USART_INVALID_TYPE,"usart input for word length type is invalid");
     }
     usart->cr1 &= ~(1 << 12);
     usart->cr1 |= type << 12;
 }
 
-void setUsartWakeupMode(UsartRegs* usart,WakeupMode type){
+void setUsartWakeupMode(UsartRegs* usart,WakeupMode mode){
     if(usart == NULL){
-        return ;
+        throwException(USART_REG_INPUT_NULL,"usart register input is NULL");
+    }
+    else if(mode > ADDRESS_MARK || mode < IDLE_LINE){
+        throwException(USART_INVALID_MODE,"usart input for wake up mode is invalid");
     }
     usart->cr1 &= ~(1 << 11);
-    usart->cr1 |= type << 11;
+    usart->cr1 |= mode << 11;
 }
 
-void setUsartParityMode(UsartRegs* usart,ParityMode type){
+void setUsartParityMode(UsartRegs* usart,ParityMode mode){
     if(usart == NULL){
-        return ;
+        throwException(USART_REG_INPUT_NULL,"usart register input is NULL");
+    }
+    else if(mode > ODD_PARITY || mode < EVEN_PARITY){
+        throwException(USART_INVALID_MODE,"usart input for set parity mode is invalid");
     }
     usart->cr1 &= ~(1 << 9);
-    usart->cr1 |= type << 9;
+    usart->cr1 |= mode << 9;
+
 }
 
 void usartSetReceiverWakeupMode(UsartRegs* usart,ReceiverWakeUpMode mode){
     if(usart == NULL){
-        return ;
+        throwException(USART_REG_INPUT_NULL,"usart register input is NULL");
+    }
+    else if(mode > MUTE_MODE || mode < ACTIVE_MODE){
+        throwException(USART_INVALID_MODE,"usart input for recevier wakeupMode is invalid");
     }
     usart->cr1 &= ~(1 << 1);
     usart->cr1 |= mode << 1;
 }
 void usartClockMode(UsartRegs* usart,EnableDisable mode){
     if(usart == NULL){
-        return ;
+        throwException(USART_REG_INPUT_NULL,"usart register input is NULL");
+    }
+    else if(mode > ENABLE_MODE || mode < DISABLE_MODE){
+        throwException(USART_INVALID_MODE,"usart input for clock mode is invalid");
     }
     usart->cr2 &= ~(1 << 11);
     usart->cr2 |= mode << 11;
 }
 void usartSetUsartAddressNode(UsartRegs* usart,uint32_t address){
+  if(usart == NULL){
+      throwException(USART_REG_INPUT_NULL,"usart register input is NULL");
+  }
+  else if(address > 15 || address < 0){
+      throwException(USART_ADDRESS_INVALID,"usart address is invalid");
+  }
     if(usart == NULL || address > 15){
         return ;
     }
@@ -217,7 +335,10 @@ void usartSetUsartAddressNode(UsartRegs* usart,uint32_t address){
 
 void usartSetUsartLinMode(UsartRegs* usart,EnableDisable mode){
     if(usart == NULL){
-        return ;
+        throwException(USART_REG_INPUT_NULL,"usart register input is NULL");
+    }
+    else if(mode > ENABLE_MODE || mode < DISABLE_MODE){
+        throwException(USART_INVALID_MODE,"usart input for Lin mode is invalid");
     }
     usart->cr2 &= ~(1 << 14);
     usart->cr2 |= mode << 14;
@@ -225,7 +346,10 @@ void usartSetUsartLinMode(UsartRegs* usart,EnableDisable mode){
 
 void usartSetUsartSmartCardMode(UsartRegs* usart,EnableDisable mode){
     if(usart == NULL){
-        return ;
+        throwException(USART_REG_INPUT_NULL,"usart register input is NULL");
+    }
+    else if(mode > ENABLE_MODE || mode < DISABLE_MODE){
+        throwException(USART_INVALID_MODE,"usart input for SmartCard mode is invalid");
     }
     usart->cr3 &= ~(1 << 5);
     usart->cr3 |= mode << 5;
@@ -233,7 +357,10 @@ void usartSetUsartSmartCardMode(UsartRegs* usart,EnableDisable mode){
 
 void usartSetUsartIrDAMode(UsartRegs* usart,EnableDisable mode){
     if(usart == NULL){
-        return ;
+        throwException(USART_REG_INPUT_NULL,"usart register input is NULL");
+    }
+    else if(mode > ENABLE_MODE || mode < DISABLE_MODE){
+        throwException(USART_INVALID_MODE,"usart input for SmartCard mode is invalid");
     }
     usart->cr3 &= ~(1 << 1);
     usart->cr3 |= mode << 1;
@@ -241,8 +368,11 @@ void usartSetUsartIrDAMode(UsartRegs* usart,EnableDisable mode){
 
 
 void usartSetHalfDuplexMode(UsartRegs* usart,EnableDisable mode){
-    if(usart == NULL ){
-        return ;
+    if(usart == NULL){
+        throwException(USART_REG_INPUT_NULL,"usart register input is NULL");
+    }
+    else if(mode > ENABLE_MODE || mode < DISABLE_MODE){
+        throwException(USART_INVALID_MODE,"usart input for SmartCard mode is invalid");
     }
     if(mode){
         //LINEN

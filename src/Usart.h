@@ -51,6 +51,18 @@ typedef enum{
 #define uart7 ((UsartRegs*)(UART7_BASEADDRESS))
 #define uart8 ((UsartRegs*)(UART8_BASEADDRESS))
 
+
+void usartClearCtsFlag(UsartRegs* usart);
+void usartClearLbdFlag(UsartRegs* usart);
+void usartClearTxeFlag(UsartRegs* usart);
+void usartClearTcFlag(UsartRegs* usart);
+void usartClearRxneFlag(UsartRegs* usart);
+void usartClearIdleFlag(UsartRegs* usart);
+void usartClearOreFlag(UsartRegs* usart);
+void usartClearNfFlag(UsartRegs* usart);
+void usartClearFeFlag(UsartRegs* usart);
+void usartClearPeFlag(UsartRegs* usart);
+
 uint32_t usartReceive(UsartRegs* usart);
 void usartSend(UsartRegs* usart,uint32_t data);
 ///For baudRate
@@ -71,8 +83,8 @@ void usartDisableTransmission(UsartRegs * usart);
 void usartEnableParityControl(UsartRegs* usart);
 void usartDisableParityControl(UsartRegs* usart);
 void setUsartWordLength(UsartRegs* usart,WordLength type);
-void setUsartWakeupMode(UsartRegs* usart,WakeupMode type);
-void setUsartParityMode(UsartRegs* usart,ParityMode type);
+void setUsartWakeupMode(UsartRegs* usart,WakeupMode mode);
+void setUsartParityMode(UsartRegs* usart,ParityMode mode);
 
 void usartSetReceiverWakeupMode(UsartRegs* usart,ReceiverWakeUpMode mode);
 void usartClockMode(UsartRegs* usart,EnableDisable mode);

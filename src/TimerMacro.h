@@ -1,0 +1,367 @@
+#ifndef TIMERMACRO_H
+#define TIMERMACRO_H
+//CR1
+#define TIMER_CLK_DIV_1 (0ULL<<8)
+#define TIMER_CLK_DIV_2 (1ULL<<8)
+#define TIMER_CLK_DIV_4 (2ULL<<8)
+
+#define ARR_ENABLE (1ULL<<7)
+#define ARR_DISABLE (0ULL<<7)
+
+#define TIMER_EDGE_ALIGNED (0ULL<<5)
+#define TIMER_CENTER_ALIGNED_1 (1ULL<<5)
+#define TIMER_CENTER_ALIGNED_2 (2ULL<<5)
+#define TIMER_CENTER_ALIGNED_3 (3ULL<<5)
+
+#define TIMER_UP_COUNT (0ULL<<4)
+#define TIMER_DOWN_COUNT (1ULL<<4)
+
+#define TIMER_ONE_PULSE_ENABLE (1ULL<<3)
+#define TIMER_ONE_PULSE_DISABLE (0ULL<<3)
+
+#define TIMER_URS_ENABLE (1ULL<<2)
+#define TIMER_URS_DISABLE (0ULL<<2)
+
+#define TIMER_UPDATE_ENABLE (0ULL<<1)
+#define TIMER_UPDATE_DISABLE (1ULL<<1)
+
+#define TIMER_COUNTER_ENABLE (1ULL<<0)
+#define TIMER_COUNTER_DISABLE (0ULL<<0)
+
+//CR2
+#define OC4_OUT_HIGH (1ULL<<(14+16))
+#define OC4_OUT_LOW (0ULL<<(14+16))
+
+#define OC3N_OUT_HIGH (1ULL<<(13+16))
+#define OC3N_OUT_LOW (0ULL<<(13+16))
+
+#define OC3_OUT_HIGH (1ULL<<(12+16))
+#define OC3_OUT_LOW (0ULL<<(12+16))
+
+#define OC2N_OUT_HIGH (1ULL<<(11+16))
+#define OC2N_OUT_LOW (0ULL<<(11+16))
+
+#define OC2_OUT_HIGH (1ULL<<(10+16))
+#define OC2_OUT_LOW (0ULL<<(10+16))
+
+#define OC1N_OUT_HIGH (1ULL<<(9+16))
+#define OC1N_OUT_LOW (0ULL<<(9+16))
+
+#define OC1_OUT_HIGH (1ULL<<(8+16))
+#define OC1_OUT_LOW (0ULL<<(8+16))
+
+#define T1_CH1_SELECT (0ULL<<(7+16))
+#define T1_XOR_SELECT (1ULL<<(7+16))
+
+#define MASTER_MODE_RESET (0ULL<<(4+16))
+#define MASTER_MODE_ENABLE (1ULL<<(4+16))
+#define MASTER_MODE_UPDATE (2ULL<<(4+16))
+#define MASTER_MODE_COMP_PULSE (3ULL<<(4+16))
+#define MASTER_MODE_COMP_OC1REF (4ULL<<(4+16))
+#define MASTER_MODE_COMP_OC2REF (5ULL<<(4+16))
+#define MASTER_MODE_COMP_OC3REF (6ULL<<(4+16))
+#define MASTER_MODE_COMP_OC4REF (7ULL<<(4+16))
+
+#define TIMER_CC_EVT_OCCUR (0ULL<<(3+16))
+#define TIMER_CC_DMA_UPDATE_EVT (1ULL<<(3+16))
+
+#define CCUS_COMG_ONLY (0ULL<<2(2+16))
+#define CCUS_TRGI (1ULL<<2(2+16))
+
+#define TIMER_CC_PRELOADED_DISABLE (1ULL<<(0+16))
+#define TIMER_CC_PRELOADED_ENABLE (0ULL<<(0+16))
+
+//SMCR
+#define SMS_DISABLED (0<<0)
+#define SMS_ENCODER_M1 (1<<0)
+#define SMS_ENCODER_M2 (2<<0)
+#define SMS_ENCODER_M3 (3<<0)
+#define SMS_RESET_M (4<<0)
+#define SMS_GATED_M (5<<0)
+#define SMS_TRIGGER_M (6<<0)
+#define SMS_EXT_CLK_M1 (7<<0)
+
+#define TRIGGER_INT_0 (0<<4)
+#define TRIGGER_INT_1 (1<<4)
+#define TRIGGER_INT_2 (2<<4)
+#define TRIGGER_INT_3 (3<<4)
+#define TRIGGER_EDGE_T1 (4<<4)
+#define TRIGGER_FIL_T1 (5<<4)
+#define TRIGGER_FIL_T2 (6<<4)
+#define TRIGGER_EXT_INT (7<<4)
+
+#define MASTER_MODE (1<<7)
+#define SLAVE_MODE (0<<7)
+
+#define EXT_NO_FILER (0<<8)
+#define EXT_TRIG_FILTER_FCK_2N (1<<8)
+#define EXT_TRIG_FILTER_FCK_4N (2<<8)
+#define EXT_TRIG_FILTER_FCK_8N (3<<8)
+#define EXT_TRIG_FILTER_FDTS_2_6N (4<<8)
+#define EXT_TRIG_FILTER_FDTS_2_8N (5<<8)
+#define EXT_TRIG_FILTER_FDTS_4_6N (6<<8)
+#define EXT_TRIG_FILTER_FDTS_4_8N (7<<8)
+#define EXT_TRIG_FILTER_FDTS_8_6N (8<<8)
+#define EXT_TRIG_FILTER_FDTS_8_8N (9<<8)
+#define EXT_TRIG_FILTER_FDTS_16_5N (10<<8)
+#define EXT_TRIG_FILTER_FDTS_16_6N (11<<8)
+#define EXT_TRIG_FILTER_FDTS_16_8N (12<<8)
+#define EXT_TRIG_FILTER_FDTS_32_5N (13<<8)
+#define EXT_TRIG_FILTER_FDTS_32_6N (14<<8)
+#define EXT_TRIG_FILTER_FDTS_32_8N (15<<8)
+
+#define EXT_TRIG_PRESCALE_OFF (0<<12)
+#define EXT_TRIG_PRESCALE_DIV2 (1<<12)
+#define EXT_TRIG_PRESCALE_DIV4 (2<<12)
+#define EXT_TRIG_PRESCALE_DIV8 (3<<12)
+
+#define ENABLE_EXT_CLK (1<<14)
+#define DISABLE_EXT_CLK (0<<14)
+
+#define FALLING_EXT_TRIG_POLARITY (1<<15)
+#define RISING_EXT_TRIG_POLARITY (0<<15)
+
+// CCMR1 output Compare
+#define CC1_OUTPUT (0ULL<<0)
+#define CC1_INPUT_IC1_MAP_TI1 (1ULL<<0)
+#define CC1_INPUT_IC1_MAP_TI2 (2ULL<<0)
+#define CC1_INPUT_IC1_MAP_TRC (3ULL<<0)
+
+#define OC1_FAST_DISABLE (0ULL<<2)
+#define OC1_FAST_ENABLE (1ULL<<2)
+
+#define OC1_PRELOAD_DISABLE (0ULL<<3)
+#define OC1_PRELOAD_ENABLE (1ULL<<3)
+
+#define OC1_MODE_FROZEN         (0ULL<<4)
+#define OC1_MODE_C1_ACTIVE       (1ULL<<4)
+#define OC1_MODE_C1_INACTIVE     (2ULL<<4)
+#define OC1_MODE_TOGGLE         (3ULL<<4)
+#define OC1_MODE_FORCE_INACTIVE (4ULL<<4)
+#define OC1_MODE_FORCE_ACTIVE   (5ULL<<4)
+#define OC1_MODE_PWM_M1         (6ULL<<4)
+#define OC1_MODE_PWM_M2         (7ULL<<4)
+
+#define OC1_CLEAR_DISABLE (0ULL<<7)
+#define OC1_CLEAR_ENABLE (1ULL<<7)
+
+#define CC2_OUTPUT (0ULL<<8)
+#define CC2_INPUT_IC2_MAP_TI2 (1ULL<<8)
+#define CC2_INPUT_IC2_MAP_TI1 (2ULL<<8)
+#define CC2_INPUT_IC2_MAP_TRC (3ULL<<8)
+
+#define OC2_FAST_DISABLE (0ULL<<10)
+#define OC2_FAST_ENABLE (1ULL<<10)
+
+#define OC2_PRELOAD_DISABLE (0ULL<<11)
+#define OC2_PRELOAD_ENABLE (1ULL<<11)
+
+#define OC2_MODE_FROZEN         (0ULL<<12)
+#define OC2_MODE_C2_ACTIVE       (1ULL<<12)
+#define OC2_MODE_C2_INACTIVE     (2ULL<<12)
+#define OC2_MODE_TOGGLE         (3ULL<<12)
+#define OC2_MODE_FORCE_INACTIVE (4ULL<<12)
+#define OC2_MODE_FORCE_ACTIVE   (5ULL<<12)
+#define OC2_MODE_PWM_M1         (6ULL<<12)
+#define OC2_MODE_PWM_M2         (7ULL<<12)
+
+#define OC2_CLEAR_DISABLE (0ULL<<15)
+#define OC2_CLEAR_ENABLE (1ULL<<15)
+// CCMR1 input Compare
+//bit [1:0] same as output
+// CCMR1 output Compare
+
+#define IC1_NO_PRESCALE (0ULL<<2)
+#define IC1_2EVT_CAPTURE (1ULL<<2)
+#define IC1_4EVT_CAPTURE (2ULL<<2)
+#define IC1_8EVT_CAPTURE (3ULL<<2)
+
+#define IC1_NO_FILER (0ULL<<4)
+#define IC1_FILTER_FCK_2N (1ULL<<4)
+#define IC1_FILTER_FCK_4N (2ULL<<4)
+#define IC1_FILTER_FCK_8N (3ULL<<4)
+#define IC1_FILTER_FDTS_2_6N (4ULL<<4)
+#define IC1_FILTER_FDTS_2_8N (5ULL<<4)
+#define IC1_FILTER_FDTS_4_6N (6ULL<<4)
+#define IC1_FILTER_FDTS_4_8N (7ULL<<4)
+#define IC1_FILTER_FDTS_8_6N (8ULL<<4)
+#define IC1_FILTER_FDTS_8_8N (9ULL<<4)
+#define IC1_FILTER_FDTS_16_5N (10ULL<<4)
+#define IC1_FILTER_FDTS_16_6N (11ULL<<4)
+#define IC1_FILTER_FDTS_16_8N (12ULL<<4)
+#define IC1_FILTER_FDTS_32_5N (13ULL<<4)
+#define IC1_FILTER_FDTS_32_6N (14ULL<<4)
+#define IC1_FILTER_FDTS_32_8N (15ULL<<4)
+
+//bit [9:8] same as output
+
+#define IC2_NO_PRESCALE (0ULL<<10)
+#define IC2_2EVT_CAPTURE (1ULL<<10)
+#define IC2_4EVT_CAPTURE (2ULL<<10)
+#define IC2_8EVT_CAPTURE (3ULL<<10)
+
+#define IC2_NO_FILER (0ULL<<12)
+#define IC2_FILTER_FCK_2N (1ULL<<12)
+#define IC2_FILTER_FCK_4N (2ULL<<12)
+#define IC2_FILTER_FCK_8N (3ULL<<12)
+#define IC2_FILTER_FDTS_2_6N (4ULL<<12)
+#define IC2_FILTER_FDTS_2_8N (5ULL<<12)
+#define IC2_FILTER_FDTS_4_6N (6ULL<<12)
+#define IC2_FILTER_FDTS_4_8N (7ULL<<12)
+#define IC2_FILTER_FDTS_8_6N (8ULL<<12)
+#define IC2_FILTER_FDTS_8_8N (9ULL<<12)
+#define IC2_FILTER_FDTS_16_5N (10ULL<<12)
+#define IC2_FILTER_FDTS_16_6N (11ULL<<12)
+#define IC2_FILTER_FDTS_16_8N (12ULL<<12)
+#define IC2_FILTER_FDTS_32_5N (13ULL<<12)
+#define IC2_FILTER_FDTS_32_6N (14ULL<<12)
+#define IC2_FILTER_FDTS_32_8N (15ULL<<12)
+
+//CCMR2
+//output
+// CCMR2 output Compare
+#define CC3_OUTPUT (0ULL<<(0+16))
+#define CC3_INPUT_IC1_MAP_TI3 (1ULL<<(0+16))
+#define CC3_INPUT_IC1_MAP_TI4 (2ULL<<(0+16))
+#define CC3_INPUT_IC1_MAP_TRC (3ULL<<(0+16))
+
+#define OC3_FAST_DISABLE (0ULL<<(2+16))
+#define OC3_FAST_ENABLE (1ULL<<(2+16))
+
+#define OC3_PRELOAD_DISABLE (0ULL<<(3+16))
+#define OC3_PRELOAD_ENABLE (1ULL<<(3+16))
+
+#define OC3_MODE_FROZEN         (0ULL<<(4+16))
+#define OC3_MODE_C3_ACTIVE      (1ULL<<(4+16))
+#define OC3_MODE_C3_INACTIVE    (2ULL<<(4+16))
+#define OC3_MODE_TOGGLE         (3ULL<<(4+16))
+#define OC3_MODE_FORCE_INACTIVE (4ULL<<(4+16))
+#define OC3_MODE_FORCE_ACTIVE   (5ULL<<(4+16))
+#define OC3_MODE_PWM_M1         (6ULL<<(4+16))
+#define OC3_MODE_PWM_M2         (7ULL<<(4+16))
+
+#define OC3_CLEAR_DISABLE (0ULL<<(7+16))
+#define OC3_CLEAR_ENABLE (1ULL<<(7+16))
+
+#define CC4_OUTPUT (0ULL<<(8+16))
+#define CC4_INPUT_IC1_MAP_TI4 (1ULL<<(8+16))
+#define CC4_INPUT_IC1_MAP_TI3 (2ULL<<(8+16))
+#define CC4_INPUT_IC1_MAP_TRC (3ULL<<(8+16))
+
+#define OC4_FAST_DISABLE (0ULL<<(10+16))
+#define OC4_FAST_ENABLE (1ULL<<(10+16))
+
+#define OC4_PRELOAD_DISABLE (0ULL<<(11+16))
+#define OC4_PRELOAD_ENABLE (1ULL<<(11+16))
+
+#define OC4_MODE_FROZEN         (0ULL<<(12+16))
+#define OC4_MODE_C4_ACTIVE      (1ULL<<(12+16))
+#define OC4_MODE_C4_INACTIVE    (2ULL<<(12+16))
+#define OC4_MODE_TOGGLE         (3ULL<<(12+16))
+#define OC4_MODE_FORCE_INACTIVE (4ULL<<(12+16))
+#define OC4_MODE_FORCE_ACTIVE   (5ULL<<(12+16))
+#define OC4_MODE_PWM_M1         (6ULL<<(12+16))
+#define OC4_MODE_PWM_M2         (7ULL<<(12+16))
+
+#define OC4_CLEAR_DISABLE (0ULL<<(15+16))
+#define OC4_CLEAR_ENABLE (1ULL<<(15+16))
+
+// CCMR2 input Compare
+//bit [1:0] same as output
+
+#define IC3_NO_PRESCALE (0ULL<<(2+16))
+#define IC3_2EVT_CAPTURE (1ULL<<(2+16))
+#define IC3_4EVT_CAPTURE (2ULL<<(2+16))
+#define IC3_8EVT_CAPTURE (3ULL<<(2+16))
+
+#define IC3_NO_FILER (0<<(4+16))
+#define IC3_FILTER_FCK_2N (1<<(4+16))
+#define IC3_FILTER_FCK_4N (2<<(4+16))
+#define IC3_FILTER_FCK_8N (3<<(4+16))
+#define IC3_FILTER_FDTS_2_6N (4<<(4+16))
+#define IC3_FILTER_FDTS_2_8N (5<<(4+16))
+#define IC3_FILTER_FDTS_4_6N (6<<(4+16))
+#define IC3_FILTER_FDTS_4_8N (7<<(4+16))
+#define IC3_FILTER_FDTS_8_6N (8<<(4+16))
+#define IC3_FILTER_FDTS_8_8N (9<<(4+16))
+#define IC3_FILTER_FDTS_16_5N (10<<(4+16))
+#define IC3_FILTER_FDTS_16_6N (11<<(4+16))
+#define IC3_FILTER_FDTS_16_8N (12<<(4+16))
+#define IC3_FILTER_FDTS_32_5N (13<<(4+16))
+#define IC3_FILTER_FDTS_32_6N (14<<(4+16))
+#define IC3_FILTER_FDTS_32_8N (15<<(4+16))
+
+//bit [9:8] same as output
+
+#define IC4_NO_PRESCALE (0ULL<<(10+16))
+#define IC4_2EVT_CAPTURE (1ULL<<(10+16))
+#define IC4_4EVT_CAPTURE (2ULL<<(10+16))
+#define IC4_8EVT_CAPTURE (3ULL<<(10+16))
+
+#define IC4_NO_FILER (0ULL<<(12+16))
+#define IC4_FILTER_FCK_2N (1ULL<<(12+16))
+#define IC4_FILTER_FCK_4N (2ULL<<(12+16))
+#define IC4_FILTER_FCK_8N (3ULL<<(12+16))
+#define IC4_FILTER_FDTS_2_6N (4ULL<<(12+16))
+#define IC4_FILTER_FDTS_2_8N (5ULL<<(12+16))
+#define IC4_FILTER_FDTS_4_6N (6ULL<<(12+16))
+#define IC4_FILTER_FDTS_4_8N (7ULL<<(12+16))
+#define IC4_FILTER_FDTS_8_6N (8ULL<<(12+16))
+#define IC4_FILTER_FDTS_8_8N (9ULL<<(12+16))
+#define IC4_FILTER_FDTS_16_5N (10ULL<<(12+16))
+#define IC4_FILTER_FDTS_16_6N (11ULL<<(12+16))
+#define IC4_FILTER_FDTS_16_8N (12ULL<<(12+16))
+#define IC4_FILTER_FDTS_32_5N (13ULL<<(12+16))
+#define IC4_FILTER_FDTS_32_6N (14ULL<<(12+16))
+#define IC4_FILTER_FDTS_32_8N (15ULL<<(12+16))
+
+// CCER
+#define OC1_DISABLE (0<<0)
+#define OC1_ENABLE (1<<0)
+
+#define OC1_ACTIVEHIGH (0<<1)
+#define OC1_ACTIVELOW (1<<1)
+
+#define OC1N_DISABLE (0<<2)
+#define OC1N_ENABLE (1<<2)
+
+#define OC1N_ACTIVEHIGH (0<<3)
+#define OC1N_ACTIVELOW (1<<3)
+
+#define OC2_DISABLE (0<<4)
+#define OC2_ENABLE (1<<4)
+
+#define OC2_ACTIVEHIGH (0<<5)
+#define OC2_ACTIVELOW (1<<5)
+
+#define OC2N_DISABLE (0<<6)
+#define OC2N_ENABLE (1<<6)
+
+#define OC2N_ACTIVEHIGH (0<<7)
+#define OC2N_ACTIVELOW (1<<7)
+
+#define OC3_DISABLE (0<<8)
+#define OC3_ENABLE (1<<8)
+
+#define OC3_ACTIVEHIGH (0<<9)
+#define OC3_ACTIVELOW (1<<9)
+
+#define OC3N_DISABLE (0<<10)
+#define OC3N_ENABLE (1<<10)
+
+#define OC3N_ACTIVEHIGH (0<<11)
+#define OC3N_ACTIVELOW (1<<11)
+
+#define OC4_DISABLE (0<<12)
+#define OC4_ENABLE (1<<12)
+
+#define OC4_ACTIVEHIGH (0<<13)
+#define OC4_ACTIVELOW (1<<13)
+
+#define OC4N_DISABLE (0<<14)
+#define OC4N_ENABLE (1<<14)
+
+#define OC4N_ACTIVEHIGH (0<<15)
+#define OC4N_ACTIVELOW (1<<15)
+
+#endif // TIMERMACRO_H

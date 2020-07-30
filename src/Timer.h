@@ -46,6 +46,21 @@ struct TimerRegs {
     IoRegister dcr;
     IoRegister dmar;
 };
+
+#define timer1 ((TimerRegs*)(TIM1_BASEADDRESS))
+#define timer2 ((TimerRegs*)(TIM2_BASEADDRESS))
+#define timer3 ((TimerRegs*)(TIM3_BASEADDRESS))
+#define timer4 ((TimerRegs*)(TIM4_BASEADDRESS))
+#define timer5 ((TimerRegs*)(TIM5_BASEADDRESS))
+#define timer6 ((TimerRegs*)(TIM6_BASEADDRESS))
+#define timer7 ((TimerRegs*)(TIM7_BASEADDRESS))
+#define timer8 ((TimerRegs*)(TIM8_BASEADDRESS))
+#define timer9 ((TimerRegs*)(TIM9_BASEADDRESS))
+#define timer10 ((TimerRegs*)(TIM10_BASEADDRESS))
+#define timer11 ((TimerRegs*)(TIM11_BASEADDRESS))
+#define timer12 ((TimerRegs*)(TIM12_BASEADDRESS))
+#define timer13 ((TimerRegs*)(TIM13_BASEADDRESS))
+#define timer14 ((TimerRegs*)(TIM14_BASEADDRESS))
 //function
 void timerSetControlRegister(TimerRegs * regs,int control);
 void timerSetSlaveMasterRegister(TimerRegs * regs,int control);

@@ -8,7 +8,6 @@
 #include <stdint.h>
 #include <stddef.h>
 #include "Exception.h"
-#include "CExceptionConfig.h"
 #include "STM32Error.h"
 
 int arrayNumber;

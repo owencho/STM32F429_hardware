@@ -1,7 +1,6 @@
 #include "Exti.h"
 #include <stddef.h>
 #include "Exception.h"
-#include "CExceptionConfig.h"
 #include "STM32Error.h"
 
 void extiSetInterruptMaskRegister(ExtiRegs *extiLoc , int pin,RequestMasked mode){

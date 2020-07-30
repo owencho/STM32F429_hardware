@@ -10,7 +10,6 @@
 #include "Common.h"
 #include <stddef.h>
 #include "Exception.h"
-#include "CExceptionConfig.h"
 #include "STM32Error.h"
 
 void gpioSetPinSpeed(GpioRegs *gpio , int pin , PinSpeed speed){

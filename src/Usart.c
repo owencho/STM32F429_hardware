@@ -2,7 +2,6 @@
 #include "Clock.h"
 #include "Math.h"
 #include "Exception.h"
-#include "CExceptionConfig.h"
 #include "STM32Error.h"
 void usartClearCtsFlag(UsartRegs* usart){
     if(usart == NULL){

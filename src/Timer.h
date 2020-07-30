@@ -45,6 +45,7 @@ struct TimerRegs {
     IoRegister bdtr;
     IoRegister dcr;
     IoRegister dmar;
+    IoRegister or;
 };
 
 #define timer1 ((TimerRegs*)(TIM1_BASEADDRESS))
@@ -66,6 +67,7 @@ void timerSetControlRegister(TimerRegs * regs,int control);
 void timerSetSlaveMasterRegister(TimerRegs * regs,int control);
 void timerSetCompareCaptureModeRegister(TimerRegs * regs,int control);
 void timerSetCompareCaptureEnableRegister(TimerRegs * regs,int control);
+
 void timerEnableInterrupt(TimerRegs *regs , TimerInterrupt interrupt);
 void timerDisableInterrupt(TimerRegs *regs , TimerInterrupt interrupt);
 void timerEventGeneration(TimerRegs *regs , TimerEvtGeneration evtGen);
@@ -82,6 +84,7 @@ int timerReadAutoReloadReg(TimerRegs * regs);
 void timerWriteRepetitionCounter(TimerRegs * regs , int counter);
 int timerReadRepetitionCounter(TimerRegs * regs);
 
+//modify this
 void timerWriteCapComReg1(TimerRegs * regs , int count);
 int timerReadCapComReg1(TimerRegs * regs );
 

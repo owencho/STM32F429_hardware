@@ -118,52 +118,52 @@ void timerWriteCapComReg1(TimerRegs * regs , int count){
     if(regs ==NULL){
         throwException(TIMER_REG_INPUT_NULL,"Timer register input is NULL");
     }
-    regs->ccr1 = count & 0xFFFF;
+    regs->ccr1 = count;
 }
 int timerReadCapComReg1(TimerRegs * regs ){
     if(regs ==NULL){
         throwException(TIMER_REG_INPUT_NULL,"Timer register input is NULL");
     }
-    return regs->ccr1 & 0xFFFF;
+    return regs->ccr1;
 }
 
 void timerWriteCapComReg2(TimerRegs * regs , int count){
     if(regs ==NULL){
         throwException(TIMER_REG_INPUT_NULL,"Timer register input is NULL");
     }
-    regs->ccr2 = count & 0xFFFF;
+    regs->ccr2 = count;
 }
 int timerReadCapComReg2(TimerRegs * regs ){
     if(regs ==NULL){
         throwException(TIMER_REG_INPUT_NULL,"Timer register input is NULL");
     }
-    return regs->ccr2 & 0xFFFF;
+    return regs->ccr2;
 }
 
 void timerWriteCapComReg3(TimerRegs * regs , int count){
     if(regs ==NULL){
         throwException(TIMER_REG_INPUT_NULL,"Timer register input is NULL");
     }
-    regs->ccr3 = count & 0xFFFF;
+    regs->ccr3 = count ;
 }
 int timerReadCapComReg3(TimerRegs * regs ){
     if(regs ==NULL){
         throwException(TIMER_REG_INPUT_NULL,"Timer register input is NULL");
     }
-    return regs->ccr3 & 0xFFFF;
+    return regs->ccr3;
 }
 
 void timerWriteCapComReg4(TimerRegs * regs , int count){
     if(regs ==NULL){
         throwException(TIMER_REG_INPUT_NULL,"Timer register input is NULL");
     }
-    regs->ccr4 = count & 0xFFFF;
+    regs->ccr4 = count;
 }
 int timerReadCapComReg4(TimerRegs * regs){
     if(regs ==NULL){
         throwException(TIMER_REG_INPUT_NULL,"Timer register input is NULL");
     }
-    return regs->ccr4 & 0xFFFF;
+    return regs->ccr4;
 }
 
 void timerMainOutputDisable(TimerRegs *regs){

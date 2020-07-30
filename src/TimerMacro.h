@@ -167,9 +167,9 @@
 
 #define OC2_CLEAR_DISABLE (0ULL<<15)
 #define OC2_CLEAR_ENABLE (1ULL<<15)
+
 // CCMR1 input Compare
 //bit [1:0] same as output
-// CCMR1 output Compare
 
 #define IC1_NO_PRESCALE (0ULL<<2)
 #define IC1_2EVT_CAPTURE (1ULL<<2)
@@ -316,6 +316,7 @@
 #define IC4_FILTER_FDTS_32_8N (15ULL<<(12+16))
 
 // CCER
+//for output
 #define OC1_DISABLE (0<<0)
 #define OC1_ENABLE (1<<0)
 
@@ -363,5 +364,36 @@
 
 #define OC4N_ACTIVEHIGH (0<<15)
 #define OC4N_ACTIVELOW (1<<15)
+//for input
+#define CC1_CAPTURE_DISABLED (0<<0)
+#define CC1_CAPTURE_ENABLED (1<<0)
 
+#define CC1_CAP_RISING_EDGE (0<<1)
+#define CC1_CAP_FALLING_EDGE (1<<1)
+//RESERVED
+#define CC1_CAP_BOTH_EDGE (1<<1|1<<3)
+
+#define CC2_CAPTURE_DISABLED (0<<4)
+#define CC2_CAPTURE_ENABLED (1<<4)
+
+#define CC2_CAP_RISING_EDGE (0<<5)
+#define CC2_CAP_FALLING_EDGE (1<<5)
+//RESERVED
+#define CC2_CAP_BOTH_EDGE (1<<7|1<<5)
+
+#define CC3_CAPTURE_DISABLED (0<<8)
+#define CC3_CAPTURE_ENABLED (1<<8)
+
+#define CC3_CAP_RISING_EDGE (0<<9)
+#define CC3_CAP_FALLING_EDGE (1<<9)
+//RESERVED
+#define CC3_CAP_BOTH_EDGE (1<<11|1<<9)
+
+#define CC4_CAPTURE_DISABLED (0<<12)
+#define CC4_CAPTURE_ENABLED (1<<12)
+
+#define CC4_CAP_RISING_EDGE (0<<13)
+#define CC4_CAP_FALLING_EDGE (1<<13)
+//RESERVED
+#define CC4_CAP_BOTH_EDGE (1<<15|1<<13)
 #endif // TIMERMACRO_H

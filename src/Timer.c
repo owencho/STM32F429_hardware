@@ -1,7 +1,5 @@
 #include "Timer.h"
 #include "Exception.h"
-#include "CException.h"
-#include "CExceptionConfig.h"
 #include "STM32Error.h"
 #include <stddef.h>
 

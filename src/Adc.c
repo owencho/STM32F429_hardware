@@ -2,7 +2,6 @@
 #include <stddef.h>
 #include <stdint.h>
 #include "Exception.h"
-#include "CException.h"
 #include "CExceptionConfig.h"
 #include "STM32Error.h"
 //SR

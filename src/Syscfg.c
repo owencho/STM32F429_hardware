@@ -1,7 +1,6 @@
 #include "Syscfg.h"
 #include <stddef.h>
 #include "Exception.h"
-#include "CException.h"
 #include "CExceptionConfig.h"
 #include "STM32Error.h"
 

@@ -7,6 +7,7 @@
 #include "CException.h"
 #include "CExceptionConfig.h"
 #include "STM32Error.h"
+#include "ExceptionTestSupport.h"
 CEXCEPTION_T ex;
 
 TimerRegs timerRegs;

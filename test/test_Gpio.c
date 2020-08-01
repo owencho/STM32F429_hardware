@@ -7,6 +7,8 @@
 #include "CException.h"
 #include "CExceptionConfig.h"
 #include "STM32Error.h"
+#include "ExceptionTestSupport.h"
+
 CEXCEPTION_T ex;
 GpioRegs fakeGpio;
 
@@ -431,15 +433,18 @@ void test_Gpio_gpioSetAlternateFunction_set_Pin7_AF15(void){
 
 void test_Gpio_gpioSetAlternateFunction_set_Pin8_AF11(void){
     gpioSetAlternateFunction(&fakeGpio ,PIN_8,AF11);
+    TEST_ASSERT_EQUAL_INT32(0,fakeGpio.afrl);
     TEST_ASSERT_EQUAL_INT32(11,fakeGpio.afrh);
 }
 
 void test_Gpio_gpioSetAlternateFunction_set_Pin10_AF5(void){
     gpioSetAlternateFunction(&fakeGpio ,PIN_10,AF5);
+    TEST_ASSERT_EQUAL_INT32(0,fakeGpio.afrl);
     TEST_ASSERT_EQUAL_INT32(5<<(2*4),fakeGpio.afrh);
 }
 
 void test_Gpio_gpioSetAlternateFunction_set_Pin15_AF5(void){
     gpioSetAlternateFunction(&fakeGpio ,PIN_15,AF5);
+    TEST_ASSERT_EQUAL_INT32(0,fakeGpio.afrl);
     TEST_ASSERT_EQUAL_INT32(5<<(7*4),fakeGpio.afrh);
 }

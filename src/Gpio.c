@@ -108,8 +108,8 @@ void gpioSetAlternateFunction(GpioRegs *gpio ,PinNumber pin ,
 		}
 
 		if(pin > 7){
-				gpio->afrh &= ~(15 << (pin*4));
-				gpio->afrh |= altFunction << (pin*4);
+				gpio->afrh &= ~(15 << ((pin-8)*4));
+				gpio->afrh |= altFunction << ((pin-8)*4);
 		}
 		else{
 				gpio->afrl &= ~(15 << (pin*4));

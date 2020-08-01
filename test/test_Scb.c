@@ -2,7 +2,7 @@
 #include "BaseAddress.h"
 #include "Common.h"
 #include "Scb.h"
-
+#include "ExceptionTestSupport.h"
 ScbReg fakeScb;
 void setUp(void){
     int i;

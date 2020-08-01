@@ -8,7 +8,7 @@
 #include "CExceptionConfig.h"
 #include "STM32Error.h"
 #include "mock_Clock.h"
-
+#include "ExceptionTestSupport.h"
 CEXCEPTION_T ex;
 UsartRegs fakeUsart;
 UsartRegs fakeUsart3;

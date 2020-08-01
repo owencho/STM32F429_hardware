@@ -4,6 +4,7 @@
 #include "CException.h"
 #include "CExceptionConfig.h"
 #include "STM32Error.h"
+#include "ExceptionTestSupport.h"
 CEXCEPTION_T ex;
 AdcReg fakeAdc1,fakeAdc2,fakeAdc3;
 AdcCommonReg fakeAdcCommon;

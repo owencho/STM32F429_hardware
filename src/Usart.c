@@ -307,6 +307,18 @@ void usartSetReceiverWakeupMode(UsartRegs* usart,ReceiverWakeUpMode mode){
     usart->cr1 &= ~(1 << 1);
     usart->cr1 |= mode << 1;
 }
+
+void usartSetStopBit(UsartRegs* usart,StopBit mode){
+    if(usart == NULL){
+        throwException(USART_REG_INPUT_NULL,"usart register input is NULL");
+    }
+    else if(mode > STOP_BIT_1_POINT_5 || mode < STOP_BIT_1){
+        throwException(USART_INVALID_MODE,"usart input for recevier wakeupMode is invalid");
+    }
+    usart->cr2 &= ~(3 << 12);
+    usart->cr2 |= mode << 12;
+}
+
 void usartClockMode(UsartRegs* usart,EnableDisable mode){
     if(usart == NULL){
         throwException(USART_REG_INPUT_NULL,"usart register input is NULL");

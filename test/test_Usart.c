@@ -568,6 +568,47 @@ void test_Usart_setUsartWordLength_pos_invalid_input(void){
     }
 }
 
+void test_Usart_usartSetStopBit(void){
+    usartSetStopBit(usart1,STOP_BIT_1_POINT_5);
+    TEST_ASSERT_EQUAL(3<<12,fakeUsart.cr2);
+    usartSetStopBit(usart1,STOP_BIT_1);
+    TEST_ASSERT_EQUAL(0,fakeUsart.cr2);
+}
+
+void test_Usart_usartSetStopBit_NULL_input(void){
+    Try{
+        usartSetStopBit(NULL,STOP_BIT_1_POINT_5);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(USART_REG_INPUT_NULL,ex->errorCode);
+    }
+}
+
+void test_Usart_usartSetStopBit_neg_invalid_input(void){
+    Try{
+        usartSetStopBit(usart1,-1);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(USART_INVALID_MODE,ex->errorCode);
+    }
+}
+
+void test_Usart_usartSetStopBit_pos_invalid_input(void){
+    Try{
+        usartSetStopBit(usart1,4);
+        TEST_FAIL_MESSAGE("Expect exception to be thrown");
+    }
+    Catch(ex){
+        dumpException(ex);
+        TEST_ASSERT_EQUAL(USART_INVALID_MODE,ex->errorCode);
+    }
+}
+
+
 void test_Usart_setUsartWakeupMode(void){
     setUsartWakeupMode(usart1,ADDRESS_MARK);
     TEST_ASSERT_EQUAL(1<<11,fakeUsart.cr1);

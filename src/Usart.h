@@ -42,6 +42,11 @@ typedef enum{
     DATA_8_BITS,DATA_9_BITS
 } WordLength;
 
+typedef enum{
+    STOP_BIT_1,STOP_BIT_POINT_5,
+    STOP_BIT_2 ,STOP_BIT_1_POINT_5
+} StopBit;
+
 #define usart1 ((UsartRegs*)(USART1_BASEADDRESS))
 #define usart2 ((UsartRegs*)(USART2_BASEADDRESS))
 #define usart3 ((UsartRegs*)(USART3_BASEADDRESS))
@@ -85,7 +90,7 @@ void usartDisableParityControl(UsartRegs* usart);
 void setUsartWordLength(UsartRegs* usart,WordLength type);
 void setUsartWakeupMode(UsartRegs* usart,WakeupMode mode);
 void setUsartParityMode(UsartRegs* usart,ParityMode mode);
-
+void usartSetStopBit(UsartRegs* usart,StopBit mode);
 void usartSetReceiverWakeupMode(UsartRegs* usart,ReceiverWakeUpMode mode);
 void usartClockMode(UsartRegs* usart,EnableDisable mode);
 void usartSetUsartAddressNode(UsartRegs* usart,uint32_t address);

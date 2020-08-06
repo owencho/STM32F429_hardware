@@ -95,3 +95,13 @@ void disableUART5(){
 		rcc->apb1rstr |= (1<<20);
 		rcc->apb1enr &= ~(1<<20);
 }
+
+void enableTimer4(){
+		rcc->apb1rstr &= ~ (1<<2);
+		rcc-> apb1enr |= (1<< 2);
+}
+
+void disableTimer4(){
+		rcc->apb1rstr |= (1<<2);
+		rcc->apb1enr &= ~ (1<<2);
+}

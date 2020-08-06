@@ -71,4 +71,6 @@ void enableUSART6();
 void disableUSART6();
 void enableUART5();
 void disableUART5();
+void enableTimer4();
+void disableTimer4();
 #endif /* INC_RCC_H_ */

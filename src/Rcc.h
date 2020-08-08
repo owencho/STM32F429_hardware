@@ -12,7 +12,6 @@
 #include "BaseAddress.h"
 #include "Common.h"
 
-
 typedef struct RccRegs RccRegs;
 struct RccRegs {
 	IoRegister cr;
@@ -73,4 +72,13 @@ void enableUART5();
 void disableUART5();
 void enableTimer4();
 void disableTimer4();
+
+void enableSpi1();
+void disableSpi1();
+void enableSpi2();
+void disableSpi2();
+void enableSpi3();
+void disableSpi3();
+void enableSpi4_5();
+void disableSpi4_5();
 #endif /* INC_RCC_H_ */

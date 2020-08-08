@@ -39,4 +39,8 @@ typedef enum{
 	 T_DETECTION_DISABLED,T_DETECTION_RISING,T_DETECTION_FALLING,
    T_DETECTION_BOTH_EDGE,
 } TriggerDetection;
+
+typedef enum{
+	 SPI1,SPI2,SPI3,SPI4,SPI5,SPI6
+} SpiName;
 #endif /* INC_COMMON_H_ */

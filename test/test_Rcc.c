@@ -215,3 +215,78 @@ void test_disableGpio_invalid_gpio(void){
         TEST_ASSERT_EQUAL(RCC_INVALID_PORTNAME,ex->errorCode);
     }
 }
+
+void test_enableTimer4(void){
+     enableTimer4();
+     TEST_ASSERT_EQUAL_INT32(1<<2,fakeRcc.apb1enr);
+     TEST_ASSERT_EQUAL_INT32(0<<2,fakeRcc.apb1rstr);
+}
+
+void test_disableTimer4(void){
+    enableTimer4();
+    TEST_ASSERT_EQUAL_INT32(1<<2,fakeRcc.apb1enr);
+    TEST_ASSERT_EQUAL_INT32(0<<2,fakeRcc.apb1rstr);
+    disableTimer4();
+    TEST_ASSERT_EQUAL_INT32(0<<2,fakeRcc.apb1enr);
+    TEST_ASSERT_EQUAL_INT32(1<<2,fakeRcc.apb1rstr);
+}
+
+void test_enableSpi1(void){
+     enableSpi1();
+     TEST_ASSERT_EQUAL_INT32(1<<12,fakeRcc.apb2enr);
+     TEST_ASSERT_EQUAL_INT32(0<<12,fakeRcc.apb2rstr);
+}
+
+void test_disableSpi1(void){
+    enableSpi1();
+    TEST_ASSERT_EQUAL_INT32(1<<12,fakeRcc.apb2enr);
+    TEST_ASSERT_EQUAL_INT32(0<<12,fakeRcc.apb2rstr);
+    disableSpi1();
+    TEST_ASSERT_EQUAL_INT32(0<<12,fakeRcc.apb2enr);
+    TEST_ASSERT_EQUAL_INT32(1<<12,fakeRcc.apb2rstr);
+}
+
+void test_enableSpi2(void){
+     enableSpi2();
+     TEST_ASSERT_EQUAL_INT32(1<<14,fakeRcc.apb1enr);
+     TEST_ASSERT_EQUAL_INT32(0<<14,fakeRcc.apb1rstr);
+}
+
+void test_disableSpi2(void){
+    enableSpi2();
+    TEST_ASSERT_EQUAL_INT32(1<<14,fakeRcc.apb1enr);
+    TEST_ASSERT_EQUAL_INT32(0<<14,fakeRcc.apb1rstr);
+    disableSpi2();
+    TEST_ASSERT_EQUAL_INT32(0<<14,fakeRcc.apb1enr);
+    TEST_ASSERT_EQUAL_INT32(1<<14,fakeRcc.apb1rstr);
+}
+
+void test_enableSpi3(void){
+     enableSpi3();
+     TEST_ASSERT_EQUAL_INT32(1<<15,fakeRcc.apb1enr);
+     TEST_ASSERT_EQUAL_INT32(0<<15,fakeRcc.apb1rstr);
+}
+
+void test_disableSpi3(void){
+    enableSpi3();
+    TEST_ASSERT_EQUAL_INT32(1<<15,fakeRcc.apb1enr);
+    TEST_ASSERT_EQUAL_INT32(0<<15,fakeRcc.apb1rstr);
+    disableSpi3();
+    TEST_ASSERT_EQUAL_INT32(0<<15,fakeRcc.apb1enr);
+    TEST_ASSERT_EQUAL_INT32(1<<15,fakeRcc.apb1rstr);
+}
+
+void test_enableSpi4_5(void){
+     enableSpi4_5();
+     TEST_ASSERT_EQUAL_INT32(1<<13,fakeRcc.apb2enr);
+     TEST_ASSERT_EQUAL_INT32(0<<13,fakeRcc.apb2rstr);
+}
+
+void test_disableSpi4_5(void){
+    enableSpi4_5();
+    TEST_ASSERT_EQUAL_INT32(1<<13,fakeRcc.apb2enr);
+    TEST_ASSERT_EQUAL_INT32(0<<13,fakeRcc.apb2rstr);
+    disableSpi4_5();
+    TEST_ASSERT_EQUAL_INT32(0<<13,fakeRcc.apb2enr);
+    TEST_ASSERT_EQUAL_INT32(1<<13,fakeRcc.apb2rstr);
+}

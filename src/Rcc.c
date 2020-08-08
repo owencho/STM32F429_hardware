@@ -105,3 +105,43 @@ void disableTimer4(){
 		rcc->apb1rstr |= (1<<2);
 		rcc->apb1enr &= ~ (1<<2);
 }
+
+void enableSpi1(){
+		rcc->apb2rstr &= ~ (1<<12);
+		rcc-> apb2enr |= (1<< 12);
+}
+
+void disableSpi1(){
+		rcc->apb2rstr |= (1<<12);
+		rcc->apb2enr &= ~ (1<<12);
+}
+
+void enableSpi2(){
+		rcc->apb1rstr &= ~ (1<<14);
+		rcc-> apb1enr |= (1<< 14);
+}
+
+void disableSpi2(){
+		rcc->apb1rstr |= (1<<14);
+		rcc->apb1enr &= ~ (1<<14);
+}
+
+void enableSpi3(){
+		rcc->apb1rstr &= ~ (1<<15);
+		rcc-> apb1enr |= (1<< 15);
+}
+
+void disableSpi3(){
+		rcc->apb1rstr |= (1<<15);
+		rcc->apb1enr &= ~ (1<<15);
+}
+
+void enableSpi4_5(){
+		rcc->apb2rstr &= ~ (1<<13);
+		rcc-> apb2enr |= (1<< 13);
+}
+
+void disableSpi4_5(){
+		rcc->apb2rstr |= (1<<13);
+		rcc->apb2enr &= ~ (1<<13);
+}

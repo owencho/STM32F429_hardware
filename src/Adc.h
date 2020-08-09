@@ -55,6 +55,11 @@ typedef enum{
    ADC_SAMP_144_CYCLES,ADC_SAMP_480_CYCLES
 } AdcSamplingCycle;
 
+typedef enum{
+	 T1_CC1,T1_CC2,T1_CC3,T2_CC2,T2_CC3,T2_CC4,T2_TRGO,T3_CC1,T3_TRGO,
+   T4_CC4,T5_CC1,T5_CC2,T5_CC3,T8_CC1,T8_TRGO,EXTI_LINE11
+} AdcExternalEventRegularGroup;
+
 //interrupt
 void adcEnableOverrunInterrupt(AdcReg* adc);
 void adcDisableOverrunInterrupt(AdcReg* adc);
@@ -87,7 +92,7 @@ void adcAnalogWatchdogChannelSelect(AdcReg* adc,ChannelName channel);
 //CR2
 void adcSetStartRegularConversion(AdcReg* adc); //
 void adcSetExternalTriggerRegularChannel(AdcReg* adc,TriggerDetection value); //
-//void adcSetExternalEventSelectForRegularGroup(AdcReg* adc,int value);
+void adcSetExternalEventSelectForRegularGroup(AdcReg* adc,AdcExternalEventRegularGroup value);
 void adcSetStartInjectedConversion(AdcReg* adc); // must set ADON as one
 void adcSetExternalTriggerInjectedChannel(AdcReg* adc,TriggerDetection value); //
 //void adcSetExternalEventSelectForInjectedGroup(AdcReg* adc,int value);

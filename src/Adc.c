@@ -251,6 +251,10 @@ void adcSetStartInjectedConversion(AdcReg* adc){
     adc->cr2 &= ~(1<<22);
     adc->cr2 |= (1<<22);
 }
+void adcSetExternalEventSelectForRegularGroup(AdcReg* adc,AdcExternalEventRegularGroup value){
+    adc->cr2 &= ~(15<<24);
+    adc->cr2 |= (value<<24);
+}
 
 void adcSetExternalTriggerInjectedChannel(AdcReg* adc,TriggerDetection value){
     if(adc == NULL){

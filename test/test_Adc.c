@@ -724,6 +724,16 @@ void test_Adc_adcSetExternalTriggerRegularChannel_RISING(void){
     TEST_ASSERT_EQUAL(1<<28,adc1->cr2);
 }
 
+void test_Adc_adcSetExternalEventSelectForRegularGroup(void){
+    adcSetExternalEventSelectForRegularGroup(adc1,T5_CC3);
+    TEST_ASSERT_EQUAL(12<<24,adc1->cr2);
+}
+
+void test_Adc_adcSetExternalEventSelectForRegularGroup_exti(void){
+    adcSetExternalEventSelectForRegularGroup(adc1,EXTI_LINE11);
+    TEST_ASSERT_EQUAL(15<<24,adc1->cr2);
+}
+
 void test_Adc_adcSetExternalTriggerRegularChannel_FALLING(void){
     adcSetExternalTriggerRegularChannel(adc1,T_DETECTION_FALLING);
     TEST_ASSERT_EQUAL(2<<28,adc1->cr2);

@@ -41,6 +41,6 @@ typedef enum{
 } TriggerDetection;
 
 typedef enum{
-	 SPI1,SPI2,SPI3,SPI4,SPI5,SPI6
+	 SPI_1,SPI_2,SPI_3,SPI_4,SPI_5,SPI_6
 } SpiName;
 #endif /* INC_COMMON_H_ */

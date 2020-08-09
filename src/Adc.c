@@ -480,6 +480,13 @@ int adcReadInjectedDataReg4(AdcReg* adc){
     return adc->jdr4 & 0xFFFF;
 }
 
+int adcReadRegularDataReg(AdcReg* adc){
+    if(adc == NULL){
+        throwException(ADC_REG_INPUT_NULL,"ADC register input is NULL");
+    }
+    return adc->dr & 0xFFFF;
+}
+
 void adcEnableTempSensorAndVref(AdcCommonReg * adcCommon){
     if(adcCommon == NULL){
         throwException(ADC_REG_INPUT_NULL,"ADC register input is NULL");

@@ -116,6 +116,16 @@ void disableTimer3(){
 		rcc->apb1enr &= ~ (1<<1);
 }
 
+void enableAdc1(){
+		rcc->apb2rstr &= ~ (1<<8);
+		rcc-> apb2enr |= (1<< 8);
+}
+
+void disableAdc1(){
+		rcc->apb2rstr |= (1<<8);
+		rcc->apb2enr &= ~ (1<<8);
+}
+
 void enableSpi1(){
 		rcc->apb2rstr &= ~ (1<<12);
 		rcc-> apb2enr |= (1<< 12);

@@ -106,6 +106,16 @@ void disableTimer4(){
 		rcc->apb1enr &= ~ (1<<2);
 }
 
+void enableTimer3(){
+		rcc->apb1rstr &= ~ (1<<1);
+		rcc-> apb1enr |= (1<< 1);
+}
+
+void disableTimer3(){
+		rcc->apb1rstr |= (1<<1);
+		rcc->apb1enr &= ~ (1<<1);
+}
+
 void enableSpi1(){
 		rcc->apb2rstr &= ~ (1<<12);
 		rcc-> apb2enr |= (1<< 12);

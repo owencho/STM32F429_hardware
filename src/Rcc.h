@@ -72,7 +72,8 @@ void enableUART5();
 void disableUART5();
 void enableTimer4();
 void disableTimer4();
-
+void enableTimer3();
+void disableTimer3();
 void enableSpi1();
 void disableSpi1();
 void enableSpi2();

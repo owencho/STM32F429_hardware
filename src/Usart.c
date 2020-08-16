@@ -3,6 +3,7 @@
 #include "math.h"
 #include "Exception.h"
 #include "STM32Error.h"
+#include <stddef.h>
 void usartClearCtsFlag(UsartRegs* usart){
     if(usart == NULL){
         throwException(USART_REG_INPUT_NULL,"usart register input is NULL");

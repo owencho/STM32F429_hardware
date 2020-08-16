@@ -10,7 +10,7 @@ jobs:
   build:
     strategy:
       matrix:
-        os: [windows-latest,ubuntu-latest, macos-latest]
+        os: [windows-latest,macos-latest]
         compiler: [gcc]
         ruby: [ 2.5, 2.6 ]
     runs-on: ${{ matrix.os }}

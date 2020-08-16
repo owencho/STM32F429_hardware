@@ -1,4 +1,4 @@
-#include "ADC.h"
+#include "Adc.h"
 #include <stddef.h>
 #include <stdint.h>
 #include "Exception.h"

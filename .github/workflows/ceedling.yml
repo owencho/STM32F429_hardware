@@ -18,7 +18,7 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: ${{ matrix.ruby-version}}
+          ruby-version: ${{ matrix.ruby}}
       - name: Set up Msys with gcc
         uses: msys2/setup-msys2@v2
         with:

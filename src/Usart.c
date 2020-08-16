@@ -1,6 +1,6 @@
 #include "Usart.h"
 #include "Clock.h"
-#include "Math.h"
+#include "math.h"
 #include "Exception.h"
 #include "STM32Error.h"
 void usartClearCtsFlag(UsartRegs* usart){

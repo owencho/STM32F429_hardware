@@ -177,7 +177,7 @@ void test_Timer_timerSetCompareCaptureEnableRegister_with_extra_control(void){
 
 void test_Timer_timerEnableInterrupt_input_NULL(void){
     Try{
-        timerEnableInterrupt(NULL,UIF_FLAG);
+        timerEnableInterrupt(NULL,UIE_INT);
         TEST_FAIL_MESSAGE("Expect exception to be thrown");
 
     }
@@ -189,7 +189,7 @@ void test_Timer_timerEnableInterrupt_input_NULL(void){
 
 void test_Timer_timerEnableInterrupt_with_one(void){
     Try{
-        timerEnableInterrupt(&timerRegs,CC1IF_FLAG);
+        timerEnableInterrupt(&timerRegs,CC1_INT);
         TEST_ASSERT_EQUAL((1<<CC1IF_FLAG),timerRegs.dier);
     }
     Catch(ex){
@@ -200,9 +200,9 @@ void test_Timer_timerEnableInterrupt_with_one(void){
 
 void test_Timer_timerEnableInterrupt_with_two(void){
     Try{
-        timerEnableInterrupt(&timerRegs,CC1IF_FLAG);
-        timerEnableInterrupt(&timerRegs,CC1OF_FLAG);
-        TEST_ASSERT_EQUAL((1<<CC1IF_FLAG)|(1<<CC1OF_FLAG),timerRegs.dier);
+        timerEnableInterrupt(&timerRegs,CC1_INT);
+        timerEnableInterrupt(&timerRegs,CC2_INT);
+        TEST_ASSERT_EQUAL((1<<CC1_INT)|(1<<CC2_INT),timerRegs.dier);
     }
     Catch(ex){
         dumpException(ex);
@@ -213,7 +213,7 @@ void test_Timer_timerEnableInterrupt_with_two(void){
 
 void test_Timer_timerDisableInterrupt_input_NULL(void){
     Try{
-        timerDisableInterrupt(NULL,UIF_FLAG);
+        timerDisableInterrupt(NULL,CC2_INT);
         TEST_FAIL_MESSAGE("Expect exception to be thrown");
 
     }
@@ -225,9 +225,9 @@ void test_Timer_timerDisableInterrupt_input_NULL(void){
 
 void test_Timer_timerDisableInterrupt_with_one(void){
     Try{
-        timerEnableInterrupt(&timerRegs,CC1IF_FLAG);
-        TEST_ASSERT_EQUAL((1<<CC1IF_FLAG),timerRegs.dier);
-        timerDisableInterrupt(&timerRegs,CC1IF_FLAG);
+        timerEnableInterrupt(&timerRegs,CC1_INT);
+        TEST_ASSERT_EQUAL((1<<CC1_INT),timerRegs.dier);
+        timerDisableInterrupt(&timerRegs,CC1_INT);
         TEST_ASSERT_EQUAL(0,timerRegs.dier);
     }
     Catch(ex){
@@ -238,11 +238,11 @@ void test_Timer_timerDisableInterrupt_with_one(void){
 
 void test_Timer_timerDisableInterrupt_with_two(void){
     Try{
-        timerEnableInterrupt(&timerRegs,CC1IF_FLAG);
-        timerEnableInterrupt(&timerRegs,CC1OF_FLAG);
-        TEST_ASSERT_EQUAL((1<<CC1IF_FLAG)|(1<<CC1OF_FLAG),timerRegs.dier);
-        timerDisableInterrupt(&timerRegs,CC1IF_FLAG);
-        TEST_ASSERT_EQUAL((1<<CC1OF_FLAG),timerRegs.dier);
+        timerEnableInterrupt(&timerRegs,CC1_INT);
+        timerEnableInterrupt(&timerRegs,CC1_DMA_REQ);
+        TEST_ASSERT_EQUAL((1<<CC1_INT)|(1<<CC1_DMA_REQ),timerRegs.dier);
+        timerDisableInterrupt(&timerRegs,CC1_DMA_REQ);
+        TEST_ASSERT_EQUAL((1<<CC1_INT),timerRegs.dier);
     }
     Catch(ex){
         dumpException(ex);

@@ -11,6 +11,7 @@ jobs:
     strategy:
       matrix:
         os: [windows-latest]
+        compiler: [gcc, clang]
         ruby: [ 2.5, 2.6 ]
     runs-on: ${{ matrix.os }}
     steps:
@@ -19,11 +20,6 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby}}
-      - name: Set up Msys with gcc
-        uses: msys2/setup-msys2@v2
-        with:
-          update: true
-          install: base-devel git
       - name: install ceedling
         run: |
           gem install ceedling

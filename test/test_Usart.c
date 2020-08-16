@@ -82,7 +82,7 @@ void test_Usart_usartClearOreFlag(void){
 void test_Usart_usartClearNfFlag(void){
     fakeUsart.sr &= (1 << 2);
     usartClearNfFlag(usart1);
-    TEST_ASSERT_EQUAL(1,fakeUsart.sr);
+    TEST_ASSERT_EQUAL(0,fakeUsart.sr);
 }
 
 void test_Usart_usartClearFeFlag(void){

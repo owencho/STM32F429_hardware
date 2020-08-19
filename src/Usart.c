@@ -84,7 +84,7 @@ void usartClearPeFlag(UsartRegs* usart){
     usart->sr |= 0 << 0;
 }
 
-uint32_t usartReceive(UsartRegs* usart){
+int usartReceive(UsartRegs* usart){
     if(usart == NULL){
         throwException(USART_REG_INPUT_NULL,"usart register input is NULL");
     }
@@ -100,7 +100,7 @@ void usartSend(UsartRegs* usart,int data){
     usart->dr = data;
 }
 
-uint32_t getClockForBaudRate(UsartRegs* usart){
+int getClockForBaudRate(UsartRegs* usart){
     if(usart==NULL){
         throwException(USART_REG_INPUT_NULL,"usart register input is NULL");
     }
@@ -111,7 +111,7 @@ uint32_t getClockForBaudRate(UsartRegs* usart){
 }
 
 double getUsartDivider(UsartRegs* usart,int baudRate,int over8){
-    uint32_t fclk;
+    int fclk;
     double den,num;
     if(usart == NULL){
         throwException(USART_REG_INPUT_NULL,"usart register input is NULL");
@@ -330,7 +330,7 @@ void usartClockMode(UsartRegs* usart,EnableDisable mode){
     usart->cr2 &= ~(1 << 11);
     usart->cr2 |= mode << 11;
 }
-void usartSetUsartAddressNode(UsartRegs* usart,uint32_t address){
+void usartSetUsartAddressNode(UsartRegs* usart,int address){
   if(usart == NULL){
       throwException(USART_REG_INPUT_NULL,"usart register input is NULL");
   }

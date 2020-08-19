@@ -68,11 +68,11 @@ void usartClearNfFlag(UsartRegs* usart);
 void usartClearFeFlag(UsartRegs* usart);
 void usartClearPeFlag(UsartRegs* usart);
 
-uint32_t usartReceive(UsartRegs* usart);
+int usartReceive(UsartRegs* usart);
 void usartSend(UsartRegs* usart,int data);
 ///For baudRate
 void usartSetBaudRate(UsartRegs* usart,int baudRate);
-uint32_t getClockForBaudRate(UsartRegs* usart);
+int getClockForBaudRate(UsartRegs* usart);
 double getUsartDivider(UsartRegs* usart,int baudRate,int over8);
 //Other
 void usartEnableInterrupt(UsartRegs* usart,UsartInterrupt type);
@@ -93,7 +93,7 @@ void setUsartParityMode(UsartRegs* usart,ParityMode mode);
 void usartSetStopBit(UsartRegs* usart,StopBit mode);
 void usartSetReceiverWakeupMode(UsartRegs* usart,ReceiverWakeUpMode mode);
 void usartClockMode(UsartRegs* usart,EnableDisable mode);
-void usartSetUsartAddressNode(UsartRegs* usart,uint32_t address);
+void usartSetUsartAddressNode(UsartRegs* usart,int address);
 void usartSetHalfDuplexMode(UsartRegs* usart,EnableDisable mode);
 void usartSetUsartLinMode(UsartRegs* usart,EnableDisable mode);
 void usartSetUsartSmartCardMode(UsartRegs* usart,EnableDisable mode);

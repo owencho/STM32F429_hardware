@@ -91,7 +91,7 @@ uint32_t usartReceive(UsartRegs* usart){
     return (usart->dr & 0x1FF);
 }
 
-void usartSend(UsartRegs* usart,uint32_t data){
+void usartSend(UsartRegs* usart,int data){
     if( usart == NULL){
         throwException(USART_REG_INPUT_NULL,"usart register input is NULL");
     }else if (data < 0 ||data > 511){
@@ -110,7 +110,7 @@ uint32_t getClockForBaudRate(UsartRegs* usart){
         return getPCLK1Clock();
 }
 
-double getUsartDivider(UsartRegs* usart,uint32_t baudRate,int over8){
+double getUsartDivider(UsartRegs* usart,int baudRate,int over8){
     uint32_t fclk;
     double den,num;
     if(usart == NULL){
@@ -122,7 +122,7 @@ double getUsartDivider(UsartRegs* usart,uint32_t baudRate,int over8){
     return num/den; //eqn for usartDIV
 }
 
-void usartSetBaudRate(UsartRegs* usart,uint32_t baudRate){
+void usartSetBaudRate(UsartRegs* usart,int baudRate){
     int mantissaDIV , fracDIV,over8;
     double fraction,usartDIV;
 

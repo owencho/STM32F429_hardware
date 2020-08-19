@@ -69,11 +69,11 @@ void usartClearFeFlag(UsartRegs* usart);
 void usartClearPeFlag(UsartRegs* usart);
 
 uint32_t usartReceive(UsartRegs* usart);
-void usartSend(UsartRegs* usart,uint32_t data);
+void usartSend(UsartRegs* usart,int data);
 ///For baudRate
-void usartSetBaudRate(UsartRegs* usart,uint32_t baudRate);
+void usartSetBaudRate(UsartRegs* usart,int baudRate);
 uint32_t getClockForBaudRate(UsartRegs* usart);
-double getUsartDivider(UsartRegs* usart,uint32_t baudRate,int over8);
+double getUsartDivider(UsartRegs* usart,int baudRate,int over8);
 //Other
 void usartEnableInterrupt(UsartRegs* usart,UsartInterrupt type);
 void usartDisableInterrupt(UsartRegs* usart,UsartInterrupt type);

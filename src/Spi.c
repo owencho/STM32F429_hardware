@@ -9,11 +9,11 @@ void spiSetControlRegister(SpiRegs * regs,int control){
 }
 
 int spiReadDataRegister(SpiRegs * regs){
-    return regs->dr & 0xFFFF;
+    return regs->dr;
 }
 
 void spiWriteDataRegister(SpiRegs * regs , int data){
-    regs->dr = data & 0xFFFF;
+    regs->dr = data;
 }
 
 int spiReadFlag(SpiRegs * regs, SpiFlags flag){

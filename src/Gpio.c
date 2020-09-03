@@ -26,6 +26,11 @@ void gpioSetPinSpeed(GpioRegs *gpio , int pin , PinSpeed speed){
 		gpio->ospeedr |= speed << (pin *2);
 }
 
+void gpioSetPullUpDownReg(GpioRegs *gpio , int pin , PinPullUpDown type){
+		gpio->pupdr &= ~(3 << (pin*2 ));
+		gpio->pupdr |= type << (pin *2);
+}
+
 void gpioSetMode(GpioRegs *gpio , int pin , PinMode mode){
 		if(gpio == NULL){
 				throwException(GPIO_REG_INPUT_NULL,"Gpio register input is NULL");

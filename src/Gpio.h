@@ -58,6 +58,7 @@ struct GpioRegs {
 #define gpioB (GpioRegs*)(GPIO_B)
 #define gpioA (GpioRegs*)(GPIO_A)
 
+void gpioSetPullUpDownReg(GpioRegs *gpio , int pin , PinPullUpDown type);
 void gpioSetMode(GpioRegs *gpio , int pin , PinMode mode);
 void gpioSetOutputType(GpioRegs *gpio , int pin ,PinOutputType type);
 void gpioSetPinSpeed(GpioRegs *gpio , int pin , PinSpeed speed);

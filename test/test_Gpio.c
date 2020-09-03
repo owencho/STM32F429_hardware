@@ -24,6 +24,17 @@ void tearDown(void){}
 uintptr_t getGpioBaseAddress(){
     return (uintptr_t)&fakeGpio;
 }
+
+void test_Gpio_gpioSetPullUpDownReg_set_Pin0_pull_up(void){
+    gpioSetPullUpDownReg(&fakeGpio , PIN_0 ,PULL_UP);
+    TEST_ASSERT_EQUAL(1,fakeGpio.pupdr);
+}
+
+void test_Gpio_gpioSetPullUpDownReg_set_Pin15_pull_down(void){
+    gpioSetPullUpDownReg(&fakeGpio , PIN_15 ,PULL_DOWN);
+    TEST_ASSERT_EQUAL_INT32(2<<30,fakeGpio.pupdr);
+}
+
 // LOW_SPEED,MEDIUM_SPEED,HIGH_SPEED,VERY_HI_SPEED
 void test_Gpio_gpioSetPinSpeed_set_Pin0_LowSpeed(void){
     gpioSetPinSpeed(&fakeGpio , PIN_0 ,LOW_SPEED);
